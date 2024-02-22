@@ -1,0 +1,29 @@
+# Static
+## Static Attributes
+- `private nextId: int`
+	- Running counter of Result IDs
+- `private resultInstances: ArrayList<Race>`
+	- Storage of all Result instances
+## Static Methods
+- `public getResultIds(): int[]`
+
+- `public getResultById(int stageId, int riderId): Result`
+- `public removeResultById(int stageId, int riderId): void`
+
+- `public loadResults(): void`
+	- Deserialise Results into memory
+# Instance
+## Instance Attributes
+- `private id: int`
+- `private stage: Stage`
+	- ID of aggregated Stage
+- `private rider: Rider`
+	- ID of aggregated Rider
+- `private checkpointTimes: LocalTime[]`
+	- Same length as `this.stage.getCheckpoints()`
+## Instance Methods
+- `public Result(Stage stage, Rider rider, LocalTime... checkpoints)`
+	- Constructor
+
+- `public toString(): String`
+- `public getId(): int`
