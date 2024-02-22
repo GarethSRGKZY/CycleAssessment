@@ -11,7 +11,9 @@
 - `public removeCheckpointById(int id): void`
 
 - `public loadCheckpoints(): void`
-	- Deserialise Checkpoints into memory
+	- Deserialise Checkpoints onto memory
+- `public saveCheckpoints(): void`
+	- Serialise Checkpoints onto disk
 # Instance
 ## Instance Attributes
 - `private id: int`

@@ -11,7 +11,9 @@
 - `public removeStageById(int id): void`
 
 - `public loadStages(): void`
-	- Deserialise Stages into memory
+	- Deserialise Stages onto memory
+- `public saveStages(): void`
+	- Serialise Stages onto disk
 # Instance
 ## Instance Attributes
 - `private id: int`

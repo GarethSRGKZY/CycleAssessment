@@ -11,7 +11,9 @@
 - `public removeTeamById(int id): void`
 
 - `public loadTeams(): void`
-	- Deserialise Teams into memory
+	- Deserialise Teams onto memory
+- `public saveTeams(): void`
+	- Serialise Teams onto disk
 # Instance
 ## Instance Attributes
 - `private id: int`

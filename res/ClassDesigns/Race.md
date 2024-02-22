@@ -11,7 +11,9 @@
 - `public removeRaceById(int id): void`
 
 - `public loadRaces(): void`
-	- Deserialise Races into memory
+	- Deserialise Races onto memory
+- `public saveRaces(): void`
+	- Serialise Races onto disk
 # Instance
 ## Instance Attributes
 - `private id: int`

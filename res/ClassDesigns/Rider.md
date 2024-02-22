@@ -11,7 +11,9 @@
 - `public removeRiderById(int id): void`
 
 - `public loadRiders(): void`
-	- Deserialise Riders into memory
+	- Deserialise Riders onto memory
+- `public saveRiders(): void`
+	- Serialise Riders onto disk
 # Instance
 ## Instance Attributes
 - `private id: int`

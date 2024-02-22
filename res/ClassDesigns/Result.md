@@ -11,7 +11,9 @@
 - `public removeResultById(int stageId, int riderId): void`
 
 - `public loadResults(): void`
-	- Deserialise Results into memory
+	- Deserialise Results onto memory
+- `public saveResults(): void`
+	- Serialise Results onto disk
 # Instance
 ## Instance Attributes
 - `private id: int`
