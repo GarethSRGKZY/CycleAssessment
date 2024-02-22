@@ -33,4 +33,5 @@
 - `public Checkpoint(double location)`
 	- Overloaded constructor for *Intermediate Sprint*
 
+- `public toString(): String`
 - `public getId(): int`
