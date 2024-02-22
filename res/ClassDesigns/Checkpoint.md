@@ -30,7 +30,7 @@
 ## Instance Methods
 - `public Checkpoint(double location, CheckpointType type, double averageGradient, double length)`
 	- Constructor for *Categorised Climb*
-- `public Checkpoint(double location, CheckpointType type, double averageGradient, double length)`
+- `public Checkpoint(double location)`
 	- Overloaded constructor for *Intermediate Sprint*
 
 - `public getId(): int`
