@@ -29,7 +29,7 @@
 	- Returns Rider IDs
 - `public addRider(int id): void`
 	- Append to `riders` Instance Attribute
-- `public removeRiver(int id): void`
+- `public removeRider(int id): void`
 	- Remove from `riders` Instance Attribute
 
 - `public toString(): String`
