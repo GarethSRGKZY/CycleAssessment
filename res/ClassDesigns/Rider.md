@@ -11,7 +11,7 @@
 - `public removeRiderById(int id): void`
 
 - `public loadRiders(): void`
-	- Deserialise Teams into memory
+	- Deserialise Riders into memory
 # Instance
 ## Instance Attributes
 - `private id: int`
