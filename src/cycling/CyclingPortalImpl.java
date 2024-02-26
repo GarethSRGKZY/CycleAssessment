@@ -17,46 +17,48 @@ public class CyclingPortalImpl implements CyclingPortal {
 
 	@Override
 	public int[] getRaceIds() {
-		// TODO Auto-generated method stub
-		return new int[] {};
+		return Race.getRaceIds();
 	}
 
 	@Override
 	public int createRace(String name, String description) throws IllegalNameException, InvalidNameException {
-		// TODO Auto-generated method stub
-		return 0;
+		Race race = new Race(name, description);
+		return race.getId();
 	}
 
 	@Override
 	public String viewRaceDetails(int raceId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
-		return null;
+		Race race = Race.getRaceById(raceId);
+		return race.toString();
 	}
 
 	@Override
 	public void removeRaceById(int raceId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
+		Race.removeRaceById(raceId);
 
 	}
 
 	@Override
 	public int getNumberOfStages(int raceId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
-		return 0;
+		Race race = Race.getRaceById(raceId);
+		int[] stages = race.getStages();
+		return stages.length;
 	}
 
 	@Override
 	public int addStageToRace(int raceId, String stageName, String description, double length, LocalDateTime startTime,
 			StageType type)
 			throws IDNotRecognisedException, IllegalNameException, InvalidNameException, InvalidLengthException {
-		// TODO Auto-generated method stub
+		Race race = Race.getRaceById(raceId);
+		//TODO add stages
 		return 0;
 	}
 
 	@Override
 	public int[] getRaceStages(int raceId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
-		return null;
+		Race race = Race.getRaceById(raceId);
+		int[] stages = race.getStages();
+		return stages;
 	}
 
 	@Override
