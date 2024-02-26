@@ -4,20 +4,21 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+
 /**
- * BadMiniCyclingPortal is a minimally compiling, but non-functioning implementor
- * of the MiniCyclingPortal interface.
+ * BadCyclingPortal is a minimally compiling, but non-functioning implementor
+ * of the CyclingPortal interface.
  * 
  * @author Diogo Pacheco
  * @version 2.0
  *
  */
-public class BadMiniCyclingPortalImpl implements MiniCyclingPortal {
+public class CyclingPortalImpl implements CyclingPortal {
 
 	@Override
 	public int[] getRaceIds() {
 		// TODO Auto-generated method stub
-		return null;
+		return new int[] {};
 	}
 
 	@Override
@@ -206,6 +207,48 @@ public class BadMiniCyclingPortalImpl implements MiniCyclingPortal {
 	public void loadCyclingPortal(String filename) throws IOException, ClassNotFoundException {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void removeRaceByName(String name) throws NameNotRecognisedException {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public LocalTime[] getGeneralClassificationTimesInRace(int raceId) throws IDNotRecognisedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int[] getRidersPointsInRace(int raceId) throws IDNotRecognisedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int[] getRidersMountainPointsInRace(int raceId) throws IDNotRecognisedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int[] getRidersGeneralClassificationRank(int raceId) throws IDNotRecognisedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int[] getRidersPointClassificationRank(int raceId) throws IDNotRecognisedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int[] getRidersMountainPointClassificationRank(int raceId) throws IDNotRecognisedException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
