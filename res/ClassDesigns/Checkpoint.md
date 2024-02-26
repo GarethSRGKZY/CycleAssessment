@@ -5,7 +5,7 @@
 - `private checkpointInstances: ArrayList<Stage>`
 	- Storage of all Checkpoint instances
 ## Static Methods
-- `public getCheckpointIDs(): int[]`
+- `public getCheckpointIds(): int[]`
 
 - `public getCheckpointById(int id): Checkpoint`
 - `public removeCheckpointById(int id): void`
