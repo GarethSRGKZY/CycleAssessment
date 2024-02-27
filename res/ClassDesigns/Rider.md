@@ -5,7 +5,7 @@
 - `private riderInstances: ArrayList<Rider>`
 	- Storage of all Rider instances
 ## Static Methods
-- `public getRiderIDs(): int[]`
+- `public getRiderIds(): int[]`
 
 - `public getRiderById(int id): Checkpoint`
 - `public removeRiderById(int id): void`

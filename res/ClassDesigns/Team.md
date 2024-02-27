@@ -5,7 +5,7 @@
 - `private teamInstances: ArrayList<Race>`
 	- Storage of all Team instances
 ## Static Methods
-- `public getTeamIDs(): int[]`
+- `public getTeamIds(): int[]`
 
 - `public getTeamById(int id): Checkpoint`
 - `public removeTeamById(int id): void`
