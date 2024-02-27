@@ -2,13 +2,13 @@
 ## Static Attributes
 - `private nextId: int`
 	- Running counter of Race IDs
-- `private raceInstances: ArrayList<Race>`
-	- Storage of all Race instances
 ## Static Methods
-- `public getRaceIds(): int[]`
+- `public getRaceIds(ArrayList<Race> raceInstances): int[]`
 
-- `public getRaceById(int id): Race`
-- `public removeRaceById(int id): void`
+- `public getRaceById(ArrayList<Race> raceInstances, int id): Race`
+- `public removeRaceById(ArrayList<Race> raceInstances, int id): void`
+- `public createRace(ArrayList<Race> raceInstances, String name, String description): Race`
+	- Wrapper for the Race constructor
 
 - `public loadRaces(): void`
 	- Deserialise Races onto memory
@@ -23,7 +23,7 @@
 - `private name: String`
 - `private description: String`
 ## Instance Methods
-- `public Race(String name, String description)`
+- `private Race(String name, String description)`
 	- Constructor
 
 - `public getStages(): int[]`
