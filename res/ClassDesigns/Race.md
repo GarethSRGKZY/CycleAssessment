@@ -10,9 +10,9 @@
 - `public createRace(ArrayList<Race> raceInstances, String name, String description): Race`
 	- Wrapper for the Race constructor
 
-- `public loadRaces(): void`
+- `public loadRaces(ArrayList<Race> raceInstances): void`
 	- Deserialise Races onto memory
-- `public saveRaces(): void`
+- `public saveRaces(ArrayList<Race> raceInstances: void`
 	- Serialise Races onto disk
 # Instance
 ## Instance Attributes
