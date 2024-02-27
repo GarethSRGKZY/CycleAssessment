@@ -17,9 +17,9 @@
 # Instance
 ## Instance Attributes
 - `private id: int`
-- `private stage: Stage`
+- `private stage: int`
 	- ID of aggregated Stage
-- `private rider: Rider`
+- `private rider: int`
 	- ID of aggregated Rider
 - `private checkpointTimes: LocalTime[]`
 	- Same length as `this.stage.getCheckpoints()`
