@@ -34,8 +34,8 @@ public class Race {
         return race;
     }
 
-    // TODO: loadRaces()
-    // TODO: saveRaces()
+    // TODO loadRaces()
+    // TODO saveRaces()
 
 
 
@@ -57,7 +57,6 @@ public class Race {
 
     public int[] getStages() {
         int size = this.stages.size();
-
         int[] result = new int[size];
 
         for (int i = 0; i < size; i++) {

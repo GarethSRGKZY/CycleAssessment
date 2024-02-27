@@ -4,12 +4,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-
 public class Stage {
-    //Static Attributes
+    // Static Attributes
     private static int nextId = 0;
 
-    //Static Methods
+    // Static Methods
     public static int[] getStageIds(ArrayList<Stage> stageInstances) {
         int size = stageInstances.size();
 
@@ -36,27 +35,28 @@ public class Stage {
         return stage;
     }
 
-    //TODO loadStages()
-    //TODO saveStages()
+    // TODO loadStages()
+    // TODO saveStages()
 
 
-    //Instance Attributes
+
+    // Instance Attributes
     private int id = 0;
     private ArrayList<Integer> checkpoints;
+
     private String name;
     private String description;
     private double length;
     private LocalDateTime startTime;
     private StageType type; 
 
-    //Instance Methods.
+    // Instance Methods
     private Stage(String name, String description, double length, LocalDateTime startTime, StageType type) {
         this.id = nextId++;
         this.checkpoints = new ArrayList<>();
 
         this.name = name;
         this.description = description;
-
         this.length = length;
         this.startTime = startTime;
         this.type = type;
@@ -84,6 +84,8 @@ public class Stage {
     public void removeCheckpoint(int id) {
         this.checkpoints.remove(Integer.valueOf(id));
     }
+
+
 
     public String toString() {
         String checkpoints = Arrays.toString(this.getCheckpoints());

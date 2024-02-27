@@ -53,7 +53,7 @@ public class CyclingPortalImpl implements CyclingPortal {
 			StageType type)
 			throws IDNotRecognisedException, IllegalNameException, InvalidNameException, InvalidLengthException {
 		Race race = Race.getRaceById(raceInstances, raceId);
-		//TODO add stages
+		// TODO add stages
 		return 0;
 	}
 
