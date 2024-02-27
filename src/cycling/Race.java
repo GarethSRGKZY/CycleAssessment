@@ -6,10 +6,9 @@ import java.util.Arrays;
 public class Race {
     // Static Attributes
     private static int nextId = 0;
-    private static ArrayList<Race> raceInstances = new ArrayList<>();
 
     // Static Methods
-    public static int[] getRaceIds() {
+    public static int[] getRaceIds(ArrayList<Race> raceInstances) {
         int size = raceInstances.size();
 
         int[] result = new int[size];
@@ -21,12 +20,12 @@ public class Race {
         return result;
     }
 
-    public static Race getRaceById(int id) {
+    public static Race getRaceById(ArrayList<Race> raceInstances, int id) {
         return raceInstances.get(Integer.valueOf(id));
     }
 
-    public static void removeRaceById(int id) {
-        raceInstances.remove(getRaceById(id));
+    public static void removeRaceById(ArrayList<Race> raceInstances, int id) {
+        raceInstances.remove(getRaceById(raceInstances, id));
     }
     // TODO: loadRaces()
     // TODO: saveRaces()
@@ -44,7 +43,6 @@ public class Race {
     public Race(String name, String description) { // Constructor
         this.id = nextId++;
         this.stages = new ArrayList<>();
-        raceInstances.add(this);
 
         this.name = name;
         this.description = description;

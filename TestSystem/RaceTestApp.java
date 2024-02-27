@@ -1,8 +1,13 @@
+import java.util.ArrayList;
+
 import cycling.Race;
 
 public class RaceTestApp {
     public static void main(String[] args) {
+        ArrayList<Race> raceInstances = new ArrayList<>();
+
         Race a = new Race("name", "description");
+        raceInstances.add(a);
 
         a.addStage(123);
         a.addStage(456);
@@ -16,25 +21,28 @@ public class RaceTestApp {
 
 
         Race b = new Race("b", "b");
+        raceInstances.add(b);
 
         System.out.println(b);
 
 
 
-        for (int id : Race.getRaceIds()) {
+        for (int id : Race.getRaceIds(raceInstances)) {
             System.out.println(id);
         }
 
-        Race a_test = Race.getRaceById(0);
+        System.out.println(raceInstances);
+
+        Race a_test = Race.getRaceById(raceInstances, 0);
 
         System.out.println(a == a_test);
 
 
 
         // This should remove a
-        Race.removeRaceById(0);
+        Race.removeRaceById(raceInstances, 0);
 
-        for (int id : Race.getRaceIds()) {
+        for (int id : Race.getRaceIds(raceInstances)) {
             System.out.println(id);
         }
     }

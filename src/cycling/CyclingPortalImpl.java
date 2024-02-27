@@ -3,6 +3,7 @@ package cycling;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 
 
 /**
@@ -15,9 +16,11 @@ import java.time.LocalTime;
  */
 public class CyclingPortalImpl implements CyclingPortal {
 
+    private ArrayList<Race> raceInstances = new ArrayList<>();
+
 	@Override
 	public int[] getRaceIds() {
-		return Race.getRaceIds();
+		return Race.getRaceIds(raceInstances);
 	}
 
 	@Override
@@ -28,19 +31,19 @@ public class CyclingPortalImpl implements CyclingPortal {
 
 	@Override
 	public String viewRaceDetails(int raceId) throws IDNotRecognisedException {
-		Race race = Race.getRaceById(raceId);
+		Race race = Race.getRaceById(raceInstances, raceId);
 		return race.toString();
 	}
 
 	@Override
 	public void removeRaceById(int raceId) throws IDNotRecognisedException {
-		Race.removeRaceById(raceId);
+		Race.removeRaceById(raceInstances, raceId);
 
 	}
 
 	@Override
 	public int getNumberOfStages(int raceId) throws IDNotRecognisedException {
-		Race race = Race.getRaceById(raceId);
+		Race race = Race.getRaceById(raceInstances, raceId);
 		int[] stages = race.getStages();
 		return stages.length;
 	}
@@ -49,14 +52,14 @@ public class CyclingPortalImpl implements CyclingPortal {
 	public int addStageToRace(int raceId, String stageName, String description, double length, LocalDateTime startTime,
 			StageType type)
 			throws IDNotRecognisedException, IllegalNameException, InvalidNameException, InvalidLengthException {
-		Race race = Race.getRaceById(raceId);
+		Race race = Race.getRaceById(raceInstances, raceId);
 		//TODO add stages
 		return 0;
 	}
 
 	@Override
 	public int[] getRaceStages(int raceId) throws IDNotRecognisedException {
-		Race race = Race.getRaceById(raceId);
+		Race race = Race.getRaceById(raceInstances, raceId);
 		int[] stages = race.getStages();
 		return stages;
 	}
