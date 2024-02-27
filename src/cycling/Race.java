@@ -27,6 +27,13 @@ public class Race {
     public static void removeRaceById(ArrayList<Race> raceInstances, int id) {
         raceInstances.remove(getRaceById(raceInstances, id));
     }
+
+    public static Race createRace(ArrayList<Race> raceInstances, String name, String description) {
+        Race race = new Race(name, description);
+        raceInstances.add(race);
+        return race;
+    }
+
     // TODO: loadRaces()
     // TODO: saveRaces()
 
@@ -40,7 +47,7 @@ public class Race {
     private String description;
 
     // Instance Methods
-    public Race(String name, String description) { // Constructor
+    private Race(String name, String description) { // Constructor
         this.id = nextId++;
         this.stages = new ArrayList<>();
 

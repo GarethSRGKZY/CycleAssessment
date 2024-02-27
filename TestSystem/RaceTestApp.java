@@ -6,8 +6,7 @@ public class RaceTestApp {
     public static void main(String[] args) {
         ArrayList<Race> raceInstances = new ArrayList<>();
 
-        Race a = new Race("name", "description");
-        raceInstances.add(a);
+        Race a = Race.createRace(raceInstances, "name", "description");
 
         a.addStage(123);
         a.addStage(456);
@@ -20,8 +19,7 @@ public class RaceTestApp {
 
 
 
-        Race b = new Race("b", "b");
-        raceInstances.add(b);
+        Race b = Race.createRace(raceInstances, "b", "b");
 
         System.out.println(b);
 

@@ -25,7 +25,7 @@ public class CyclingPortalImpl implements CyclingPortal {
 
 	@Override
 	public int createRace(String name, String description) throws IllegalNameException, InvalidNameException {
-		Race race = new Race(name, description);
+		Race race = Race.createRace(raceInstances, name, description);
 		return race.getId();
 	}
 
