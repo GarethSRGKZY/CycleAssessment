@@ -24,7 +24,7 @@
 - `private checkpointTimes: LocalTime[]`
 	- Same length as `this.stage.getCheckpoints()`
 ## Instance Methods
-- `public Result(Stage stage, Rider rider, LocalTime... checkpoints)`
+- `public Result(int stage, int rider, LocalTime... checkpoints)`
 	- Constructor
 
 - `public toString(): String`
