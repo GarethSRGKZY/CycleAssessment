@@ -20,11 +20,17 @@ public class Stage {
         return result;
     }
 
-    public static Stage getStageById(ArrayList<Stage> stageInstances, int id) {
-        return stageInstances.get(Integer.valueOf(id));
+    public static Stage getStageById(ArrayList<Stage> stageInstances, int id) throws IDNotRecognisedException {
+        for (Stage stage : stageInstances) {
+            if (stage.getId() == id) {
+                return stage;
+            }
+        }
+
+        throw new IDNotRecognisedException("Stage id %d not found".formatted(id));
     }
 
-    public static void removeStageById(ArrayList<Stage> stageInstances, int id) {
+    public static void removeStageById(ArrayList<Stage> stageInstances, int id) throws IDNotRecognisedException {
         stageInstances.remove(getStageById(stageInstances, id));
     }
 

@@ -19,11 +19,17 @@ public class Race {
         return result;
     }
 
-    public static Race getRaceById(ArrayList<Race> raceInstances, int id) {
-        return raceInstances.get(Integer.valueOf(id));
+    public static Race getRaceById(ArrayList<Race> raceInstances, int id) throws IDNotRecognisedException {
+        for (Race race : raceInstances) {
+            if (race.getId() == id) {
+                return race;
+            }
+        }
+
+        throw new IDNotRecognisedException("Race id %d not found".formatted(id));
     }
 
-    public static void removeRaceById(ArrayList<Race> raceInstances, int id) {
+    public static void removeRaceById(ArrayList<Race> raceInstances, int id) throws IDNotRecognisedException {
         raceInstances.remove(getRaceById(raceInstances, id));
     }
 
