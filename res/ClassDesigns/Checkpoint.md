@@ -2,17 +2,19 @@
 ## Static Attributes
 - `private nextId: int`
 	- Running counter of Checkpoint IDs
-- `private checkpointInstances: ArrayList<Stage>`
-	- Storage of all Checkpoint instances
 ## Static Methods
-- `public getCheckpointIds(): int[]`
+- `public getCheckpointIds(ArrayList<Checkpoint> checkpointInstances): int[]`
 
-- `public getCheckpointById(int id): Checkpoint`
-- `public removeCheckpointById(int id): void`
+- `public getCheckpointById(ArrayList<Checkpoint> checkpointInstances, int id): Checkpoint`
+- `public removeCheckpointById(ArrayList<Checkpoint> checkpointInstances, int id): void`
+- `public createCheckpoint(ArrayList<Checkpoint> checkpointInstances, double location, CheckpointType type, double averageGradient, double length)`
+	- Wrapper for the Checkpoint constructor
+- `public createCheckpoint(ArrayList<Checkpoint> checkpointInstances, double location)`
+	- Overloaded wrapper for the Checkpoint constructor
 
-- `public loadCheckpoints(): void`
+- `public loadCheckpoints(ArrayList<Checkpoint> checkpointInstances): void`
 	- Deserialise Checkpoints onto memory
-- `public saveCheckpoints(): void`
+- `public saveCheckpoints(ArrayList<Checkpoint> checkpointInstances): void`
 	- Serialise Checkpoints onto disk
 # Instance
 ## Instance Attributes
@@ -30,9 +32,9 @@
 		- C1
 		- HC
 ## Instance Methods
-- `public Checkpoint(double location, CheckpointType type, double averageGradient, double length)`
+- `private Checkpoint(double location, CheckpointType type, double averageGradient, double length)`
 	- Constructor for *Categorised Climb*
-- `public Checkpoint(double location)`
+- `private Checkpoint(double location)`
 	- Overloaded constructor for *Intermediate Sprint*
 
 - `public toString(): String`
