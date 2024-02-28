@@ -7,7 +7,7 @@
 ## Static Methods
 - `public getRiderIds(): int[]`
 
-- `public getRiderById(int id): Checkpoint`
+- `public getRiderById(int id): Rider`
 - `public removeRiderById(int id): void`
 
 - `public loadRiders(): void`
