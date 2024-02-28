@@ -7,7 +7,7 @@
 ## Static Methods
 - `public getTeamIds(): int[]`
 
-- `public getTeamById(int id): Checkpoint`
+- `public getTeamById(int id): Team`
 - `public removeTeamById(int id): void`
 
 - `public loadTeams(): void`
