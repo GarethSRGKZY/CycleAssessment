@@ -30,11 +30,29 @@ public class Stage {
         throw new IDNotRecognisedException("Stage id %d not found".formatted(id));
     }
 
+    public static Stage getStageByName(ArrayList<Stage> stageInstances, String name) throws NameNotRecognisedException {
+        for (Stage stage : stageInstances) {
+            if (stage.getName() == name) {
+                return stage;
+            }
+        }
+
+        throw new NameNotRecognisedException("Race name %s not found".formatted(name));
+    }
+
     public static void removeStageById(ArrayList<Stage> stageInstances, int id) throws IDNotRecognisedException {
         stageInstances.remove(getStageById(stageInstances, id));
     }
 
-    public static Stage createStage(ArrayList<Stage> stageInstances, String name, String description, double length, LocalDateTime startTime, StageType type) {
+    public static Stage createStage(ArrayList<Stage> stageInstances, String name, String description, double length, LocalDateTime startTime, StageType type) throws IllegalNameException {
+        try {
+            if (getStageByName(stageInstances, name) instanceof Stage) {
+                throw new IllegalNameException("Stage name %s already exists".formatted(name));
+            }
+        } catch (Exception NameNotRecognisedException) {
+            // Do nothing - name is unique
+        }
+
         Stage stage = new Stage(name, description, length, startTime, type);
         stageInstances.add(stage);
         return stage;
@@ -81,6 +99,10 @@ public class Stage {
         this.length = length;
         this.startTime = startTime;
         this.type = type;
+    }
+
+    public String getName() {
+        return this.name;
     }
 
     public double getLength() {

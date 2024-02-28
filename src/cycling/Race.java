@@ -28,12 +28,29 @@ public class Race {
 
         throw new IDNotRecognisedException("Race id %d not found".formatted(id));
     }
+    
+    public static Race getRaceByName(ArrayList<Race> raceInstances, String name) throws NameNotRecognisedException {
+        for (Race race : raceInstances) {
+            if (race.getName().equals(name)) {
+                return race;
+            }
+        }
+
+        throw new NameNotRecognisedException("Race name %s not found".formatted(name));
+    }
 
     public static void removeRaceById(ArrayList<Race> raceInstances, int id) throws IDNotRecognisedException {
         raceInstances.remove(getRaceById(raceInstances, id));
     }
 
-    public static Race createRace(ArrayList<Race> raceInstances, String name, String description) {
+    public static Race createRace(ArrayList<Race> raceInstances, String name, String description) throws IllegalNameException {
+        try {
+            if (getRaceByName(raceInstances, name) instanceof Race) {
+                throw new IllegalNameException("Race name %s already exists".formatted(name));
+            }
+        } catch (Exception NameNotRecognisedException) {
+            // Do nothing - name is unique
+        }
         Race race = new Race(name, description);
         raceInstances.add(race);
         return race;
@@ -74,6 +91,10 @@ public class Race {
 
         this.name = name;
         this.description = description;
+    }
+
+    public String getName() {
+        return this.name;
     }
 
     public ArrayList<Stage> getStages() {
