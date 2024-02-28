@@ -40,8 +40,24 @@ public class Checkpoint {
     // TODO loadCheckpoints()
     // TODO saveCheckpoints()
 
+  
+  
+    public static String toString(ArrayList<Checkpoint> checkpointInstances) {
+        String[] checkpointStrings = new String[checkpointInstances.size()];
 
-    
+        for (int i = 0; i < checkpointInstances.size(); ++i) {
+            checkpointStrings[i] = checkpointInstances.get(i).toString();
+        }
+
+        String result = "{";
+
+        result += String.join(", ", checkpointStrings);
+
+        result += "}";
+
+        return result;
+    }
+
     // Instance Attributes
     private int id;
     private double location;
