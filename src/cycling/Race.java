@@ -37,6 +37,22 @@ public class Race {
     // TODO loadRaces()
     // TODO saveRaces()
 
+    public static String toString(ArrayList<Race> raceInstances) {
+        String[] raceStrings = new String[raceInstances.size()];
+
+        for (int i = 0; i < raceInstances.size(); ++i) {
+            raceStrings[i] = raceInstances.get(i).toString();
+        }
+
+        String result = "{";
+
+        result += String.join(", ", raceStrings);
+
+        result += "}";
+
+        return result;
+    }
+
 
 
     // Instance Attributes
