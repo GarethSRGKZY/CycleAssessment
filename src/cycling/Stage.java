@@ -2,7 +2,6 @@ package cycling;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Stage {
     // Static Attributes
@@ -58,7 +57,7 @@ public class Stage {
 
     // Instance Attributes
     private int id = 0;
-    private ArrayList<Integer> checkpoints;
+    private ArrayList<Checkpoint> checkpoints;
 
     private String name;
     private String description;
@@ -82,29 +81,22 @@ public class Stage {
         return this.length;
     }
 
-    public int[] getCheckpoints() {
-        int size = this.checkpoints.size();
-        int[] result = new int[size];
-
-        for (int i = 0; i < size; i++) {
-            result[i] = this.checkpoints.get(i);
-        }
-
-        return result;
+    public ArrayList<Checkpoint> getCheckpoints() {
+        return this.checkpoints;
     }
 
-    public void addCheckpoint(int id) {
-        this.checkpoints.add(id);
+    public void addCheckpoint(Checkpoint checkpoint) {
+        this.checkpoints.add(checkpoint);
     }
 
-    public void removeCheckpoint(int id) {
-        this.checkpoints.remove(Integer.valueOf(id));
+    public void removeCheckpoint(Checkpoint checkpoint) {
+        this.checkpoints.remove(checkpoint);
     }
 
 
 
     public String toString() {
-        String checkpoints = Arrays.toString(this.getCheckpoints());
+        String checkpoints = Checkpoint.toString(this.checkpoints);
         return "Stage[id=%d, checkpoints=%s, name=%s, description=%s, length=%s, startTime=%s, type=%s]".formatted(this.id, checkpoints, this.name, this.description, this.length, this.startTime, this.type);
     }
 
