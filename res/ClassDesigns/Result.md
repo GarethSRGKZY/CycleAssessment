@@ -2,17 +2,17 @@
 ## Static Attributes
 - `private nextId: int`
 	- Running counter of Result IDs
-- `private resultInstances: ArrayList<Race>`
-	- Storage of all Result instances
 ## Static Methods
-- `public getResultIds(): int[]`
+- `public getResultIds(ArrayList<Result> resultInstances): int[]`
 
-- `public getResultById(int stageId, int riderId): Result`
-- `public removeResultById(int stageId, int riderId): void`
+- `public getResultById(ArrayList<Result> resultInstances, int stageId, int riderId): Result`
+- `public removeResultById(ArrayList<Result> resultInstances, int stageId, int riderId): void`
+- `public createResult(ArrayList<Result> resultInstances, int stage, int rider, LocalTime... checkpoints)`
+	- Wrapper for the Result constructor
 
-- `public loadResults(): void`
+- `public loadResults(ArrayList<Result> resultInstances): void`
 	- Deserialise Results onto memory
-- `public saveResults(): void`
+- `public saveResults(ArrayList<Result> resultInstances): void`
 	- Serialise Results onto disk
 # Instance
 ## Instance Attributes
@@ -24,7 +24,7 @@
 - `private checkpointTimes: LocalTime[]`
 	- Same length as `this.stage.getCheckpoints()`
 ## Instance Methods
-- `public Result(int stage, int rider, LocalTime... checkpoints)`
+- `private Result(int stage, int rider, LocalTime... checkpoints)`
 	- Constructor
 
 - `public toString(): String`
