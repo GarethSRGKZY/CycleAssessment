@@ -53,8 +53,10 @@ public class CyclingPortalImpl implements CyclingPortal {
 			StageType type)
 			throws IDNotRecognisedException, IllegalNameException, InvalidNameException, InvalidLengthException {
 		Race race = Race.getRaceById(raceInstances, raceId);
-		// TODO add stages
-		return 0;
+        ArrayList<Stage> stageInstances = race.getStages();
+
+		Stage stage = Stage.createStage(stageInstances, stageName, description, length, startTime, type);
+		return stage.getId();
 	}
 
 	@Override
@@ -66,14 +68,33 @@ public class CyclingPortalImpl implements CyclingPortal {
 
 	@Override
 	public double getStageLength(int stageId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
-		return 0;
+		for (Race race : raceInstances) {
+            ArrayList<Stage> stageInstances = race.getStages();
+            
+            try {
+                Stage stage = Stage.getStageById(stageInstances, stageId);
+                return stage.getLength();
+            } catch (Exception IDNotRecognisedException) {
+                // Stage does not belong to this race - Search through next race
+                continue;
+            }
+        }
+		throw new IDNotRecognisedException("Stage id %d not found".formatted(stageId));
 	}
 
 	@Override
 	public void removeStageById(int stageId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
-
+        for (Race race : raceInstances) {
+            ArrayList<Stage> stageInstances = race.getStages();
+            
+            try {
+                Stage.removeStageById(stageInstances, stageId);
+            } catch (Exception IDNotRecognisedException) {
+                // Stage does not belong to this race - Search through next race
+                continue;
+            }
+        }
+        throw new IDNotRecognisedException("Stage id %d not found".formatted(stageId));
 	}
 
 	@Override
