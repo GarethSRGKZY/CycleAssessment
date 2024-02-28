@@ -37,6 +37,22 @@ public class Stage {
     // TODO loadStages()
     // TODO saveStages()
 
+    public static String toString(ArrayList<Stage> stageInstances) {
+        String[] stageStrings = new String[stageInstances.size()];
+
+        for (int i = 0; i < stageInstances.size(); ++i) {
+            stageStrings[i] = stageInstances.get(i).toString();
+        }
+
+        String result = "{";
+
+        result += String.join(", ", stageStrings);
+
+        result += "}";
+
+        return result;
+    }
+
 
 
     // Instance Attributes
