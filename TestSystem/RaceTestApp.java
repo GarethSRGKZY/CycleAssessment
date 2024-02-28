@@ -1,19 +1,24 @@
 import java.util.ArrayList;
 
 import cycling.Race;
+import cycling.Stage;
 
 public class RaceTestApp {
     public static void main(String[] args) {
         ArrayList<Race> raceInstances = new ArrayList<>();
+        ArrayList<Stage> stageInstances = new ArrayList<>();
 
         Race a = Race.createRace(raceInstances, "name", "description");
 
-        a.addStage(123);
-        a.addStage(456);
+        Stage x = Stage.createStage(stageInstances, "a", "description", 0, null, null);
+        Stage y = Stage.createStage(stageInstances, "b", "description", 0, null, null);
+
+        a.addStage(x);
+        a.addStage(y);
 
         System.out.println(a);
 
-        a.removeStage(123);
+        a.removeStage(x);
 
         System.out.println(a);
 

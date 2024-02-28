@@ -57,7 +57,7 @@ public class Race {
 
     // Instance Attributes
     private int id;
-    private ArrayList<Integer> stages;
+    private ArrayList<Stage> stages;
 
     private String name;
     private String description;
@@ -71,29 +71,22 @@ public class Race {
         this.description = description;
     }
 
-    public int[] getStages() {
-        int size = this.stages.size();
-        int[] result = new int[size];
-
-        for (int i = 0; i < size; i++) {
-            result[i] = this.stages.get(i);
-        }
-
-        return result;
+    public ArrayList<Stage> getStages() {
+        return this.stages;
     }
 
-    public void addStage(int id) {
-        this.stages.add(id);
+    public void addStage(Stage stage) {
+        this.stages.add(stage);
     }
 
-    public void removeStage(int id) {
-        this.stages.remove(Integer.valueOf(id));
+    public void removeStage(Stage stage) {
+        this.stages.remove(stage);
     }
 
 
 
     public String toString() {
-        String stages = Arrays.toString(this.getStages());
+        String stages = Stage.toString(this.stages);
         return "Race[id=%d, stages=%s, name=%s, description=%s]".formatted(this.id, stages, this.name, this.description);
     }
 
