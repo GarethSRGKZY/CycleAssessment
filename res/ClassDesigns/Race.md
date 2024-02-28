@@ -17,8 +17,8 @@
 # Instance
 ## Instance Attributes
 - `private id: int`
-- `private stages: ArrayList<Stage>`
-	- References to all aggregated Stages
+- `private stages: ArrayList<Integer>`
+	- IDs of all aggregated Stages
 
 - `private name: String`
 - `private description: String`
@@ -26,12 +26,12 @@
 - `private Race(String name, String description)`
 	- Constructor
 
-- `public getStages(): Stage[]`
+- `public getStages(): int[]`
 	- Getter for `stages` Instance Attribute
-	- Returns Stage references
-- `public addStage(Stage stage): void`
+	- Returns Stage IDs
+- `public addStage(int id): void`
 	- Append to `stages` Instance Attribute
-- `public removeStage(Stage stage): void`
+- `public removeStage(int id): void`
 	- Remove from `stages` Instance Attribute
 
 - `public toString(): String`

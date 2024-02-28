@@ -40,6 +40,8 @@ public class Checkpoint {
     // TODO loadCheckpoints()
     // TODO saveCheckpoints()
 
+  
+  
     public static String toString(ArrayList<Checkpoint> checkpointInstances) {
         String[] checkpointStrings = new String[checkpointInstances.size()];
 
