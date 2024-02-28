@@ -17,8 +17,8 @@
 # Instance
 ## Instance Attributes
 - `private id: int`
-- `private checkpoints: ArrayList<Integer>`
-	- IDs of all aggregated Checkpoints
+- `private checkpoints: ArrayList<Checkpoint>`
+	- References to all aggregated Checkpoints
 
 - `private name: String`
 - `private description: String`
@@ -37,12 +37,12 @@
 - `public getLength(): double`
 	- Getter for `length` Instance Attribute
 
-- `public getCheckpoints(): int[]`
+- `public getCheckpoints(): Checkpoint[]`
 	- Getter for `checkpoints` Instance Attribute
-	- Returns Checkpoint IDs
-- `public addCheckpoint(int id): void`
+	- Returns Checkpoint references
+- `public addCheckpoint(Checkpoint checkpoint): void`
 	- Append to `checkpoints` Instance Attribute
-- `public removeCheckpoint(int id): void`
+- `public removeCheckpoint(Checkpoint checkpoint): void`
 	- Delete from `checkpoints` Instance Attribute
 
 - `public toString(): String`

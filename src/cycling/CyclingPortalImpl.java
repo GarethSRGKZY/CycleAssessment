@@ -44,8 +44,8 @@ public class CyclingPortalImpl implements CyclingPortal {
 	@Override
 	public int getNumberOfStages(int raceId) throws IDNotRecognisedException {
 		Race race = Race.getRaceById(raceInstances, raceId);
-		int[] stages = race.getStages();
-		return stages.length;
+		ArrayList<Stage> stages = race.getStages();
+		return stages.size();
 	}
 
 	@Override
@@ -60,8 +60,8 @@ public class CyclingPortalImpl implements CyclingPortal {
 	@Override
 	public int[] getRaceStages(int raceId) throws IDNotRecognisedException {
 		Race race = Race.getRaceById(raceInstances, raceId);
-		int[] stages = race.getStages();
-		return stages;
+		ArrayList<Stage> stages = race.getStages();
+		return Stage.getStageIds(stages);
 	}
 
 	@Override
