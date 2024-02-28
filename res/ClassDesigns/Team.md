@@ -2,17 +2,17 @@
 ## Static Attributes
 - `private nextId: int`
 	- Running counter of Team IDs
-- `private teamInstances: ArrayList<Race>`
-	- Storage of all Team instances
 ## Static Methods
-- `public getTeamIds(): int[]`
+- `public getTeamIds(ArrayList<Team> teamInstances): int[]`
 
-- `public getTeamById(int id): Team`
-- `public removeTeamById(int id): void`
+- `public getTeamById(ArrayList<Team> teamInstances, int id): Team`
+- `public removeTeamById(ArrayList<Team> teamInstances, int id): void`
+- `public createTeam(ArrayList<Team> teamInstances, String name, String description): Team`
+	- Wrapper for the Team constructor
 
-- `public loadTeams(): void`
+- `public loadTeams(ArrayList<Team> teamInstances): void`
 	- Deserialise Teams onto memory
-- `public saveTeams(): void`
+- `public saveTeams(ArrayList<Team> teamInstances): void`
 	- Serialise Teams onto disk
 # Instance
 ## Instance Attributes
@@ -23,7 +23,7 @@
 - `private name: String`
 - `private description: String`
 ## Instance Methods
-- `public Team(String name, String description)`
+- `private Team(String name, String description)`
 	- Constructor
 
 - `public getRiders(): int[]`
