@@ -17,8 +17,8 @@
 # Instance
 ## Instance Attributes
 - `private id: int`
-- `private riders: ArrayList<Rider>`
-	- References to all aggregated Riders
+- `private riders: ArrayList<Integer>`
+	- IDs of all aggregated Riders
 
 - `private name: String`
 - `private description: String`
@@ -26,12 +26,12 @@
 - `private Team(String name, String description)`
 	- Constructor
 
-- `public getRiders(): Rider[]`
+- `public getRiders(): int[]`
 	- Getter for `riders` Instance Attribute
-	- Returns Rider references
-- `public addRider(Rider rider): void`
+	- Returns Rider IDs
+- `public addRider(int id): void`
 	- Append to `riders` Instance Attribute
-- `public removeRider(Rider rider): void`
+- `public removeRider(int id): void`
 	- Remove from `riders` Instance Attribute
 
 - `public toString(): String`

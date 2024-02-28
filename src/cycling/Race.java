@@ -37,27 +37,11 @@ public class Race {
     // TODO loadRaces()
     // TODO saveRaces()
 
-    public static String toString(ArrayList<Race> raceInstances) {
-        String[] raceStrings = new String[raceInstances.size()];
-
-        for (int i = 0; i < raceInstances.size(); ++i) {
-            raceStrings[i] = raceInstances.get(i).toString();
-        }
-
-        String result = "{";
-
-        result += String.join(", ", raceStrings);
-
-        result += "}";
-
-        return result;
-    }
-
 
 
     // Instance Attributes
     private int id;
-    private ArrayList<Stage> stages;
+    private ArrayList<Integer> stages;
 
     private String name;
     private String description;
@@ -71,22 +55,29 @@ public class Race {
         this.description = description;
     }
 
-    public ArrayList<Stage> getStages() {
-        return this.stages;
+    public int[] getStages() {
+        int size = this.stages.size();
+        int[] result = new int[size];
+
+        for (int i = 0; i < size; i++) {
+            result[i] = this.stages.get(i);
+        }
+
+        return result;
     }
 
-    public void addStage(Stage stage) {
-        this.stages.add(stage);
+    public void addStage(int id) {
+        this.stages.add(id);
     }
 
-    public void removeStage(Stage stage) {
-        this.stages.remove(stage);
+    public void removeStage(int id) {
+        this.stages.remove(Integer.valueOf(id));
     }
 
 
 
     public String toString() {
-        String stages = Stage.toString(this.stages);
+        String stages = Arrays.toString(this.getStages());
         return "Race[id=%d, stages=%s, name=%s, description=%s]".formatted(this.id, stages, this.name, this.description);
     }
 
