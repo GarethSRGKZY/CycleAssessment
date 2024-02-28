@@ -2,17 +2,17 @@
 ## Static Attributes
 - `private nextId: int`
 	- Running counter of Stage IDs
-- `private stageInstances: ArrayList<Stage>`
-	- Storage of all Stage instances
 ## Static Methods
-- `public getStageIds(): int[]`
+- `public getStageIds(ArrayList<Stage> stageInstances): int[]`
 
-- `public getStageById(int id): Stage`
-- `public removeStageById(int id): void`
+- `public getStageById(ArrayList<Stage> stageInstances, int id): Stage`
+- `public removeStageById(ArrayList<Stage> stageInstances, int id): void`
+- `public createStage(ArrayList<Stage> stageInstances, String name, String description, double length, LocalDateTime startTime, StageType type): Stage`
+	- Wrapper for the Stage constructor
 
-- `public loadStages(): void`
+- `public loadStages(ArrayList<Stage> stageInstances): void`
 	- Deserialise Stages onto memory
-- `public saveStages(): void`
+- `public saveStages(ArrayList<Stage> stageInstances): void`
 	- Serialise Stages onto disk
 # Instance
 ## Instance Attributes
@@ -31,7 +31,7 @@
 		- HIGH_MOUNTAIN
 		- TT
 ## Instance Methods
-- `public Stage(String name, String description, double length, LocalDateTime startTime, StageType type)`
+- `private Stage(String name, String description, double length, LocalDateTime startTime, StageType type)`
 	- Constructor
 
 - `public getLength(): double`
