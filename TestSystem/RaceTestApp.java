@@ -1,11 +1,12 @@
 import java.util.ArrayList;
 
 import cycling.IDNotRecognisedException;
+import cycling.IllegalNameException;
 import cycling.Race;
 import cycling.Stage;
 
 public class RaceTestApp {
-    public static void main(String[] args) throws IDNotRecognisedException {
+    public static void main(String[] args) throws IDNotRecognisedException, IllegalNameException {
         ArrayList<Race> raceInstances = new ArrayList<>();
         ArrayList<Stage> stageInstances = new ArrayList<>();
 
