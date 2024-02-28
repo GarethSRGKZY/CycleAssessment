@@ -2,18 +2,20 @@ import java.util.ArrayList;
 
 import cycling.IDNotRecognisedException;
 import cycling.IllegalNameException;
+import cycling.InvalidLengthException;
+import cycling.InvalidNameException;
 import cycling.Race;
 import cycling.Stage;
 
 public class RaceTestApp {
-    public static void main(String[] args) throws IDNotRecognisedException, IllegalNameException {
+    public static void main(String[] args) throws IDNotRecognisedException, IllegalNameException, InvalidNameException, InvalidLengthException {
         ArrayList<Race> raceInstances = new ArrayList<>();
         ArrayList<Stage> stageInstances = new ArrayList<>();
 
         Race a = Race.createRace(raceInstances, "name", "description");
 
-        Stage x = Stage.createStage(stageInstances, "a", "description", 0, null, null);
-        Stage y = Stage.createStage(stageInstances, "b", "description", 0, null, null);
+        Stage x = Stage.createStage(stageInstances, "a", "description", 5, null, null);
+        Stage y = Stage.createStage(stageInstances, "b", "description", 5, null, null);
 
         a.addStage(x);
         a.addStage(y);

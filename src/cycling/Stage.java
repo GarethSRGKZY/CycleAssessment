@@ -44,13 +44,33 @@ public class Stage {
         stageInstances.remove(getStageById(stageInstances, id));
     }
 
-    public static Stage createStage(ArrayList<Stage> stageInstances, String name, String description, double length, LocalDateTime startTime, StageType type) throws IllegalNameException {
+    public static Stage createStage(ArrayList<Stage> stageInstances, String name, String description, double length, LocalDateTime startTime, StageType type) throws IllegalNameException, InvalidNameException, InvalidLengthException {
         try {
             if (getStageByName(stageInstances, name) instanceof Stage) {
                 throw new IllegalNameException("Stage name %s already exists".formatted(name));
             }
         } catch (Exception NameNotRecognisedException) {
             // Do nothing - name is unique
+        }
+
+        if (name == null) {
+            throw new InvalidNameException("Stage name is null");
+        }
+
+        if (name.isEmpty()) {
+            throw new InvalidNameException("Stage name is empty");
+        }
+
+        if (name.length() > 30) {
+            throw new InvalidNameException("Stage name has more than 30 characters (%d)".formatted(name.length()));
+        }
+        
+        if (name.contains(" ")) {
+            throw new InvalidNameException("Stage name %d contains spaces".formatted(name));
+        }
+
+        if (length < 5) {
+            throw new InvalidLengthException("Stage length %f is less than 5".formatted(length));
         }
 
         Stage stage = new Stage(name, description, length, startTime, type);

@@ -43,7 +43,7 @@ public class Race {
         raceInstances.remove(getRaceById(raceInstances, id));
     }
 
-    public static Race createRace(ArrayList<Race> raceInstances, String name, String description) throws IllegalNameException {
+    public static Race createRace(ArrayList<Race> raceInstances, String name, String description) throws IllegalNameException, InvalidNameException {
         try {
             if (getRaceByName(raceInstances, name) instanceof Race) {
                 throw new IllegalNameException("Race name %s already exists".formatted(name));
@@ -51,6 +51,23 @@ public class Race {
         } catch (Exception NameNotRecognisedException) {
             // Do nothing - name is unique
         }
+
+        if (name == null) {
+            throw new InvalidNameException("Race name is null");
+        }
+
+        if (name.isEmpty()) {
+            throw new InvalidNameException("Race name is empty");
+        }
+
+        if (name.length() > 30) {
+            throw new InvalidNameException("Race name has more than 30 characters (%d)".formatted(name.length()));
+        }
+        
+        if (name.contains(" ")) {
+            throw new InvalidNameException("Race name %d contains spaces".formatted(name));
+        }
+
         Race race = new Race(name, description);
         raceInstances.add(race);
         return race;
