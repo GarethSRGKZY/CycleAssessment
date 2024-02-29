@@ -38,6 +38,8 @@
 - `private Stage(String name, String description, double length, LocalDateTime startTime, StageType type)`
 	- Constructor
 
+- `public getName(): String`
+	- Getter for `name` Instance Attribute
 - `public getLength(): double`
 	- Getter for `length` Instance Attribute
 

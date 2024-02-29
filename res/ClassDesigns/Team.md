@@ -26,7 +26,10 @@
 - `private Team(String name, String description)`
 	- Constructor
 
-- `public getRiders(): Rider[]`
+- `public getName(): String`
+	- Getter for `name` Instance Attribute
+
+- `public getRiders(): ArrayList<Rider>`
 	- Getter for `riders` Instance Attribute
 	- Returns Rider references
 - `public addRider(Rider rider): void`

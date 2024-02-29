@@ -26,7 +26,10 @@
 - `private Race(String name, String description)`
 	- Constructor
 
-- `public getStages(): Stage[]`
+- `public getName(): String`
+	- Getter for `name` Instance Attribute
+
+- `public getStages(): ArrayList<Stage>`
 	- Getter for `stages` Instance Attribute
 	- Returns Stage references
 - `public addStage(Stage stage): void`
