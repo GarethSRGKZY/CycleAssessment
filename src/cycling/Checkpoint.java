@@ -79,6 +79,14 @@ public class Checkpoint {
         this(location, CheckpointType.SPRINT, 0, 0);
     }
 
+
+
+    public double getLocation() {
+        return this.location;
+    }
+
+
+
     public String toString() {
         return "Checkpoint[location=%s, type=%s, averageGradient=%f, length=%f]".formatted(this.location, this.type, this.averageGradient, this.length);
     }

@@ -37,5 +37,8 @@
 - `private Checkpoint(double location)`
 	- Overloaded constructor for *Intermediate Sprint*
 
+- `public getLocation(): double`
+	- Getter for `location` Instance Attribute
+
 - `public toString(): String`
 - `public getId(): int`

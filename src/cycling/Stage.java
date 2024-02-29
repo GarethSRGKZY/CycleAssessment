@@ -137,11 +137,15 @@ public class Stage {
         return this.checkpoints;
     }
     
-    public void addCheckpoint(Checkpoint checkpoint) throws InvalidStageStateException {
+    public void addCheckpoint(Checkpoint checkpoint) throws InvalidStageStateException, InvalidLocationException {
         if (this.state == StageState.WAITING_FOR_RESULTS) {
             throw new InvalidStageStateException("Stage state cannot be %s".formatted(this.state));
         }
         
+        if (checkpoint.getLocation() <= this.length) {
+            throw new InvalidLocationException("Checkpoint location %f must be less than the Stage length %f".formatted(checkpoint.getLocation(), this.length));
+        }
+
         this.checkpoints.add(checkpoint);
     }
     
@@ -154,7 +158,7 @@ public class Stage {
     }
 
 
-    
+
     public void concludePreparation() {
         this.state = StageState.WAITING_FOR_RESULTS;
     }
