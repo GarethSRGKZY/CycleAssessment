@@ -19,20 +19,20 @@ public class Checkpoint {
         return result;
     }
 
-    public Checkpoint getCheckpointById(ArrayList<Checkpoint> checkpointInstances, int id) {
+    public static Checkpoint getCheckpointById(ArrayList<Checkpoint> checkpointInstances, int id) {
         return checkpointInstances.get(Integer.valueOf(id));
     }
 
-    public void removeCheckpointById(ArrayList<Checkpoint> checkpointInstances, int id) {
+    public static void removeCheckpointById(ArrayList<Checkpoint> checkpointInstances, int id) {
         checkpointInstances.remove(getCheckpointById(checkpointInstances, id));
     }
 
-    public Checkpoint createCheckpoint(ArrayList<Checkpoint> checkpointInstances, double location, CheckpointType type, double averageGradient, double length) {
+    public static Checkpoint createCheckpoint(ArrayList<Checkpoint> checkpointInstances, double location, CheckpointType type, double averageGradient, double length) {
         Checkpoint checkpoint = new Checkpoint(location, type, averageGradient, length);
         return checkpoint;
     }
 
-    public Checkpoint createCheckpoint(ArrayList<Checkpoint> checkpointInstances, double location) {
+    public static Checkpoint createCheckpoint(ArrayList<Checkpoint> checkpointInstances, double location) {
         Checkpoint checkpoint = new Checkpoint(location);
         return checkpoint;
     }
