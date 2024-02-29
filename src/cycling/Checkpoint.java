@@ -19,11 +19,17 @@ public class Checkpoint {
         return result;
     }
 
-    public static Checkpoint getCheckpointById(ArrayList<Checkpoint> checkpointInstances, int id) {
-        return checkpointInstances.get(Integer.valueOf(id));
+    public static Checkpoint getCheckpointById(ArrayList<Checkpoint> checkpointInstances, int id) throws IDNotRecognisedException {
+        for (Checkpoint checkpoint : checkpointInstances) {
+            if (checkpoint.getId() == id) {
+                return checkpoint;
+            }
+        }
+
+        throw new IDNotRecognisedException("Checkpoint id %d not found".formatted(id));
     }
 
-    public static void removeCheckpointById(ArrayList<Checkpoint> checkpointInstances, int id) {
+    public static void removeCheckpointById(ArrayList<Checkpoint> checkpointInstances, int id) throws IDNotRecognisedException {
         checkpointInstances.remove(getCheckpointById(checkpointInstances, id));
     }
 
