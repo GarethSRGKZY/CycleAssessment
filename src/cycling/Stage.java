@@ -108,6 +108,7 @@ public class Stage {
     private double length;
     private LocalDateTime startTime;
     private StageType type; 
+    private StageState state;
 
     // Instance Methods
     private Stage(String name, String description, double length, LocalDateTime startTime, StageType type) {
@@ -119,6 +120,7 @@ public class Stage {
         this.length = length;
         this.startTime = startTime;
         this.type = type;
+        this.state = StageState.PREPARING_STAGE;
     }
 
     public String getName() {
@@ -128,19 +130,35 @@ public class Stage {
     public double getLength() {
         return this.length;
     }
-
+    
+    
+    
     public ArrayList<Checkpoint> getCheckpoints() {
         return this.checkpoints;
     }
-
-    public void addCheckpoint(Checkpoint checkpoint) {
+    
+    public void addCheckpoint(Checkpoint checkpoint) throws InvalidStageStateException {
+        if (this.state == StageState.WAITING_FOR_RESULTS) {
+            throw new InvalidStageStateException("Stage state cannot be %s".formatted(this.state));
+        }
+        
         this.checkpoints.add(checkpoint);
     }
-
-    public void removeCheckpoint(Checkpoint checkpoint) {
+    
+    public void removeCheckpoint(Checkpoint checkpoint) throws InvalidStageStateException {
+        if (this.state == StageState.WAITING_FOR_RESULTS) {
+            throw new InvalidStageStateException("Stage state cannot be %s".formatted(this.state));
+        }
+        
         this.checkpoints.remove(checkpoint);
     }
 
+
+    
+    public void concludePreparation() {
+        this.state = StageState.WAITING_FOR_RESULTS;
+    }
+    
 
 
     public String toString() {
