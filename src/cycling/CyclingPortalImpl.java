@@ -101,33 +101,104 @@ public class CyclingPortalImpl implements CyclingPortal {
 	public int addCategorizedClimbToStage(int stageId, Double location, CheckpointType type, Double averageGradient,
 			Double length) throws IDNotRecognisedException, InvalidLocationException, InvalidStageStateException,
 			InvalidStageTypeException {
-		// TODO Auto-generated method stub
-		return 0;
+        for (Race race : raceInstances) {
+            ArrayList<Stage> stageInstances = race.getStages();
+            
+            try {
+                Stage stage = Stage.getStageById(stageInstances, stageId);
+
+                ArrayList<Checkpoint> checkpointInstances = stage.getCheckpoints();
+                Checkpoint checkpoint = Checkpoint.createCheckpoint(checkpointInstances, location, type, averageGradient, length);
+
+                return checkpoint.getId();
+            } catch (Exception IDNotRecognisedException) {
+                // Stage does not belong to this race - Search through next race
+                continue;
+            }
+        }
+		throw new IDNotRecognisedException("Stage id %d not found".formatted(stageId));
 	}
 
 	@Override
 	public int addIntermediateSprintToStage(int stageId, double location) throws IDNotRecognisedException,
 			InvalidLocationException, InvalidStageStateException, InvalidStageTypeException {
-		// TODO Auto-generated method stub
-		return 0;
+        for (Race race : raceInstances) {
+            ArrayList<Stage> stageInstances = race.getStages();
+            
+            try {
+                Stage stage = Stage.getStageById(stageInstances, stageId);
+
+                ArrayList<Checkpoint> checkpointInstances = stage.getCheckpoints();
+                Checkpoint checkpoint = Checkpoint.createCheckpoint(checkpointInstances, location);
+
+                return checkpoint.getId();
+            } catch (Exception IDNotRecognisedException) {
+                // Stage does not belong to this race - Search through next race
+                continue;
+            }
+        }
+        throw new IDNotRecognisedException("Stage id %d not found".formatted(stageId));
 	}
 
 	@Override
 	public void removeCheckpoint(int checkpointId) throws IDNotRecognisedException, InvalidStageStateException {
-		// TODO Auto-generated method stub
+        for (Race race : raceInstances) {
+            ArrayList<Stage> stageInstances = race.getStages();
+            
+            try {
+                for (Stage stage: stageInstances) {
+                    ArrayList<Checkpoint> checkpointInstances = stage.getCheckpoints();
 
+                    try {
+                        Checkpoint.removeCheckpointById(checkpointInstances, checkpointId);
+                        return;
+                    } catch (Exception IDNotRecognisedException) {
+                        // Checkpoint does not belong to this stage - Search through next stage
+                        continue;
+                    }
+                }
+
+            } catch (Exception IDNotRecognisedException) {
+                // Stage does not belong to this race - Search through next race
+                continue;
+            }
+        }
+		throw new IDNotRecognisedException("Checkpoint id %d not found".formatted(checkpointId));
 	}
 
 	@Override
 	public void concludeStagePreparation(int stageId) throws IDNotRecognisedException, InvalidStageStateException {
-		// TODO Auto-generated method stub
-
+        for (Race race : raceInstances) {
+            ArrayList<Stage> stageInstances = race.getStages();
+            
+            try {
+                Stage stage = Stage.getStageById(stageInstances, stageId);
+                stage.concludePreparation();
+                return;
+            } catch (Exception IDNotRecognisedException) {
+                // Stage does not belong to this race - Search through next race
+                continue;
+            }
+        }
+        throw new IDNotRecognisedException("Stage id %d not found".formatted(stageId));
 	}
 
 	@Override
 	public int[] getStageCheckpoints(int stageId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
-		return null;
+        for (Race race : raceInstances) {
+            ArrayList<Stage> stageInstances = race.getStages();
+            
+            try {
+                Stage stage = Stage.getStageById(stageInstances, stageId);
+
+                ArrayList<Checkpoint> checkpointInstances = stage.getCheckpoints();
+                return Checkpoint.getCheckpointIds(checkpointInstances);
+            } catch (Exception IDNotRecognisedException) {
+                // Stage does not belong to this race - Search through next race
+                continue;
+            }
+        }
+        throw new IDNotRecognisedException("Stage id %d not found".formatted(stageId));
 	}
 
 	@Override
