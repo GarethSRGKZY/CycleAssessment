@@ -30,6 +30,10 @@
 		- MEDIUM_MOUNTAIN
 		- HIGH_MOUNTAIN
 		- TT
+- `private state: StageState`
+	- Enum type
+		- PREPARING_STAGE
+		- WAITING_FOR_RESULTS
 ## Instance Methods
 - `private Stage(String name, String description, double length, LocalDateTime startTime, StageType type)`
 	- Constructor
@@ -37,13 +41,16 @@
 - `public getLength(): double`
 	- Getter for `length` Instance Attribute
 
-- `public getCheckpoints(): Checkpoint[]`
+- `public getCheckpoints(): ArrayList<Checkpoint>`
 	- Getter for `checkpoints` Instance Attribute
 	- Returns Checkpoint references
 - `public addCheckpoint(Checkpoint checkpoint): void`
 	- Append to `checkpoints` Instance Attribute
 - `public removeCheckpoint(Checkpoint checkpoint): void`
 	- Delete from `checkpoints` Instance Attribute
+
+- `public concludePreparation(): void`
+	- Change the `state` Instance Attribute to `StageState.WAITING_FOR_RESULTS`
 
 - `public toString(): String`
 - `public getId(): int`
