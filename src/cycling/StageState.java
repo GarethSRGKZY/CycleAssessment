@@ -10,7 +10,7 @@ package cycling;
 public enum StageState {
 	
 	/**
-	 * Used for when Checkpoints are being added & modified.
+	 * Used for when Checkpoints are being added and modified.
 	 */
 	PREPARING_STAGE,
 	
