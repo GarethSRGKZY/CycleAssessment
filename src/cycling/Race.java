@@ -48,7 +48,7 @@ public class Race {
             if (getRaceByName(raceInstances, name) instanceof Race) {
                 throw new IllegalNameException("Race name %s already exists".formatted(name));
             }
-        } catch (Exception NameNotRecognisedException) {
+        } catch (NameNotRecognisedException e) {
             // Do nothing - name is unique
         }
 

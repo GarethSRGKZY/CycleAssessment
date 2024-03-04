@@ -49,7 +49,7 @@ public class Stage {
             if (getStageByName(stageInstances, name) instanceof Stage) {
                 throw new IllegalNameException("Stage name %s already exists".formatted(name));
             }
-        } catch (Exception NameNotRecognisedException) {
+        } catch (NameNotRecognisedException e) {
             // Do nothing - name is unique
         }
 
@@ -135,7 +135,7 @@ public class Stage {
         return this.startTime;
     }
 
-    
+
     
     public ArrayList<Checkpoint> getCheckpoints() {
         return this.checkpoints;
