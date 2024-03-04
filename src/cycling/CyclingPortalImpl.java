@@ -193,7 +193,8 @@ public class CyclingPortalImpl implements CyclingPortal {
                 Stage stage = Stage.getStageById(stageInstances, stageId);
 
                 ArrayList<Checkpoint> checkpointInstances = stage.getCheckpoints();
-                return Checkpoint.getCheckpointIds(checkpointInstances);
+                Collections.sort(checkpointInstances, new CheckpointComparator());
+				return Checkpoint.getCheckpointIds(checkpointInstances);
             } catch (Exception IDNotRecognisedException) {
                 // Stage does not belong to this race - Search through next race
                 continue;
