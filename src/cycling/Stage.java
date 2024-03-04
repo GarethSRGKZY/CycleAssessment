@@ -150,7 +150,7 @@ public class Stage {
             throw new InvalidStageTypeException("Time-trial stages cannot contain any checkpoints");
         }
 
-        if (checkpoint.getLocation() <= this.length) {
+        if (checkpoint.getLocation() > this.length) {
             throw new InvalidLocationException("Checkpoint location %f must be less than the Stage length %f".formatted(checkpoint.getLocation(), this.length));
         }
 
