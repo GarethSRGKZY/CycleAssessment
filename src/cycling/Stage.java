@@ -175,7 +175,7 @@ public class Stage {
 
     public String toString() {
         String checkpoints = Checkpoint.toString(this.checkpoints);
-        return "Stage[id=%d, checkpoints=%s, name=%s, description=%s, length=%s, startTime=%s, type=%s]".formatted(this.id, checkpoints, this.name, this.description, this.length, this.startTime, this.type);
+        return "Stage[id=%d, checkpoints=%s, name=%s, description=%s, length=%s, startTime=%s, type=%s, state=%s]".formatted(this.id, checkpoints, this.name, this.description, this.length, this.startTime, this.type, this.state);
     }
 
     public int getId() {
