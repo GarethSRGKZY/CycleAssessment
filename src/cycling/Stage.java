@@ -154,6 +154,10 @@ public class Stage {
             throw new InvalidLocationException("Checkpoint location %f must be less than the Stage length %f".formatted(checkpoint.getLocation(), this.length));
         }
 
+        if (checkpoint.getLocation() <= 0) {
+            throw new InvalidLocationException("Checkpoint location %f must be greater than 0".formatted(checkpoint.getLocation(), this.length));
+        }
+
         this.checkpoints.add(checkpoint);
     }
     
