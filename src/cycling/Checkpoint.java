@@ -35,11 +35,13 @@ public class Checkpoint {
 
     public static Checkpoint createCheckpoint(ArrayList<Checkpoint> checkpointInstances, double location, CheckpointType type, double averageGradient, double length) {
         Checkpoint checkpoint = new Checkpoint(location, type, averageGradient, length);
+        checkpointInstances.add(checkpoint);
         return checkpoint;
     }
 
     public static Checkpoint createCheckpoint(ArrayList<Checkpoint> checkpointInstances, double location) {
         Checkpoint checkpoint = new Checkpoint(location);
+        checkpointInstances.add(checkpoint);
         return checkpoint;
     }
 
