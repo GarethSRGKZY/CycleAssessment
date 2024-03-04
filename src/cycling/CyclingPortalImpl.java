@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-
+import java.util.Collections;
 
 /**
  * BadCyclingPortal is a minimally compiling, but non-functioning implementor
@@ -63,6 +63,7 @@ public class CyclingPortalImpl implements CyclingPortal {
 	public int[] getRaceStages(int raceId) throws IDNotRecognisedException {
 		Race race = Race.getRaceById(raceInstances, raceId);
 		ArrayList<Stage> stages = race.getStages();
+		Collections.sort(stages, new StageComparator());
 		return Stage.getStageIds(stages);
 	}
 

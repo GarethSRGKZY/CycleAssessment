@@ -131,6 +131,10 @@ public class Stage {
         return this.length;
     }
     
+    public LocalDateTime startTime() {
+        return this.startTime;
+    }
+
     
     
     public ArrayList<Checkpoint> getCheckpoints() {
