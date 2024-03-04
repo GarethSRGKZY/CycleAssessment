@@ -65,7 +65,7 @@ public class Race {
         }
         
         if (name.contains(" ")) {
-            throw new InvalidNameException("Race name %d contains spaces".formatted(name));
+            throw new InvalidNameException("Race name %s contains spaces".formatted(name));
         }
 
         Race race = new Race(name, description);

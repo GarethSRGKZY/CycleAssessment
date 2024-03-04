@@ -66,7 +66,7 @@ public class Stage {
         }
         
         if (name.contains(" ")) {
-            throw new InvalidNameException("Stage name %d contains spaces".formatted(name));
+            throw new InvalidNameException("Stage name %s contains spaces".formatted(name));
         }
 
         if (length < 5) {
