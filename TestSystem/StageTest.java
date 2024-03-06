@@ -216,7 +216,7 @@ public class StageTest {
                 InvalidLengthException e) {
             e.printStackTrace();
             assert false
-                : "expected IllegalNameException but got %s".formatted(e.getClass().getName());
+                : String.format("expected IllegalNameException but got %s", e.getClass().getName());
             return false;
         } catch (IllegalNameException e) {
             // Do nothing
@@ -295,7 +295,7 @@ public class StageTest {
                 InvalidLengthException e) {
             e.printStackTrace();
             assert false
-                : "expected InvalidNameException but got %s".formatted(e.getClass().getName());
+                : String.format("expected InvalidNameException but got %s", e.getClass().getName());
             return false;
         } catch (InvalidNameException e) {
             // Do nothing
@@ -374,7 +374,7 @@ public class StageTest {
                 InvalidLengthException e) {
             e.printStackTrace();
             assert false
-                : "expected InvalidNameException but got %s".formatted(e.getClass().getName());
+                : String.format("expected InvalidNameException but got %s", e.getClass().getName());
             return false;
         } catch (InvalidNameException e) {
             // Do nothing
@@ -526,7 +526,7 @@ public class StageTest {
                 InvalidLengthException e) {
             e.printStackTrace();
             assert false
-                : "expected InvalidNameException but got %s".formatted(e.getClass().getName());
+                : String.format("expected InvalidNameException but got %s", e.getClass().getName());
             return false;
         } catch (InvalidNameException e) {
             // Do nothing
@@ -605,7 +605,7 @@ public class StageTest {
                 InvalidLengthException e) {
             e.printStackTrace();
             assert false
-                : "expected InvalidNameException but got %s".formatted(e.getClass().getName());
+                : String.format("expected InvalidNameException but got %s", e.getClass().getName());
             return false;
         } catch (InvalidNameException e) {
             // Do nothing
@@ -684,7 +684,7 @@ public class StageTest {
                 InvalidNameException e) {
             e.printStackTrace();
             assert false
-                : "expected InvalidLengthException but got %s".formatted(e.getClass().getName());
+                : String.format("expected InvalidLengthException but got %s", e.getClass().getName());
             return false;
         } catch (InvalidLengthException e) {
             // Do nothing

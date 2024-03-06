@@ -395,7 +395,7 @@ public class CheckpointTest {
         ) {
             e.printStackTrace();
             assert false
-                : "expected InvalidLocationException but got %s".formatted(e.getClass().getName());
+                : String.format("expected InvalidLocationException but got %s", e.getClass().getName());
             return false;
         } catch (InvalidLocationException e) {
             // Do nothing
@@ -513,7 +513,7 @@ public class CheckpointTest {
         ) {
             e.printStackTrace();
             assert false
-                : "expected InvalidLocationException but got %s".formatted(e.getClass().getName());
+                : String.format("expected InvalidLocationException but got %s", e.getClass().getName());
             return false;
         } catch (InvalidLocationException e) {
             // Do nothing
@@ -752,7 +752,7 @@ public class CheckpointTest {
         ) {
             e.printStackTrace();
             assert false
-                : "expected InvalidStageStateException but got %s".formatted(e.getClass().getName());
+                : String.format("expected InvalidStageStateException but got %s", e.getClass().getName());
             return false;
         } catch (InvalidStageStateException e) {
             // Do nothing
@@ -870,7 +870,7 @@ public class CheckpointTest {
         ) {
             e.printStackTrace();
             assert false
-                : "expected InvalidStageTypeException but got %s".formatted(e.getClass().getName());
+                : String.format("expected InvalidStageTypeException but got %s", e.getClass().getName());
             return false;
         } catch (InvalidStageTypeException e) {
             // Do nothing
@@ -1232,7 +1232,7 @@ public class CheckpointTest {
         ) {
             e.printStackTrace();
             assert false
-                : "expected InvalidLocationException but got %s".formatted(e.getClass().getName());
+                : String.format("expected InvalidLocationException but got %s", e.getClass().getName());
             return false;
         } catch (InvalidLocationException e) {
             // Do nothing
@@ -1350,7 +1350,7 @@ public class CheckpointTest {
         ) {
             e.printStackTrace();
             assert false
-                : "expected InvalidLocationException but got %s".formatted(e.getClass().getName());
+                : String.format("expected InvalidLocationException but got %s", e.getClass().getName());
             return false;
         } catch (InvalidLocationException e) {
             // Do nothing
@@ -1589,7 +1589,7 @@ public class CheckpointTest {
         ) {
             e.printStackTrace();
             assert false
-                : "expected InvalidStageStateException but got %s".formatted(e.getClass().getName());
+                : String.format("expected InvalidStageStateException but got %s", e.getClass().getName());
             return false;
         } catch (InvalidStageStateException e) {
             // Do nothing
@@ -1707,7 +1707,7 @@ public class CheckpointTest {
         ) {
             e.printStackTrace();
             assert false
-                : "expected InvalidStageTypeException but got %s".formatted(e.getClass().getName());
+                : String.format("expected InvalidStageTypeException but got %s", e.getClass().getName());
             return false;
         } catch (InvalidStageTypeException e) {
             // Do nothing
@@ -2017,7 +2017,7 @@ public class CheckpointTest {
         } catch (IDNotRecognisedException e) {
             e.printStackTrace();
             assert false
-                : "expected InvalidStageStateException but got %s".formatted(e.getClass().getName());
+                : String.format("expected InvalidStageStateException but got %s", e.getClass().getName());
             return false;
         } catch (InvalidStageStateException e) {
             // Do nothing
@@ -2158,7 +2158,7 @@ public class CheckpointTest {
             InvalidStageTypeException e) {
             e.printStackTrace();
             assert false
-                : "expected InvalidStageStateException but got %s".formatted(e.getClass().getName());
+                : String.format("expected InvalidStageStateException but got %s", e.getClass().getName());
             return false;
         } catch (InvalidStageStateException e) {
             // Do nothing

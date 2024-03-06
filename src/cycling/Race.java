@@ -26,7 +26,7 @@ public class Race {
             }
         }
 
-        throw new IDNotRecognisedException("Race id %d not found".formatted(id));
+        throw new IDNotRecognisedException(String.format("Race id %d not found", id));
     }
     
     public static Race getRaceByName(ArrayList<Race> raceInstances, String name) throws NameNotRecognisedException {
@@ -36,7 +36,7 @@ public class Race {
             }
         }
 
-        throw new NameNotRecognisedException("Race name %s not found".formatted(name));
+        throw new NameNotRecognisedException(String.format("Race id %s not found", name));
     }
 
     public static void removeRaceById(ArrayList<Race> raceInstances, int id) throws IDNotRecognisedException {
@@ -46,7 +46,7 @@ public class Race {
     public static Race createRace(ArrayList<Race> raceInstances, String name, String description) throws IllegalNameException, InvalidNameException {
         try {
             if (getRaceByName(raceInstances, name) instanceof Race) {
-                throw new IllegalNameException("Race name %s already exists".formatted(name));
+                throw new IllegalNameException(String.format("Race name %s already exists", name));
             }
         } catch (NameNotRecognisedException e) {
             // Do nothing - name is unique
@@ -61,11 +61,11 @@ public class Race {
         }
 
         if (name.length() > 30) {
-            throw new InvalidNameException("Race name has more than 30 characters (%d)".formatted(name.length()));
+            throw new InvalidNameException(String.format("Race name has more than 30 characters (%d)", name.length()));
         }
         
         if (name.contains(" ")) {
-            throw new InvalidNameException("Race name %s contains spaces".formatted(name));
+            throw new InvalidNameException(String.format("Race name %s contains spaces", name));
         }
 
         Race race = new Race(name, description);
@@ -130,7 +130,7 @@ public class Race {
 
     public String toString() {
         String stages = Stage.toString(this.stages);
-        return "Race[id=%d, stages=%s, name=%s, description=%s]".formatted(this.id, stages, this.name, this.description);
+        return String.format("Race[id=%d, stages=%s, name=%s, description=%s]", this.id, stages, this.name, this.description);
     }
 
     public int getId() {

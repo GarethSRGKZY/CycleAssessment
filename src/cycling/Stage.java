@@ -27,7 +27,7 @@ public class Stage {
             }
         }
 
-        throw new IDNotRecognisedException("Stage id %d not found".formatted(id));
+        throw new IDNotRecognisedException(String.format("Stage id %d not found",id));
     }
 
     public static Stage getStageByName(ArrayList<Stage> stageInstances, String name) throws NameNotRecognisedException {
@@ -37,7 +37,7 @@ public class Stage {
             }
         }
 
-        throw new NameNotRecognisedException("Race name %s not found".formatted(name));
+        throw new NameNotRecognisedException(String.format("Race name %s not found", name));
     }
 
     public static void removeStageById(ArrayList<Stage> stageInstances, int id) throws IDNotRecognisedException {
@@ -47,7 +47,7 @@ public class Stage {
     public static Stage createStage(ArrayList<Stage> stageInstances, String name, String description, double length, LocalDateTime startTime, StageType type) throws IllegalNameException, InvalidNameException, InvalidLengthException {
         try {
             if (getStageByName(stageInstances, name) instanceof Stage) {
-                throw new IllegalNameException("Stage name %s already exists".formatted(name));
+                throw new IllegalNameException(String.format("Stage name %s already exists", name));
             }
         } catch (NameNotRecognisedException e) {
             // Do nothing - name is unique
@@ -62,15 +62,15 @@ public class Stage {
         }
 
         if (name.length() > 30) {
-            throw new InvalidNameException("Stage name has more than 30 characters (%d)".formatted(name.length()));
+            throw new InvalidNameException(String.format("Stage name has more than 30 characters (%d)", name.length()));
         }
         
         if (name.contains(" ")) {
-            throw new InvalidNameException("Stage name %s contains spaces".formatted(name));
+            throw new InvalidNameException(String.format("Stage name %s contains spaces", name));
         }
 
         if (length < 5) {
-            throw new InvalidLengthException("Stage length %f is less than 5".formatted(length));
+            throw new InvalidLengthException(String.format("Stage length %f is less than 5", length));
         }
 
         Stage stage = new Stage(name, description, length, startTime, type);
@@ -143,7 +143,7 @@ public class Stage {
     
     public void addCheckpoint(Checkpoint checkpoint) throws InvalidStageStateException, InvalidLocationException, InvalidStageTypeException {
         if (this.state == StageState.WAITING_FOR_RESULTS) {
-            throw new InvalidStageStateException("Stage state cannot be %s".formatted(this.state));
+            throw new InvalidStageStateException(String.format("Stage state cannot be %s", this.state));
         }
         
         if (this.type == StageType.TT) {
@@ -151,11 +151,11 @@ public class Stage {
         }
 
         if (checkpoint.getLocation() > this.length) {
-            throw new InvalidLocationException("Checkpoint location %f must be less than the Stage length %f".formatted(checkpoint.getLocation(), this.length));
+            throw new InvalidLocationException(String.format("Checkpoint location %f must be less than the Stage length %f", checkpoint.getLocation(), this.length));
         }
 
         if (checkpoint.getLocation() <= 0) {
-            throw new InvalidLocationException("Checkpoint location %f must be greater than 0".formatted(checkpoint.getLocation(), this.length));
+            throw new InvalidLocationException(String.format("Checkpoint location %f must be greater than 0", checkpoint.getLocation(), this.length));
         }
 
         this.checkpoints.add(checkpoint);
@@ -163,7 +163,7 @@ public class Stage {
     
     public void removeCheckpoint(Checkpoint checkpoint) throws InvalidStageStateException {
         if (this.state == StageState.WAITING_FOR_RESULTS) {
-            throw new InvalidStageStateException("Stage state cannot be %s".formatted(this.state));
+            throw new InvalidStageStateException(String.format("Stage state cannot be %s", this.state));
         }
         
         this.checkpoints.remove(checkpoint);
@@ -179,7 +179,7 @@ public class Stage {
 
     public String toString() {
         String checkpoints = Checkpoint.toString(this.checkpoints);
-        return "Stage[id=%d, checkpoints=%s, name=%s, description=%s, length=%s, startTime=%s, type=%s, state=%s]".formatted(this.id, checkpoints, this.name, this.description, this.length, this.startTime, this.type, this.state);
+        return String.format("Stage[id=%d, checkpoints=%s, name=%s, description=%s, length=%s, startTime=%s, type=%s, state=%s]", this.id, checkpoints, this.name, this.description, this.length, this.startTime, this.type, this.state);
     }
 
     public int getId() {

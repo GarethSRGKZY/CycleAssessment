@@ -80,7 +80,7 @@ public class CyclingPortalImpl implements CyclingPortal {
                 continue;
             }
         }
-		throw new IDNotRecognisedException("Stage id %d not found".formatted(stageId));
+		throw new IDNotRecognisedException(String.format("Stage id %d not found", stageId));
 	}
 
 	@Override
@@ -95,7 +95,7 @@ public class CyclingPortalImpl implements CyclingPortal {
                 continue;
             }
         }
-        throw new IDNotRecognisedException("Stage id %d not found".formatted(stageId));
+        throw new IDNotRecognisedException(String.format("Stage id %d not found", stageId));
 	}
 
 	@Override
@@ -117,7 +117,7 @@ public class CyclingPortalImpl implements CyclingPortal {
                 continue;
             }
         }
-		throw new IDNotRecognisedException("Stage id %d not found".formatted(stageId));
+		throw new IDNotRecognisedException(String.format("Stage id %d not found", stageId));
 	}
 
 	@Override
@@ -138,7 +138,7 @@ public class CyclingPortalImpl implements CyclingPortal {
                 continue;
             }
         }
-        throw new IDNotRecognisedException("Stage id %d not found".formatted(stageId));
+        throw new IDNotRecognisedException(String.format("Stage id %d not found", stageId));
 	}
 
 	@Override
@@ -164,7 +164,7 @@ public class CyclingPortalImpl implements CyclingPortal {
                 continue;
             }
         }
-		throw new IDNotRecognisedException("Checkpoint id %d not found".formatted(checkpointId));
+		throw new IDNotRecognisedException(String.format("Checkpoint id %d not found", checkpointId));
 	}
 
 	@Override
@@ -181,7 +181,7 @@ public class CyclingPortalImpl implements CyclingPortal {
                 continue;
             }
         }
-        throw new IDNotRecognisedException("Stage id %d not found".formatted(stageId));
+        throw new IDNotRecognisedException(String.format("Stage id %d not found", stageId));
 	}
 
 	@Override
@@ -200,7 +200,7 @@ public class CyclingPortalImpl implements CyclingPortal {
                 continue;
             }
         }
-        throw new IDNotRecognisedException("Stage id %d not found".formatted(stageId));
+        throw new IDNotRecognisedException(String.format("Stage id %d not found", stageId));
 	}
 
 	@Override

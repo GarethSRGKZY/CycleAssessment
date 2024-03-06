@@ -26,7 +26,7 @@ public class Checkpoint {
             }
         }
 
-        throw new IDNotRecognisedException("Checkpoint id %d not found".formatted(id));
+        throw new IDNotRecognisedException(String.format("Checkpoint id %d not found", id));
     }
 
     public static void removeCheckpointById(ArrayList<Checkpoint> checkpointInstances, int id) throws IDNotRecognisedException {
@@ -96,7 +96,7 @@ public class Checkpoint {
 
 
     public String toString() {
-        return "Checkpoint[location=%s, type=%s, averageGradient=%f, length=%f]".formatted(this.location, this.type, this.averageGradient, this.length);
+        return String.format("Checkpoint[location=%s, type=%s, averageGradient=%f, length=%f]", this.location, this.type, this.averageGradient, this.length);
     }
 
     public int getId() {
