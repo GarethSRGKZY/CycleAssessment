@@ -36,7 +36,7 @@ public class Race {
             }
         }
 
-        throw new NameNotRecognisedException(String.format("Race id %s not found", name));
+        throw new NameNotRecognisedException(String.format("Race name %s not found", name));
     }
 
     public static void removeRaceById(ArrayList<Race> raceInstances, int id) throws IDNotRecognisedException {
