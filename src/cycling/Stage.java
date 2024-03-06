@@ -37,7 +37,7 @@ public class Stage {
             }
         }
 
-        throw new NameNotRecognisedException(String.format("Race name %s not found", name));
+        throw new NameNotRecognisedException(String.format("Stage name %s not found", name));
     }
 
     public static void removeStageById(ArrayList<Stage> stageInstances, int id) throws IDNotRecognisedException {
