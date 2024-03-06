@@ -15,13 +15,78 @@ import java.util.Collections;
  *
  */
 public class CyclingPortalImpl implements CyclingPortal {
-
+    // Instance Attributes
     private ArrayList<Race> raceInstances;
 
-    public CyclingPortalImpl() {
+    // Instance Methods
+    public CyclingPortalImpl() { // Constructor
         this.raceInstances = new ArrayList<>();
     }
 
+    private Race findRace(int raceId) throws IDNotRecognisedException {
+        Race race = Race.findRaceById(raceInstances, raceId);
+        return race;
+    }
+
+    private Race findRaceContainsStage(int stageId) throws IDNotRecognisedException {
+        for (Race race : raceInstances) {
+            try {
+                Stage stage = Stage.findStageById(race.getStages(), stageId);
+                if (stage instanceof Stage) {
+                    return race;
+                }
+            } catch (IDNotRecognisedException e) {
+                continue;
+            }
+        }
+
+        throw new IDNotRecognisedException(String.format("Stage id %d not found", stageId));
+    }
+
+    private Stage findStage(int stageId) throws IDNotRecognisedException {
+        for (Race race : raceInstances) {
+            try {
+                Stage.findStageById(race.getStages(), stageId);
+            } catch (IDNotRecognisedException e) {
+                continue;
+            }
+        }
+
+        throw new IDNotRecognisedException(String.format("Stage id %d not found", stageId));
+    }
+
+    private Stage findStageContainsCheckpoint(int checkpointId) throws IDNotRecognisedException {
+        for (Race race : raceInstances) {
+            for (Stage stage : race.getStages()) {
+                try {
+                    Checkpoint checkpoint = Checkpoint.findCheckpointById(stage.getCheckpoints(), checkpointId);
+                    if (checkpoint instanceof Checkpoint) {
+                        return stage;
+                    }
+                } catch (IDNotRecognisedException e) {
+                    continue;
+                }
+            }
+        }
+
+        throw new IDNotRecognisedException(String.format("Checkpoint id %d not found", checkpointId));
+    }
+
+    private Checkpoint findCheckpoint(int checkpointId) throws IDNotRecognisedException {
+        for (Race race : raceInstances) {
+            for (Stage stage : race.getStages()) {
+                try {
+                    return Checkpoint.findCheckpointById(stage.getCheckpoints(), checkpointId);
+                } catch (IDNotRecognisedException e) {
+                    continue;
+                }
+            }
+        }
+
+        throw new IDNotRecognisedException(String.format("Checkpoint id %d not found", checkpointId));
+    }
+
+    // Instance Methods (Interface)
 	@Override
 	public int[] getRaceIds() {
 		return Race.getRaceIds(raceInstances);
