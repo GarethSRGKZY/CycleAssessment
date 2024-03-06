@@ -68,7 +68,7 @@ public class Race {
     private String description;
 
     // Instance Methods
-    private Race(String name, String description) { // Constructor
+    public Race(String name, String description) { // Constructor
         this.id = nextId++;
         this.stages = new ArrayList<>();
 

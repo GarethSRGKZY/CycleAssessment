@@ -56,7 +56,7 @@ public class Checkpoint {
     private CheckpointType type;
 
     // Instance Methods
-    private Checkpoint(double location, CheckpointType type, double averageGradient, double length) {
+    public Checkpoint(double location, CheckpointType type, double averageGradient, double length) {
         this.id = nextId++;
 
         this.location = location;
@@ -65,7 +65,7 @@ public class Checkpoint {
         this.length = length;
     }
 
-    private Checkpoint(double location) {
+    public Checkpoint(double location) {
         this(location, CheckpointType.SPRINT, 0, 0);
     }
 

@@ -73,7 +73,7 @@ public class Stage {
     private StageState state;
 
     // Instance Methods
-    private Stage(String name, String description, double length, LocalDateTime startTime, StageType type) {
+    public Stage(String name, String description, double length, LocalDateTime startTime, StageType type) {
         this.id = nextId++;
         this.checkpoints = new ArrayList<>();
 
