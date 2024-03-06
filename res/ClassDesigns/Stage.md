@@ -3,19 +3,16 @@
 - `private nextId: int`
 	- Running counter of Stage IDs
 ## Static Methods
-- `public getStageIds(ArrayList<Stage> stageInstances): int[]`
-
-- `public getStageById(ArrayList<Stage> stageInstances, int id): Stage`
-- `public getStageByName(ArrayList<Stage> stageInstances, String name): Stage`
-- `public removeStageById(ArrayList<Stage> stageInstances, int id): void`
-- `public createStage(ArrayList<Stage> stageInstances, String name, String description, double length, LocalDateTime startTime, StageType type): Stage`
-	- Wrapper for the Stage constructor
+- `public findStageById(ArrayList<Stage> stageInstances, int stageId): Stage`
+- `public findStageByName(ArrayList<Stage> stageInstances, String stageName): Stage`
+- `public findStageContainsCheckpoint(ArrayList<Stage>, int checkpointId)`
 
 - `public loadStages(ArrayList<Stage> stageInstances): void`
 	- Deserialise Stages onto memory
 - `public saveStages(ArrayList<Stage> stageInstances): void`
 	- Serialise Stages onto disk
 
+- `public toIds(ArrayList<Stage> stageInstances): int[]`
 - `public toString(ArrayList<Stage> stageInstances): String`
 	- Join toStrings of each Stage
 # Instance
@@ -39,7 +36,7 @@
 		- PREPARING_STAGE
 		- WAITING_FOR_RESULTS
 ## Instance Methods
-- `private Stage(String name, String description, double length, LocalDateTime startTime, StageType type)`
+- `public Stage(String name, String description, double length, LocalDateTime startTime, StageType type)`
 	- Constructor
 
 - `public getName(): String`
