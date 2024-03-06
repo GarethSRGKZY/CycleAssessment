@@ -6,6 +6,7 @@
 - `public getStageIds(ArrayList<Stage> stageInstances): int[]`
 
 - `public getStageById(ArrayList<Stage> stageInstances, int id): Stage`
+- `public getStageByName(ArrayList<Stage> stageInstances, String name): Stage`
 - `public removeStageById(ArrayList<Stage> stageInstances, int id): void`
 - `public createStage(ArrayList<Stage> stageInstances, String name, String description, double length, LocalDateTime startTime, StageType type): Stage`
 	- Wrapper for the Stage constructor
@@ -14,6 +15,9 @@
 	- Deserialise Stages onto memory
 - `public saveStages(ArrayList<Stage> stageInstances): void`
 	- Serialise Stages onto disk
+
+- `public toString(ArrayList<Stage> stageInstances): String`
+	- Join toStrings of each Stage
 # Instance
 ## Instance Attributes
 - `private id: int`
@@ -42,6 +46,8 @@
 	- Getter for `name` Instance Attribute
 - `public getLength(): double`
 	- Getter for `length` Instance Attribute
+- `public getStartTime(): LocalDateTime`
+	- Getter for `startTime` Instance Attribute
 
 - `public getCheckpoints(): ArrayList<Checkpoint>`
 	- Getter for `checkpoints` Instance Attribute

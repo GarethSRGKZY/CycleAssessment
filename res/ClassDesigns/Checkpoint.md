@@ -16,6 +16,9 @@
 	- Deserialise Checkpoints onto memory
 - `public saveCheckpoints(ArrayList<Checkpoint> checkpointInstances): void`
 	- Serialise Checkpoints onto disk
+
+- `public toString(ArrayList<Checkpoint> checkpointInstances): String`
+	- Join toStrings of each Checkpoint
 # Instance
 ## Instance Attributes
 - `private id: int`

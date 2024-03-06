@@ -6,6 +6,7 @@
 - `public getRaceIds(ArrayList<Race> raceInstances): int[]`
 
 - `public getRaceById(ArrayList<Race> raceInstances, int id): Race`
+- `public getRaceByName(ArrayList<Race> raceInstances, String name): Race`
 - `public removeRaceById(ArrayList<Race> raceInstances, int id): void`
 - `public createRace(ArrayList<Race> raceInstances, String name, String description): Race`
 	- Wrapper for the Race constructor
@@ -14,6 +15,9 @@
 	- Deserialise Races onto memory
 - `public saveRaces(ArrayList<Race> raceInstances: void`
 	- Serialise Races onto disk
+
+- `public toString(ArrayList<Race> raceInstances): String`
+	- Join toStrings of each Race
 # Instance
 ## Instance Attributes
 - `private id: int`
