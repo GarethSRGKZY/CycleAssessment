@@ -8,7 +8,30 @@ public class Stage {
     private static int nextId = 0;
 
     // Static Methods
-    public static int[] getStageIds(ArrayList<Stage> stageInstances) {
+    public static Stage findStageById(ArrayList<Stage> stageInstances, int stageId) throws IDNotRecognisedException {
+        for (Stage stage : stageInstances) {
+            if (stage.getId() == stageId) {
+                return stage;
+            }
+        }
+
+        throw new IDNotRecognisedException(String.format("Stage id %d not found", stageId));
+    }
+
+    public static Stage findStageByName(ArrayList<Stage> stageInstances, String stageName) throws NameNotRecognisedException {
+        for (Stage stage : stageInstances) {
+            if (stage.getName() == stageName) {
+                return stage;
+            }
+        }
+
+        throw new NameNotRecognisedException(String.format("Stage name %s not found", stageName));
+    }
+
+    // TODO loadStages()
+    // TODO saveStages()
+
+    public static int[] toIds(ArrayList<Stage> stageInstances) {
         int size = stageInstances.size();
 
         int[] result = new int[size]; 
@@ -19,67 +42,6 @@ public class Stage {
 
         return result;
     }
-
-    public static Stage getStageById(ArrayList<Stage> stageInstances, int id) throws IDNotRecognisedException {
-        for (Stage stage : stageInstances) {
-            if (stage.getId() == id) {
-                return stage;
-            }
-        }
-
-        throw new IDNotRecognisedException(String.format("Stage id %d not found",id));
-    }
-
-    public static Stage getStageByName(ArrayList<Stage> stageInstances, String name) throws NameNotRecognisedException {
-        for (Stage stage : stageInstances) {
-            if (stage.getName() == name) {
-                return stage;
-            }
-        }
-
-        throw new NameNotRecognisedException(String.format("Stage name %s not found", name));
-    }
-
-    public static void removeStageById(ArrayList<Stage> stageInstances, int id) throws IDNotRecognisedException {
-        stageInstances.remove(getStageById(stageInstances, id));
-    }
-
-    public static Stage createStage(ArrayList<Stage> stageInstances, String name, String description, double length, LocalDateTime startTime, StageType type) throws IllegalNameException, InvalidNameException, InvalidLengthException {
-        try {
-            if (getStageByName(stageInstances, name) instanceof Stage) {
-                throw new IllegalNameException(String.format("Stage name %s already exists", name));
-            }
-        } catch (NameNotRecognisedException e) {
-            // Do nothing - name is unique
-        }
-
-        if (name == null) {
-            throw new InvalidNameException("Stage name is null");
-        }
-
-        if (name.isEmpty()) {
-            throw new InvalidNameException("Stage name is empty");
-        }
-
-        if (name.length() > 30) {
-            throw new InvalidNameException(String.format("Stage name has more than 30 characters (%d)", name.length()));
-        }
-        
-        if (name.contains(" ")) {
-            throw new InvalidNameException(String.format("Stage name %s contains spaces", name));
-        }
-
-        if (length < 5) {
-            throw new InvalidLengthException(String.format("Stage length %f is less than 5", length));
-        }
-
-        Stage stage = new Stage(name, description, length, startTime, type);
-        stageInstances.add(stage);
-        return stage;
-    }
-
-    // TODO loadStages()
-    // TODO saveStages()
 
     public static String toString(ArrayList<Stage> stageInstances) {
         String[] stageStrings = new String[stageInstances.size()];
