@@ -57,12 +57,8 @@ public class Checkpoint {
 
     // Instance Methods
     public Checkpoint(double location, CheckpointType type, double averageGradient, double length) throws InvalidLocationException {
-        if (location > this.length) {
-            throw new InvalidLocationException(String.format("Checkpoint location %f must be less than the Stage length %f", location, this.length));
-        }
-
         if (location <= 0) {
-            throw new InvalidLocationException(String.format("Checkpoint location %f must be greater than 0", location, this.length));
+            throw new InvalidLocationException(String.format("Checkpoint location %f must be greater than 0", location));
         }
 
         this.id = nextId++;
