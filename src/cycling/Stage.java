@@ -73,7 +73,27 @@ public class Stage {
     private StageState state;
 
     // Instance Methods
-    public Stage(String name, String description, double length, LocalDateTime startTime, StageType type) {
+    public Stage(String name, String description, double length, LocalDateTime startTime, StageType type) throws InvalidNameException, InvalidLengthException {
+        if (name == null) {
+            throw new InvalidNameException("Stage name is null");
+        }
+
+        if (name.isEmpty()) {
+            throw new InvalidNameException("Stage name is empty");
+        }
+
+        if (name.length() > 30) {
+            throw new InvalidNameException(String.format("Stage name has more than 30 characters (%d)", name.length()));
+        }
+        
+        if (name.contains(" ")) {
+            throw new InvalidNameException(String.format("Stage name %s contains spaces", name));
+        }
+
+        if (length < 5) {
+            throw new InvalidLengthException(String.format("Stage length %f is less than 5", length));
+        }
+
         this.id = nextId++;
         this.checkpoints = new ArrayList<>();
 
@@ -103,21 +123,13 @@ public class Stage {
         return this.checkpoints;
     }
     
-    public void addCheckpoint(Checkpoint checkpoint) throws InvalidStageStateException, InvalidLocationException, InvalidStageTypeException {
+    public void addCheckpoint(Checkpoint checkpoint) throws InvalidStageStateException, InvalidStageTypeException {
         if (this.state == StageState.WAITING_FOR_RESULTS) {
             throw new InvalidStageStateException(String.format("Stage state cannot be %s", this.state));
         }
         
         if (this.type == StageType.TT) {
             throw new InvalidStageTypeException("Time-trial stages cannot contain any checkpoints");
-        }
-
-        if (checkpoint.getLocation() > this.length) {
-            throw new InvalidLocationException(String.format("Checkpoint location %f must be less than the Stage length %f", checkpoint.getLocation(), this.length));
-        }
-
-        if (checkpoint.getLocation() <= 0) {
-            throw new InvalidLocationException(String.format("Checkpoint location %f must be greater than 0", checkpoint.getLocation(), this.length));
         }
 
         this.checkpoints.add(checkpoint);

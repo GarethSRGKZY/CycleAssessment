@@ -68,7 +68,23 @@ public class Race {
     private String description;
 
     // Instance Methods
-    public Race(String name, String description) { // Constructor
+    public Race(String name, String description) throws InvalidNameException { // Constructor
+        if (name == null) {
+            throw new InvalidNameException("Race name is null");
+        }
+
+        if (name.isEmpty()) {
+            throw new InvalidNameException("Race name is empty");
+        }
+
+        if (name.length() > 30) {
+            throw new InvalidNameException(String.format("Race name has more than 30 characters (%d)", name.length()));
+        }
+        
+        if (name.contains(" ")) {
+            throw new InvalidNameException(String.format("Race name %s contains spaces", name));
+        }
+
         this.id = nextId++;
         this.stages = new ArrayList<>();
 
@@ -84,36 +100,13 @@ public class Race {
         return this.stages;
     }
 
-    public void addStage(Stage stage) throws IllegalNameException, InvalidNameException, InvalidLengthException {
-        String name = stage.getName();
-        double length = stage.getLength();
-
+    public void addStage(Stage stage) throws IllegalNameException {
         try {
             if (Stage.findStageByName(this.stages, name) instanceof Stage) {
                 throw new IllegalNameException(String.format("Stage name %s already exists", name));
             }
         } catch (NameNotRecognisedException e) {
             // Do nothing - name is unique
-        }
-
-        if (name == null) {
-            throw new InvalidNameException("Stage name is null");
-        }
-
-        if (name.isEmpty()) {
-            throw new InvalidNameException("Stage name is empty");
-        }
-
-        if (name.length() > 30) {
-            throw new InvalidNameException(String.format("Stage name has more than 30 characters (%d)", name.length()));
-        }
-        
-        if (name.contains(" ")) {
-            throw new InvalidNameException(String.format("Stage name %s contains spaces", name));
-        }
-
-        if (length < 5) {
-            throw new InvalidLengthException(String.format("Stage length %f is less than 5", length));
         }
 
         this.stages.add(stage);

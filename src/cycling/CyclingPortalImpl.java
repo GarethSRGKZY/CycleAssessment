@@ -102,22 +102,6 @@ public class CyclingPortalImpl implements CyclingPortal {
         } catch (NameNotRecognisedException e) {
             // Do nothing - name is unique
         }
-
-        if (name == null) {
-            throw new InvalidNameException("Race name is null");
-        }
-
-        if (name.isEmpty()) {
-            throw new InvalidNameException("Race name is empty");
-        }
-
-        if (name.length() > 30) {
-            throw new InvalidNameException(String.format("Race name has more than 30 characters (%d)", name.length()));
-        }
-        
-        if (name.contains(" ")) {
-            throw new InvalidNameException(String.format("Race name %s contains spaces", name));
-        }
         
         Race race = new Race(name, description);
         this.raceInstances.add(race);
