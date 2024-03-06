@@ -24,12 +24,12 @@ public class CyclingPortalImpl implements CyclingPortal {
     }
 
     private Race findRace(int raceId) throws IDNotRecognisedException {
-        Race race = Race.findRaceById(raceInstances, raceId);
+        Race race = Race.findRaceById(this.raceInstances, raceId);
         return race;
     }
 
     private Race findRaceContainsStage(int stageId) throws IDNotRecognisedException {
-        for (Race race : raceInstances) {
+        for (Race race : this.raceInstances) {
             try {
                 Stage stage = Stage.findStageById(race.getStages(), stageId);
                 if (stage instanceof Stage) {
@@ -44,7 +44,7 @@ public class CyclingPortalImpl implements CyclingPortal {
     }
 
     private Stage findStage(int stageId) throws IDNotRecognisedException {
-        for (Race race : raceInstances) {
+        for (Race race : this.raceInstances) {
             try {
                 Stage.findStageById(race.getStages(), stageId);
             } catch (IDNotRecognisedException e) {
@@ -56,7 +56,7 @@ public class CyclingPortalImpl implements CyclingPortal {
     }
 
     private Stage findStageContainsCheckpoint(int checkpointId) throws IDNotRecognisedException {
-        for (Race race : raceInstances) {
+        for (Race race : this.raceInstances) {
             for (Stage stage : race.getStages()) {
                 try {
                     Checkpoint checkpoint = Checkpoint.findCheckpointById(stage.getCheckpoints(), checkpointId);
@@ -73,7 +73,7 @@ public class CyclingPortalImpl implements CyclingPortal {
     }
 
     private Checkpoint findCheckpoint(int checkpointId) throws IDNotRecognisedException {
-        for (Race race : raceInstances) {
+        for (Race race : this.raceInstances) {
             for (Stage stage : race.getStages()) {
                 try {
                     return Checkpoint.findCheckpointById(stage.getCheckpoints(), checkpointId);
@@ -89,13 +89,13 @@ public class CyclingPortalImpl implements CyclingPortal {
     // Instance Methods (Interface)
 	@Override
 	public int[] getRaceIds() {
-		return Race.toIds(raceInstances);
+		return Race.toIds(this.raceInstances);
 	}
 
 	@Override
 	public int createRace(String name, String description) throws IllegalNameException, InvalidNameException {
         try {
-            Race race = Race.findRaceByName(raceInstances, name);
+            Race race = Race.findRaceByName(this.raceInstances, name);
             if (race instanceof Race) {
                 throw new IllegalNameException(String.format("Race name %s already exists", name));
             }
@@ -120,7 +120,7 @@ public class CyclingPortalImpl implements CyclingPortal {
         }
         
         Race race = new Race(name, description);
-        raceInstances.add(race);
+        this.raceInstances.add(race);
 		return race.getId();
 	}
 
