@@ -131,7 +131,7 @@ public class Stage {
         return this.length;
     }
     
-    public LocalDateTime startTime() {
+    public LocalDateTime getStartTime() {
         return this.startTime;
     }
 
