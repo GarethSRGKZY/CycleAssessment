@@ -16,7 +16,11 @@ import java.util.Collections;
  */
 public class CyclingPortalImpl implements CyclingPortal {
 
-    private ArrayList<Race> raceInstances = new ArrayList<>();
+    private ArrayList<Race> raceInstances;
+
+    public CyclingPortalImpl() {
+        this.raceInstances = new ArrayList<>();
+    }
 
 	@Override
 	public int[] getRaceIds() {
