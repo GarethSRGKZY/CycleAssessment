@@ -5,6 +5,11 @@ import cycling.IllegalNameException;
 import cycling.InvalidNameException;
 
 public class TeamTest {
+    public static void main(String[] args) {
+        TeamTest test = new TeamTest();
+        test.test();
+    }
+
     public void test() {
         System.out.println(testCreateTeam() + 
         " - testCreateTeam");

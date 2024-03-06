@@ -13,6 +13,11 @@ import cycling.InvalidStageTypeException;
 import cycling.StageType;
 
 public class CheckpointTest {
+    public static void main(String[] args) {
+        CheckpointTest test = new CheckpointTest();
+        test.test();
+    }
+
     public void test() {
         System.out.println(testAddCategorizedClimbToStage() +
         " - testAddCategorizedClimbToStage");

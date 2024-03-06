@@ -9,6 +9,11 @@ import cycling.InvalidNameException;
 import cycling.StageType;
 
 public class StageTest {
+    public static void main(String[] args) {
+        StageTest test = new StageTest();
+        test.test();
+    }
+
     public void test() {
         System.out.println(testGetNumberOfStages() + 
         " - testGetNumberOfStages");

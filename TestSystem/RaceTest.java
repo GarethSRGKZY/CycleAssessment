@@ -9,6 +9,11 @@ import cycling.InvalidNameException;
 import cycling.NameNotRecognisedException;
 
 public class RaceTest {
+    public static void main(String[] args) {
+        RaceTest test = new RaceTest();
+        test.test();
+    }
+
     public void test() {
         System.out.println(testGetRaceIds() + 
         " - testGetRaceIds");
