@@ -46,7 +46,7 @@ public class CyclingPortalImpl implements CyclingPortal {
     private Stage findStage(int stageId) throws IDNotRecognisedException {
         for (Race race : this.raceInstances) {
             try {
-                Stage.findStageById(race.getStages(), stageId);
+                return Stage.findStageById(race.getStages(), stageId);
             } catch (IDNotRecognisedException e) {
                 continue;
             }
