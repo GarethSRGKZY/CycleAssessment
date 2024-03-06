@@ -7,7 +7,30 @@ public class Race {
     private static int nextId = 0;
 
     // Static Methods
-    public static int[] getRaceIds(ArrayList<Race> raceInstances) {
+    public static Race findRaceById(ArrayList<Race> raceInstances, int raceId) throws IDNotRecognisedException {
+        for (Race race : raceInstances) {
+            if (race.getId() == raceId) {
+                return race;
+            }
+        }
+
+        throw new IDNotRecognisedException(String.format("Race id %d not found", raceId));
+    }
+    
+    public static Race findRaceByName(ArrayList<Race> raceInstances, String raceName) throws NameNotRecognisedException {
+        for (Race race : raceInstances) {
+            if (race.getName().equals(raceName)) {
+                return race;
+            }
+        }
+
+        throw new NameNotRecognisedException(String.format("Race name %s not found", raceName));
+    }
+
+    // TODO loadRaces()
+    // TODO saveRaces()
+
+    public static int[] toIds(ArrayList<Race> raceInstances) {
         int size = raceInstances.size();
 
         int[] result = new int[size];
@@ -18,63 +41,6 @@ public class Race {
 
         return result;
     }
-
-    public static Race getRaceById(ArrayList<Race> raceInstances, int id) throws IDNotRecognisedException {
-        for (Race race : raceInstances) {
-            if (race.getId() == id) {
-                return race;
-            }
-        }
-
-        throw new IDNotRecognisedException(String.format("Race id %d not found", id));
-    }
-    
-    public static Race getRaceByName(ArrayList<Race> raceInstances, String name) throws NameNotRecognisedException {
-        for (Race race : raceInstances) {
-            if (race.getName().equals(name)) {
-                return race;
-            }
-        }
-
-        throw new NameNotRecognisedException(String.format("Race name %s not found", name));
-    }
-
-    public static void removeRaceById(ArrayList<Race> raceInstances, int id) throws IDNotRecognisedException {
-        raceInstances.remove(getRaceById(raceInstances, id));
-    }
-
-    public static Race createRace(ArrayList<Race> raceInstances, String name, String description) throws IllegalNameException, InvalidNameException {
-        try {
-            if (getRaceByName(raceInstances, name) instanceof Race) {
-                throw new IllegalNameException(String.format("Race name %s already exists", name));
-            }
-        } catch (NameNotRecognisedException e) {
-            // Do nothing - name is unique
-        }
-
-        if (name == null) {
-            throw new InvalidNameException("Race name is null");
-        }
-
-        if (name.isEmpty()) {
-            throw new InvalidNameException("Race name is empty");
-        }
-
-        if (name.length() > 30) {
-            throw new InvalidNameException(String.format("Race name has more than 30 characters (%d)", name.length()));
-        }
-        
-        if (name.contains(" ")) {
-            throw new InvalidNameException(String.format("Race name %s contains spaces", name));
-        }
-
-        Race race = new Race(name, description);
-        raceInstances.add(race);
-        return race;
-    }
-
-    // TODO loadRaces()
-    // TODO saveRaces()
 
     public static String toString(ArrayList<Race> raceInstances) {
         String[] raceStrings = new String[raceInstances.size()];
