@@ -303,8 +303,7 @@ public class CyclingPortalImpl implements CyclingPortal {
 
 	@Override
 	public int[] getTeams() {
-		// TODO Auto-generated method stub
-		return null;
+		return Team.toIds(this.teamInstances);
 	}
 
 	@Override
