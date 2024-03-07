@@ -17,6 +17,16 @@ public class Team {
         throw new IDNotRecognisedException(String.format("Team id %d not found", teamId));
     }
 
+    public static Team findTeamByName(ArrayList<Team> teamInstances, String teamName) throws NameNotRecognisedException {
+        for (Team team : teamInstances) {
+            if (team.getName().equals(teamName)) {
+                return team;
+            }
+        }
+
+        throw new NameNotRecognisedException(String.format("Team name %s not found", teamName));
+    }
+
     // TODO loadTeams()
     // TODO saveTeams()
 
