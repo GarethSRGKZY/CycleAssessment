@@ -161,7 +161,11 @@ public class Stage {
 
 
 
-    public void concludePreparation() {
+    public void concludePreparation() throws InvalidStageStateException {
+        if (this.state == StageState.WAITING_FOR_RESULTS) {
+            throw new InvalidStageStateException(String.format("Stage state cannot be %s", this.state));
+        }
+    
         this.state = StageState.WAITING_FOR_RESULTS;
     }
     
