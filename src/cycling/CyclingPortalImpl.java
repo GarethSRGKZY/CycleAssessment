@@ -318,8 +318,12 @@ public class CyclingPortalImpl implements CyclingPortal {
 	@Override
 	public int createRider(int teamID, String name, int yearOfBirth)
 			throws IDNotRecognisedException, IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return 0;
+		Team team = findTeam(teamID);
+
+		Rider rider = new Rider(name, yearOfBirth);
+		team.addRider(rider);
+
+		return rider.getId();
 	}
 
 	@Override
