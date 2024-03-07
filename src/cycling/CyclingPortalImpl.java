@@ -17,10 +17,12 @@ import java.util.Collections;
 public class CyclingPortalImpl implements CyclingPortal {
     // Instance Attributes
     private ArrayList<Race> raceInstances;
+	private ArrayList<Team> teamInstances;
 
     // Instance Methods
     public CyclingPortalImpl() { // Constructor
         this.raceInstances = new ArrayList<>();
+		this.teamInstances = new ArrayList<>();
     }
 
     private Race findRace(int raceId) throws IDNotRecognisedException {
@@ -84,6 +86,38 @@ public class CyclingPortalImpl implements CyclingPortal {
         }
 
         throw new IDNotRecognisedException(String.format("Checkpoint id %d not found", checkpointId));
+    }
+
+	private Team findTeam(int teamId) throws IDNotRecognisedException {
+        Team team = Team.findTeamById(this.teamInstances, teamId);
+        return team;
+    }
+
+	private Team findTeamContainsRider(int riderId) throws IDNotRecognisedException {
+        for (Team team : this.teamInstances) {
+            try {
+                Rider rider = Rider.findRiderById(team.getRiders(), riderId);
+                if (rider instanceof Rider) {
+                    return team;
+                }
+            } catch (IDNotRecognisedException e) {
+                continue;
+            }
+        }
+
+        throw new IDNotRecognisedException(String.format("Rider id %d not found", riderId));
+    }
+
+	private Rider findRider(int riderId) throws IDNotRecognisedException {
+        for (Team team : this.teamInstances) {
+            try {
+                return Rider.findRiderById(team.getRiders(), riderId);
+            } catch (IDNotRecognisedException e) {
+                continue;
+            }
+        }
+
+        throw new IDNotRecognisedException(String.format("Rider id %d not found", riderId));
     }
 
     // Instance Methods (Interface)
