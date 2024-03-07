@@ -95,8 +95,12 @@ public class CyclingPortalImpl implements CyclingPortal {
 	@Override
 	public int createRace(String name, String description) throws IllegalNameException, InvalidNameException {
         try {
-            Race race = Race.findRaceByName(this.raceInstances, name);
-            if (race instanceof Race) {
+            Race existingRace = Race.findRaceByName(this.raceInstances, name);
+
+            if (existingRace instanceof Race) {
+                assert this.raceInstances.contains(existingRace)
+                    : "There should be a Race with the same name in this.raceInstances";
+
                 throw new IllegalNameException(String.format("Race name %s already exists", name));
             }
         } catch (NameNotRecognisedException e) {
@@ -104,7 +108,15 @@ public class CyclingPortalImpl implements CyclingPortal {
         }
         
         Race race = new Race(name, description);
+
+        assert !this.raceInstances.contains(race)
+            : "There should not be any existing references to a brand new Race";
+
         this.raceInstances.add(race);
+
+        assert this.raceInstances.contains(race)
+            : "The new Race should have been appended to this.raceInstances";
+
 		return race.getId();
 	}
 
@@ -118,6 +130,14 @@ public class CyclingPortalImpl implements CyclingPortal {
 	public void removeRaceById(int raceId) throws IDNotRecognisedException {
 		Race race = findRace(raceId);
         this.raceInstances.remove(race);
+
+        assert this.raceInstances.contains(race)
+            : "The Race selected for removal should exist in this.raceInstances";
+
+        this.raceInstances.remove(race);
+
+        assert !this.raceInstances.contains(race)
+            : "There should not be any references to a removed Race";
 	}
 
 	@Override

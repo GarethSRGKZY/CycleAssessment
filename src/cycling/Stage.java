@@ -136,7 +136,13 @@ public class Stage {
             throw new InvalidLocationException(String.format("Checkpoint location %f must be less than the Stage length %f", checkpoint.getLocation(), this.length));
         }
 
+        assert !this.checkpoints.contains(checkpoint)
+            : "There should not be any existing references to a brand new Checkpoint";
+
         this.checkpoints.add(checkpoint);
+
+        assert this.checkpoints.contains(checkpoint)
+            : "The new Checkpoint should have been appended to this.checkpoints";
     }
     
     public void removeCheckpoint(Checkpoint checkpoint) throws InvalidStageStateException {
@@ -144,7 +150,13 @@ public class Stage {
             throw new InvalidStageStateException(String.format("Stage state cannot be %s", this.state));
         }
         
+        assert this.checkpoints.contains(checkpoint)
+            : "The Checkpoint selected for removal should exist in this.checkpoints";
+
         this.checkpoints.remove(checkpoint);
+
+        assert !this.checkpoints.contains(checkpoint)
+            : "There should not be any references to a removed Checkpoint";
     }
 
 

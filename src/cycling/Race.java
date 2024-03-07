@@ -102,18 +102,35 @@ public class Race {
 
     public void addStage(Stage stage) throws IllegalNameException {
         try {
-            if (Stage.findStageByName(this.stages, name) instanceof Stage) {
-                throw new IllegalNameException(String.format("Stage name %s already exists", name));
+            Stage existingStage = Stage.findStageByName(this.stages, stage.getName());
+
+            if (existingStage instanceof Stage) {
+                assert this.stages.contains(existingStage)
+                    : "There should be a Stage with the same name in this.stages";
+                
+                throw new IllegalNameException(String.format("Stage name %s already exists", stage.getName()));
             }
         } catch (NameNotRecognisedException e) {
             // Do nothing - name is unique
         }
 
+        assert !this.stages.contains(stage)
+            : "There should not be any existing references to a brand new Stage";
+
         this.stages.add(stage);
+
+        assert this.stages.contains(stage)
+            : "The new Stage should have been appended to this.stages";
     }
 
     public void removeStage(Stage stage) {
+        assert this.stages.contains(stage)
+            : "The Stage selected for removal should exist in this.stages";
+
         this.stages.remove(stage);
+
+        assert !this.stages.contains(stage)
+            : "There should not be any references to a removed Stage";
     }
 
 
