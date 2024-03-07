@@ -53,6 +53,8 @@ public class CheckpointTest {
         " - testRemoveCheckpointStateEqualsWaiting");
         System.out.println(testConcludeStagePreparation() +
         " - testConcludeStagePreparation");
+        System.out.println(testConcludeStagePreparationStateEqualsWaiting() +
+        " - testConcludeStagePreparationStateEqualsWaiting");
         System.out.println(testGetStageCheckpoints() +
         " - testGetStageCheckpoints");
     }
@@ -2169,6 +2171,142 @@ public class CheckpointTest {
             : "the Checkpoints should not have been created";
         if (!condition) {
             return false;
+        }
+
+        return true;
+    }
+
+    public boolean testConcludeStagePreparationStateEqualsWaiting() {
+        CyclingPortal portal = new CyclingPortalImpl();
+        boolean condition = false;
+
+        condition = (portal.getRaceIds().length == 0);
+        assert (condition)
+            : "portal should not contain any Races";
+        if (!condition) {
+            return false;
+        }
+        
+        int raceIdA;
+        try {
+            raceIdA = portal.createRace("A", "Race A");
+        } catch (IllegalNameException | InvalidNameException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        int stageCount;
+        try {
+            stageCount = portal.getNumberOfStages(raceIdA);
+        } catch (IDNotRecognisedException e) {
+            e.printStackTrace();
+            assert false
+                : "the Race should have been created";
+            return false;
+        }
+
+        condition = (stageCount == 0);
+        assert (condition)
+            : "the Race should not contain any Stages";
+        if (!condition) {
+            return false;
+        }
+
+        int stageIdA;
+        int[] stageIds;
+        try {
+            stageIdA = portal.addStageToRace(raceIdA, "A", "Stage A", 10, LocalDateTime.now(), StageType.FLAT);
+            stageCount = portal.getNumberOfStages(raceIdA);
+            stageIds = portal.getRaceStages(raceIdA);
+        } catch (
+                IDNotRecognisedException |
+                IllegalNameException |
+                InvalidNameException |
+                InvalidLengthException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        condition = (stageCount == 1);
+        assert (condition)
+            : "the Race should contain one Stage";
+        if (!condition) {
+            return false;
+        }
+
+        condition = (stageCount == stageIds.length);
+        assert (condition)
+            : "the stageCount should match the length of stageIds";
+        if (!condition) {
+            return false;
+        }
+
+        int checkpointCount;
+        int[] checkpointIds;
+        try {
+            checkpointIds = portal.getStageCheckpoints(stageIdA);
+            checkpointCount = checkpointIds.length;
+        } catch (IDNotRecognisedException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        condition = (checkpointCount == 0);
+        assert (condition)
+            : "the Stage should not contain any Checkpoints";
+        if (!condition) {
+            return false;
+        }
+
+        try {
+            portal.addCategorizedClimbToStage(stageIdA, 3.0, CheckpointType.C1, 1.0, 1.0);
+            portal.addIntermediateSprintToStage(stageIdA, 3.0);
+        } catch (
+            IDNotRecognisedException |
+            InvalidLocationException |
+            InvalidStageStateException |
+            InvalidStageTypeException e
+        ) {
+            e.printStackTrace();
+            return false;
+        }
+
+        try {
+            checkpointIds = portal.getStageCheckpoints(stageIdA);
+            checkpointCount = checkpointIds.length;
+        } catch (IDNotRecognisedException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        condition = (checkpointCount == 2);
+        assert (condition)
+            : "the Stage should contain two Checkpoints";
+        if (!condition) {
+            return false;
+        }
+
+        try {
+            portal.concludeStagePreparation(stageIdA);
+        } catch (
+                IDNotRecognisedException |
+                InvalidStageStateException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        try {
+            portal.concludeStagePreparation(stageIdA);
+            assert false
+                : "expected InvalidStageStateException but got none";
+            return false;
+        } catch (IDNotRecognisedException e) {
+            e.printStackTrace();
+            assert false
+                : String.format("expected InvalidStageStateException but got %s", e.getClass().getName());
+            return false;
+        } catch (InvalidStageStateException e) {
+            // Do nothing
         }
 
         return true;
