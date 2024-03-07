@@ -7,7 +7,20 @@ public class Checkpoint {
     private static int nextId = 0;
 
     // Static Methods
-    public static int[] getCheckpointIds(ArrayList<Checkpoint> checkpointInstances) {
+    public static Checkpoint findCheckpointById(ArrayList<Checkpoint> checkpointInstances, int checkpointId) throws IDNotRecognisedException {
+        for (Checkpoint checkpoint : checkpointInstances) {
+            if (checkpoint.getId() == checkpointId) {
+                return checkpoint;
+            }
+        }
+
+        throw new IDNotRecognisedException(String.format("Checkpoint id %d not found", checkpointId));
+    }
+
+    // TODO loadCheckpoints()
+    // TODO saveCheckpoints()
+
+    public static int[] toIds(ArrayList<Checkpoint> checkpointInstances) {
         int size = checkpointInstances.size();
 
         int[] result = new int[size];
@@ -19,37 +32,6 @@ public class Checkpoint {
         return result;
     }
 
-    public static Checkpoint getCheckpointById(ArrayList<Checkpoint> checkpointInstances, int id) throws IDNotRecognisedException {
-        for (Checkpoint checkpoint : checkpointInstances) {
-            if (checkpoint.getId() == id) {
-                return checkpoint;
-            }
-        }
-
-        throw new IDNotRecognisedException(String.format("Checkpoint id %d not found", id));
-    }
-
-    public static void removeCheckpointById(ArrayList<Checkpoint> checkpointInstances, int id) throws IDNotRecognisedException {
-        checkpointInstances.remove(getCheckpointById(checkpointInstances, id));
-    }
-
-    public static Checkpoint createCheckpoint(ArrayList<Checkpoint> checkpointInstances, double location, CheckpointType type, double averageGradient, double length) {
-        Checkpoint checkpoint = new Checkpoint(location, type, averageGradient, length);
-        checkpointInstances.add(checkpoint);
-        return checkpoint;
-    }
-
-    public static Checkpoint createCheckpoint(ArrayList<Checkpoint> checkpointInstances, double location) {
-        Checkpoint checkpoint = new Checkpoint(location);
-        checkpointInstances.add(checkpoint);
-        return checkpoint;
-    }
-
-    // TODO loadCheckpoints()
-    // TODO saveCheckpoints()
-
-  
-  
     public static String toString(ArrayList<Checkpoint> checkpointInstances) {
         String[] checkpointStrings = new String[checkpointInstances.size()];
 
@@ -74,7 +56,11 @@ public class Checkpoint {
     private CheckpointType type;
 
     // Instance Methods
-    private Checkpoint(double location, CheckpointType type, double averageGradient, double length) {
+    public Checkpoint(double location, CheckpointType type, double averageGradient, double length) throws InvalidLocationException {
+        if (location <= 0) {
+            throw new InvalidLocationException(String.format("Checkpoint location %f must be greater than 0", location));
+        }
+
         this.id = nextId++;
 
         this.location = location;
@@ -83,7 +69,7 @@ public class Checkpoint {
         this.length = length;
     }
 
-    private Checkpoint(double location) {
+    public Checkpoint(double location) throws InvalidLocationException {
         this(location, CheckpointType.SPRINT, 0, 0);
     }
 

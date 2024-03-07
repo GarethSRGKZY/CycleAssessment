@@ -3,19 +3,16 @@
 - `private nextId: int`
 	- Running counter of Race IDs
 ## Static Methods
-- `public getRaceIds(ArrayList<Race> raceInstances): int[]`
-
-- `public getRaceById(ArrayList<Race> raceInstances, int id): Race`
-- `public getRaceByName(ArrayList<Race> raceInstances, String name): Race`
-- `public removeRaceById(ArrayList<Race> raceInstances, int id): void`
-- `public createRace(ArrayList<Race> raceInstances, String name, String description): Race`
-	- Wrapper for the Race constructor
+- `public findRaceById(ArrayList<Race> raceInstances, int raceId): Race`
+- `public findRaceByName(ArrayList<Race> raceInstances, String raceName): Race`
+- `public findRaceContainsStage(ArrayList<Race> raceInstances, int stageId): Race`
 
 - `public loadRaces(ArrayList<Race> raceInstances): void`
 	- Deserialise Races onto memory
 - `public saveRaces(ArrayList<Race> raceInstances: void`
 	- Serialise Races onto disk
 
+- `public toIds(ArrayList<Race> raceInstances): int[]`
 - `public toString(ArrayList<Race> raceInstances): String`
 	- Join toStrings of each Race
 # Instance
@@ -27,7 +24,7 @@
 - `private name: String`
 - `private description: String`
 ## Instance Methods
-- `private Race(String name, String description)`
+- `public Race(String name, String description)`
 	- Constructor
 
 - `public getName(): String`
