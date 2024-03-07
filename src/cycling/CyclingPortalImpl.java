@@ -163,7 +163,6 @@ public class CyclingPortalImpl implements CyclingPortal {
 	@Override
 	public void removeRaceById(int raceId) throws IDNotRecognisedException {
 		Race race = findRace(raceId);
-        this.raceInstances.remove(race);
 
         assert this.raceInstances.contains(race)
             : "The Race selected for removal should exist in this.raceInstances";
@@ -405,7 +404,6 @@ public class CyclingPortalImpl implements CyclingPortal {
 	@Override
 	public void removeRaceByName(String name) throws NameNotRecognisedException {
 		Race race = Race.findRaceByName(this.raceInstances, name);
-        this.raceInstances.remove(race);
 
         assert this.raceInstances.contains(race)
             : "The Race selected for removal should exist in this.raceInstances";
