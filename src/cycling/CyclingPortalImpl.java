@@ -404,8 +404,16 @@ public class CyclingPortalImpl implements CyclingPortal {
 
 	@Override
 	public void removeRaceByName(String name) throws NameNotRecognisedException {
-		// TODO Auto-generated method stub
+		Race race = Race.findRaceByName(this.raceInstances, name);
+        this.raceInstances.remove(race);
 
+        assert this.raceInstances.contains(race)
+            : "The Race selected for removal should exist in this.raceInstances";
+
+        this.raceInstances.remove(race);
+
+        assert !this.raceInstances.contains(race)
+            : "There should not be any references to a removed Race";
 	}
 
 	@Override
