@@ -261,8 +261,30 @@ public class CyclingPortalImpl implements CyclingPortal {
 
 	@Override
 	public int createTeam(String name, String description) throws IllegalNameException, InvalidNameException {
-		// TODO Auto-generated method stub
-		return 0;
+		try {
+            Team existingTeam = Team.findTeamByName(this.teamInstances, name);
+
+            if (existingTeam instanceof Team) {
+                assert this.teamInstances.contains(existingTeam)
+                    : "There should be a Team with the same name in this.teamInstances";
+
+                throw new IllegalNameException(String.format("Team name %s already exists", name));
+            }
+        } catch (NameNotRecognisedException e) {
+            // Do nothing - name is unique
+        }
+        
+        Team team = new Team(name, description);
+
+        assert !this.teamInstances.contains(team)
+            : "There should not be any existing references to a brand new Team";
+
+        this.teamInstances.add(team);
+
+        assert this.teamInstances.contains(team)
+            : "The new Team should have been appended to this.teamInstances";
+
+		return team.getId();
 	}
 
 	@Override
