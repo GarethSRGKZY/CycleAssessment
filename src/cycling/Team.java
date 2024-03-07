@@ -47,7 +47,7 @@ public class Team {
 
         return result;
     }
-    
+
 
 
     // Instance Attributes
@@ -90,21 +90,8 @@ public class Team {
         return this.riders;
     }
 
-    public void addRider(Rider rider) throws IllegalNameException{
-        try {
-            Rider existingRider = Rider.findRiderByName(this.riders, rider.getName());
-
-            if (existingRider instanceof Rider) {
-                assert this.riders.contains(existingRider)
-                    : "There should be a Rider with the same name in this.riders";
-                
-                throw new IllegalNameException(String.format("Rider name %s already exists", rider.getName()));
-            }
-        } catch (NameNotRecognisedException e) {
-            // Do nothing - name is unique
-        }
-
-        assert !this.riders.contains(riders)
+    public void addRider(Rider rider) {
+        assert !this.riders.contains(rider)
             : "There should not be any existing references to a brand new Rider";
 
         this.riders.add(rider);
