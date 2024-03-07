@@ -289,7 +289,6 @@ public class CyclingPortalImpl implements CyclingPortal {
 	@Override
 	public void removeTeam(int teamId) throws IDNotRecognisedException {
 		Team team = findTeam(teamId);
-        this.teamInstances.remove(team);
 
         assert this.teamInstances.contains(team)
             : "The Team selected for removal should exist in this.teamInstances";
