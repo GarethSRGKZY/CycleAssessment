@@ -308,8 +308,11 @@ public class CyclingPortalImpl implements CyclingPortal {
 
 	@Override
 	public int[] getTeamRiders(int teamId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
-		return null;
+		Team team = findTeam(teamId);
+
+		ArrayList<Rider> riderInstances = team.getRiders();
+
+		return Rider.toIds(riderInstances);
 	}
 
 	@Override
