@@ -117,6 +117,10 @@ public class Stage {
         return this.startTime;
     }
 
+    public StageState getState() {
+        return this.state;
+    }
+
 
     
     public ArrayList<Checkpoint> getCheckpoints() {
