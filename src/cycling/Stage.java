@@ -117,6 +117,10 @@ public class Stage {
         return this.startTime;
     }
 
+    public StageType getType() {
+        return this.type;
+    }
+
     public StageState getState() {
         return this.state;
     }

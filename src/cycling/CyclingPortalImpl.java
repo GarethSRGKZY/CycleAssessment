@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 /**
  * BadCyclingPortal is a minimally compiling, but non-functioning implementor
@@ -454,8 +455,43 @@ public class CyclingPortalImpl implements CyclingPortal {
 
 	@Override
 	public int[] getRidersPointsInStage(int stageId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
-		return null;
+        ArrayList<Result> stageResults = Result.findResultsByStageId(resultInstances, stageId);
+        Stage stage = findStage(stageId);
+
+        HashMap<Result, Integer> pointsMap = new HashMap<>();
+        for (Result result : stageResults) {
+            pointsMap.put(result, 0);
+        }
+
+        // Calculate & award sprint points for each Checkpoint
+        for (int checkpointIndex = 0; checkpointIndex < stage.getCheckpoints().size(); checkpointIndex++) {
+            // Check if the checkpoint is of SPRINT type
+            if (stage.getCheckpoints().get(checkpointIndex).getType() != CheckpointType.SPRINT) {
+                continue;
+            }
+
+            Collections.sort(stageResults, new ResultComparator(checkpointIndex));
+
+            for (Result result : stageResults) {
+                int point = StagePoints.getSprintPoints(stageResults.indexOf(result));
+                // Increment result by point
+                pointsMap.put(result, pointsMap.get(result) + point);
+            }
+        }
+
+        Collections.sort(stageResults, new ResultComparator());
+        for (Result result : stageResults) {
+            int point = StagePoints.getStagePoints(stage.getType(), stageResults.indexOf(result));
+            // Increment result by point
+            pointsMap.put(result, pointsMap.get(result) + point);
+        }
+
+        int[] pointsArray = new int[stageResults.size()];
+        for (int i = 0; i < stageResults.size(); i++) {
+            pointsArray[i] = pointsMap.get(stageResults.get(i));
+        }
+
+		return pointsArray;
 	}
 
 	@Override
