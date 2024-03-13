@@ -402,8 +402,8 @@ public class CyclingPortalImpl implements CyclingPortal {
 
 	@Override
 	public void deleteRiderResultsInStage(int stageId, int riderId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
-
+		Result result = Result.findResultById(resultInstances, stageId, riderId);
+        this.resultInstances.remove(result);
 	}
 
 	@Override
