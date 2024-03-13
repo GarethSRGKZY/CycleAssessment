@@ -1,6 +1,7 @@
 package cycling;
 
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 public class Result {
@@ -55,6 +56,25 @@ public class Result {
 
     public Rider getRider() {
         return this.rider;
+    }
+
+    public LocalTime[] getCheckpointTimes() {
+        return this.checkpointTimes;
+    }
+
+    public LocalTime getElapsedTime() {
+        LocalTime startTime = this.checkpointTimes[0];
+        LocalTime endTime = this.checkpointTimes[this.checkpointTimes.length - 1];
+        int _hours = (int) startTime.until(endTime, ChronoUnit.HOURS);
+        int _minutes = (int) startTime.until(endTime, ChronoUnit.MINUTES);
+        int _seconds = (int) startTime.until(endTime, ChronoUnit.SECONDS);
+        int _nanoseconds = (int) startTime.until(endTime, ChronoUnit.NANOS);
+
+        int hours = _hours;
+        int minutes = _minutes - 60 * _hours;
+        int seconds = _seconds - 60 * _minutes;
+        int nanoseconds = _nanoseconds - (int) 1e9 * _seconds; 
+        return LocalTime.of(hours, minutes, seconds, nanoseconds);
     }
 
     public String toString(){
