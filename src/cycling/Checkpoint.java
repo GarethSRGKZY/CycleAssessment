@@ -79,6 +79,10 @@ public class Checkpoint {
         return this.location;
     }
 
+    public CheckpointType getType() {
+        return this.type;
+    }
+
 
 
     public String toString() {
