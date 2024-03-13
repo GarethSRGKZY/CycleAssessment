@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Rider {
     // Static Attributes
-    private int nextId = 0;
+    private static int nextId = 0;
 
     // Static Methods
     public static Rider findRiderById(ArrayList<Rider> riderInstances, int riderId) throws IDNotRecognisedException {
