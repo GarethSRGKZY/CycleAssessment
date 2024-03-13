@@ -354,9 +354,15 @@ public class CyclingPortalImpl implements CyclingPortal {
 				
 		Stage stage = findStage(stageId);
 		Rider rider = findRider(riderId);
+        Result result = new Result(stage, rider, checkpoints);
 
-		Result result = new Result(stage, rider, checkpoints);
-		this.resultInstances.add(result);
+        assert !this.resultInstances.contains(result)
+            : "There should not be any existing references to a brand new Result";
+
+        this.resultInstances.add(result);
+
+        assert this.resultInstances.contains(result)
+            : "The new Result should have been appended to this.resultInstances";
 	}
 
 	@Override
@@ -403,7 +409,14 @@ public class CyclingPortalImpl implements CyclingPortal {
 	@Override
 	public void deleteRiderResultsInStage(int stageId, int riderId) throws IDNotRecognisedException {
 		Result result = Result.findResultById(resultInstances, stageId, riderId);
+        
+        assert this.resultInstances.contains(result)
+            : "The Result selected for removal should exist in this.resultInstances";
+        
         this.resultInstances.remove(result);
+
+        assert !this.resultInstances.contains(result)
+            : "There should not be any references to a removed Result";
 	}
 
 	@Override
