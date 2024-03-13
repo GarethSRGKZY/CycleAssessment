@@ -43,7 +43,7 @@ public class Result {
     // TODO loadResults()
     // TODO saveResults()
 
-    public LocalTime timeDelta(LocalTime time1, LocalTime time2) {
+    public static LocalTime timeDelta(LocalTime time1, LocalTime time2) {
         int _hours = (int) time1.until(time2, ChronoUnit.HOURS);
         int _minutes = (int) time1.until(time2, ChronoUnit.MINUTES);
         int _seconds = (int) time1.until(time2, ChronoUnit.SECONDS);
@@ -142,6 +142,14 @@ public class Result {
         LocalTime startTime = this.checkpointTimes[0];
         LocalTime endTime = this.checkpointTimes[this.checkpointTimes.length - 1];
         return timeDelta(startTime, endTime);
+    }
+
+    public LocalTime getElapsedTimeToCheckpoint(int checkpointIndex) {
+        // TODO validate checkpointIndex
+
+        LocalTime startTime = this.checkpointTimes[0];
+        LocalTime checkpointTime = this.checkpointTimes[checkpointIndex + 1];
+        return timeDelta(startTime, checkpointTime);
     }
 
     public String toString(){
