@@ -20,10 +20,11 @@
 - `private rider: Rider`
 	- Reference to aggregated Rider
 - `private checkpointTimes: LocalTime[]`
-	- Same length as `this.stage.getCheckpoints()`
+	- Same length as `this.stage.getCheckpoints() + 2`
 ## Instance Methods
 - `public Result(Stage stage, Rider rider, LocalTime... checkpoints)`
 	- Constructor
+	- Assert `checkpoints >= 2` (start & finish time)
 
 - `public toString(): String`
 - `public getId(): int`
