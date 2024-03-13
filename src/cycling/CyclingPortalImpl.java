@@ -3,6 +3,7 @@ package cycling;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -372,8 +373,31 @@ public class CyclingPortalImpl implements CyclingPortal {
 
 	@Override
 	public LocalTime getRiderAdjustedElapsedTimeInStage(int stageId, int riderId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
-		return null;
+        ArrayList<Result> stageResults = Result.findResultsByStageId(resultInstances, stageId);
+        Collections.sort(stageResults, new ResultComparator());
+
+        LocalTime[] elapsedTimes = new LocalTime[stageResults.size()];
+
+        // Copy the elapsed times of each result
+        for (int i = 0; i < stageResults.size(); i++) {
+            elapsedTimes[i] = stageResults.get(i).getElapsedTime();
+        }
+
+        // Adjust elapsedTimes every time the delta in stageResults is less than 1 second
+        for (int i = 1; i < stageResults.size(); i++) {
+            LocalTime time1 = stageResults.get(i - 1).getElapsedTime();
+            LocalTime time2 = stageResults.get(i).getElapsedTime();
+
+            long delta = time1.until(time2, ChronoUnit.SECONDS);
+            if (delta < 1) {
+                elapsedTimes[i] = elapsedTimes[i - 1];
+            }
+        }
+
+        Result result = Result.findResultById(resultInstances, stageId, riderId);
+        int riderRank = stageResults.indexOf(result);
+
+		return elapsedTimes[riderRank];
 	}
 
 	@Override
