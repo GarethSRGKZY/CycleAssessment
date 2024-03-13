@@ -43,6 +43,30 @@ public class Result {
     // TODO loadResults()
     // TODO saveResults()
 
+    public static int[] toRiderIds(ArrayList<Result> resultInstances) {
+        int size = resultInstances.size();
+
+        int[] result = new int[size];
+
+        for (int i = 0; i < size; i++) {
+            result[i] = resultInstances.get(i).getRider().getId();
+        }
+
+        return result;
+    }
+
+    public static int[] toStageIds(ArrayList<Result> resultInstances) {
+        int size = resultInstances.size();
+
+        int[] result = new int[size];
+
+        for (int i = 0; i < size; i++) {
+            result[i] = resultInstances.get(i).getStage().getId();
+        }
+
+        return result;
+    }
+
     public static String toString(ArrayList<Result> resultInstances) {
         String[] resultStrings = new String[resultInstances.size()];
 
