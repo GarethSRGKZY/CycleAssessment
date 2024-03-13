@@ -44,7 +44,24 @@ public class Result {
     private LocalTime[] checkpointTimes;
 
     // Instance Methods
-    public Result(Stage stage, Rider rider, LocalTime... checkpoints) {
+    public Result(Stage stage, Rider rider, LocalTime... checkpoints) throws InvalidCheckpointTimesException, InvalidStageStateException {
+        if (checkpoints.length != stage.getCheckpoints().size() + 2) {
+            throw new InvalidCheckpointTimesException(String.format("Length of checkpoints %d must be length of checkpoints in stage + 2 %d", checkpoints.length, stage.getCheckpoints().size() + 2));
+        }
+        assert checkpoints.length >= 2
+            : "There should at least be a start time and end time in a result";
+
+        if (stage.getState() != StageState.WAITING_FOR_RESULTS) {
+            throw new InvalidStageStateException(String.format("Stage state cannot be %s", stage.getState())); 
+        }
+
+
+        for (int i = 1; i < checkpoints.length; i++) {
+            if (checkpoints[i - 1].compareTo(checkpoints[i]) > 1) {
+                throw new InvalidCheckpointTimesException(String.format("Checkpoint times %s and %s are not in chronological order", checkpoints[i - 1], checkpoints[i]));
+            }
+        }
+
         this.stage = stage;
         this.rider = rider;
         this.checkpointTimes = checkpoints;
