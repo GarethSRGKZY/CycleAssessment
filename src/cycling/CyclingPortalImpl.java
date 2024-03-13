@@ -24,6 +24,7 @@ public class CyclingPortalImpl implements CyclingPortal {
     public CyclingPortalImpl() { // Constructor
         this.raceInstances = new ArrayList<>();
 		this.teamInstances = new ArrayList<>();
+		this.resultInstances = new ArrayList<>();
     }
 
     private Race findRace(int raceId) throws IDNotRecognisedException {
@@ -359,8 +360,14 @@ public class CyclingPortalImpl implements CyclingPortal {
 
 	@Override
 	public LocalTime[] getRiderResultsInStage(int stageId, int riderId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
-		return null;
+		Result result = Result.findResultById(resultInstances, stageId, riderId);
+		int n = result.getStage().getCheckpoints().size();
+		LocalTime[] resultTimes = new LocalTime[n + 1];
+		for (int i = 0; i < n; i++) {
+			resultTimes[i] = result.getCheckpointTimes()[i + 1];
+		}
+		resultTimes[n] = result.getElapsedTime();
+		return resultTimes;
 	}
 
 	@Override
