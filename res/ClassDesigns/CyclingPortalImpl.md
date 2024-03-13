@@ -6,6 +6,8 @@
 # Instance
 ## Instance Attributes
 - `private raceInstances: ArrayList<Race>`
+- `private teamInstances: ArrayList<Team>`
+- `private resultInstances: ArrayList<Result>`
 ## Instance Methods
 - `private findRace(int raceId): Race`
 - `private findRaceContainsStage(int stageId): Race`
