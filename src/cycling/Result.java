@@ -17,6 +17,28 @@ public class Result {
 
         throw new IDNotRecognisedException(String.format("Stage id %d and Rider id %d not found", stageId, riderId));
     }
+    public static ArrayList<Result> findResultsByStageId(ArrayList<Result> resultInstances, int stageId) {
+        ArrayList<Result> results = new ArrayList<>();
+
+        for (Result result : resultInstances) {
+            if (result.getStage().getId() == stageId) {
+                results.add(result);
+            }
+        }
+
+        return results;
+    }
+    public static ArrayList<Result> findResultsByRiderId(ArrayList<Result> resultInstances, int riderId) {
+        ArrayList<Result> results = new ArrayList<>();
+
+        for (Result result : resultInstances) {
+            if (result.getRider().getId() == riderId) {
+                results.add(result);
+            }
+        }
+
+        return results;
+    }
 
     // TODO loadResults()
     // TODO saveResults()
