@@ -18,6 +18,7 @@ public class CyclingPortalImpl implements CyclingPortal {
     // Instance Attributes
     private ArrayList<Race> raceInstances;
 	private ArrayList<Team> teamInstances;
+	private ArrayList<Result> resultInstances;
 
     // Instance Methods
     public CyclingPortalImpl() { // Constructor
@@ -336,8 +337,24 @@ public class CyclingPortalImpl implements CyclingPortal {
 	public void registerRiderResultsInStage(int stageId, int riderId, LocalTime... checkpoints)
 			throws IDNotRecognisedException, DuplicatedResultException, InvalidCheckpointTimesException,
 			InvalidStageStateException {
-		// TODO Auto-generated method stub
+		try {
+			Result existingResult = Result.findResultById(this.resultInstances, stageId, riderId);
 
+			if (existingResult instanceof Result) {
+				assert this.resultInstances.contains(existingResult)
+					: "There should be a Result with the same stageId and riderId in this.resultInstances";
+
+				throw new DuplicatedResultException(String.format("Result with stageId %d and riderId %d already exists", stageId, riderId));
+			}
+		} catch (IDNotRecognisedException e) {
+			// Do nothing - name is unique
+		}				
+				
+		Stage stage = findStage(stageId);
+		Rider rider = findRider(riderId);
+
+		Result result = new Result(stage, rider, checkpoints);
+		this.resultInstances.add(result);
 	}
 
 	@Override
