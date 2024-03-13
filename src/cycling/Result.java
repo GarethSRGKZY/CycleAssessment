@@ -43,6 +43,19 @@ public class Result {
     // TODO loadResults()
     // TODO saveResults()
 
+    public LocalTime timeDelta(LocalTime time1, LocalTime time2) {
+        int _hours = (int) time1.until(time2, ChronoUnit.HOURS);
+        int _minutes = (int) time1.until(time2, ChronoUnit.MINUTES);
+        int _seconds = (int) time1.until(time2, ChronoUnit.SECONDS);
+        int _nanoseconds = (int) time1.until(time2, ChronoUnit.NANOS);
+
+        int hours = _hours;
+        int minutes = _minutes - 60 * _hours;
+        int seconds = _seconds - 60 * _minutes;
+        int nanoseconds = _nanoseconds - (int) 1e9 * _seconds; 
+        return LocalTime.of(hours, minutes, seconds, nanoseconds);
+    }
+
     public static int[] toRiderIds(ArrayList<Result> resultInstances) {
         int size = resultInstances.size();
 
@@ -128,16 +141,7 @@ public class Result {
     public LocalTime getElapsedTime() {
         LocalTime startTime = this.checkpointTimes[0];
         LocalTime endTime = this.checkpointTimes[this.checkpointTimes.length - 1];
-        int _hours = (int) startTime.until(endTime, ChronoUnit.HOURS);
-        int _minutes = (int) startTime.until(endTime, ChronoUnit.MINUTES);
-        int _seconds = (int) startTime.until(endTime, ChronoUnit.SECONDS);
-        int _nanoseconds = (int) startTime.until(endTime, ChronoUnit.NANOS);
-
-        int hours = _hours;
-        int minutes = _minutes - 60 * _hours;
-        int seconds = _seconds - 60 * _minutes;
-        int nanoseconds = _nanoseconds - (int) 1e9 * _seconds; 
-        return LocalTime.of(hours, minutes, seconds, nanoseconds);
+        return timeDelta(startTime, endTime);
     }
 
     public String toString(){
