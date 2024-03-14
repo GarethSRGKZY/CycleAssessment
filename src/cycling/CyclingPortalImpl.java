@@ -563,8 +563,50 @@ public class CyclingPortalImpl implements CyclingPortal {
 
 	@Override
 	public LocalTime[] getGeneralClassificationTimesInRace(int raceId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
-		return null;
+		int[] raceStages = getRaceStages(raceId);
+        
+        HashMap<Rider, LocalTime> riderTimeMap = new HashMap<>();
+        for (int stageId : raceStages) {
+            ArrayList<Result> stageResults = Result.findResultsByStageId(resultInstances, stageId);
+            for (Result result : stageResults) {
+                LocalTime elapsedTime = result.getElapsedTime();
+                Rider rider = result.getRider();
+                LocalTime exisitingElapsedTime = riderTimeMap.get(rider);
+                if (exisitingElapsedTime == null) {
+                    riderTimeMap.put(rider, elapsedTime);
+                } else {
+                    riderTimeMap.put(rider, Result.timeAdd(elapsedTime, exisitingElapsedTime));
+                }
+            }
+        }
+
+        // Swap map key and value 
+        HashMap<LocalTime, ArrayList<Rider>> timeRiderMap = new HashMap<>();
+        for (HashMap.Entry<Rider, LocalTime> entry : riderTimeMap.entrySet()) {
+            Rider rider = entry.getKey();
+            LocalTime time = entry.getValue();
+            if (timeRiderMap.containsKey(time)) {
+                timeRiderMap.get(time).add(rider);
+            } else {
+                ArrayList<Rider> arr = new ArrayList<>();
+                arr.add(rider);
+                timeRiderMap.put(time, arr);
+            }
+        }
+        ArrayList<LocalTime> timeArray = new ArrayList<>(timeRiderMap.keySet());
+        Collections.sort(timeArray);
+
+        LocalTime[] times = new LocalTime[riderTimeMap.keySet().size()];
+        int timeIndex = 0;
+        for (LocalTime time : timeArray) {
+            ArrayList<Rider> ridersAtTime = timeRiderMap.get(time);
+            for (int i = 0; i < ridersAtTime.size(); i++) {
+                times[timeIndex] = time;
+                timeIndex++;
+            }
+        }
+
+        return times;
 	}
 
 	@Override
