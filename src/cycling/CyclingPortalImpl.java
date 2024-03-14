@@ -611,14 +611,70 @@ public class CyclingPortalImpl implements CyclingPortal {
 
 	@Override
 	public int[] getRidersPointsInRace(int raceId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
-		return null;
+		int[] raceStages = getRaceStages(raceId);
+        
+        HashMap<Integer, Integer> riderPointsMap = new HashMap<>();
+        for (int stageId : raceStages) {
+            ArrayList<Result> stageResults = Result.findResultsByStageId(resultInstances, stageId);
+            for (Result result : stageResults) {
+                int[] riderRank = getRidersRankInStage(stageId);
+                int points = 0;
+                for (int i = 0; i < riderRank.length ; i++) {
+                    if (riderRank[i] == result.getRider().getId()) {
+                        points = getRidersPointsInStage(stageId)[i];
+                    }
+                }
+                Rider rider = result.getRider();
+                if (riderPointsMap.containsKey(rider.getId())) {
+                    riderPointsMap.put(rider.getId(), points);
+                } else {
+                    int existingPoints = riderPointsMap.get(rider.getId());
+                    riderPointsMap.put(rider.getId(), points + existingPoints);
+                }
+            }
+        }
+        int[] rankings = getRidersRankInStage(raceId);
+        int[] points =  new int[rankings.length];
+        for (int i = 0; i < rankings.length; i++) {
+            int riderId = rankings[i];
+            points[i] = riderPointsMap.get(riderId);
+        }
+        
+        return points;
 	}
 
 	@Override
 	public int[] getRidersMountainPointsInRace(int raceId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
-		return null;
+		int[] raceStages = getRaceStages(raceId);
+        
+        HashMap<Integer, Integer> riderPointsMap = new HashMap<>();
+        for (int stageId : raceStages) {
+            ArrayList<Result> stageResults = Result.findResultsByStageId(resultInstances, stageId);
+            for (Result result : stageResults) {
+                int[] riderRank = getRidersRankInStage(stageId);
+                int points = 0;
+                for (int i = 0; i < riderRank.length ; i++) {
+                    if (riderRank[i] == result.getRider().getId()) {
+                        points = getRidersMountainPointsInStage(stageId)[i];
+                    }
+                }
+                Rider rider = result.getRider();
+                if (riderPointsMap.containsKey(rider.getId())) {
+                    riderPointsMap.put(rider.getId(), points);
+                } else {
+                    int existingPoints = riderPointsMap.get(rider.getId());
+                    riderPointsMap.put(rider.getId(), points + existingPoints);
+                }
+            }
+        }
+        int[] rankings = getRidersRankInStage(raceId);
+        int[] points =  new int[rankings.length];
+        for (int i = 0; i < rankings.length; i++) {
+            int riderId = rankings[i];
+            points[i] = riderPointsMap.get(riderId);
+        }
+        
+        return points;
 	}
 
 	@Override
