@@ -581,8 +581,49 @@ public class CyclingPortalImpl implements CyclingPortal {
 
 	@Override
 	public int[] getRidersGeneralClassificationRank(int raceId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
-		return null;
+        int[] raceStages = getRaceStages(raceId);
+        
+        HashMap<Rider, LocalTime> riderTimeMap = new HashMap<>();
+        for (int stageId : raceStages) {
+            ArrayList<Result> stageResults = Result.findResultsByStageId(resultInstances, stageId);
+            for (Result result : stageResults) {
+                LocalTime elapsedTime = result.getElapsedTime();
+                Rider rider = result.getRider();
+                LocalTime exisitingElapsedTime = riderTimeMap.get(rider);
+                if (exisitingElapsedTime == null) {
+                    riderTimeMap.put(rider, elapsedTime);
+                } else {
+                    riderTimeMap.put(rider, Result.timeAdd(elapsedTime, exisitingElapsedTime));
+                }
+            }
+        }
+
+        // Swap map key and value 
+        HashMap<LocalTime, ArrayList<Rider>> timeRiderMap = new HashMap<>();
+        for (HashMap.Entry<Rider, LocalTime> entry : riderTimeMap.entrySet()) {
+            Rider rider = entry.getKey();
+            LocalTime time = entry.getValue();
+            if (timeRiderMap.containsKey(time)) {
+                timeRiderMap.get(time).add(rider);
+            } else {
+                ArrayList<Rider> arr = new ArrayList<>();
+                arr.add(rider);
+                timeRiderMap.put(time, arr);
+            }
+        }
+        ArrayList<LocalTime> timeArray = new ArrayList<>(timeRiderMap.keySet());
+        Collections.sort(timeArray);
+
+        int[] rankings = new int[riderTimeMap.keySet().size()];
+        int ranking = 0;
+        for (LocalTime time : timeArray) {
+            ArrayList<Rider> ridersAtTime = timeRiderMap.get(time);
+            for (Rider rider : ridersAtTime) {
+                rankings[ranking] = rider.getId();
+                ranking++;
+            }
+        }
+        return rankings;
 	}
 
 	@Override
