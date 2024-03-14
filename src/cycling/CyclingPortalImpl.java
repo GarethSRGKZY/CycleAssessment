@@ -569,7 +569,7 @@ public class CyclingPortalImpl implements CyclingPortal {
         for (int stageId : raceStages) {
             ArrayList<Result> stageResults = Result.findResultsByStageId(resultInstances, stageId);
             for (Result result : stageResults) {
-                LocalTime elapsedTime = result.getElapsedTime();
+                LocalTime elapsedTime = getRiderAdjustedElapsedTimeInStage(stageId, result.getRider().getId());
                 Rider rider = result.getRider();
                 LocalTime exisitingElapsedTime = riderTimeMap.get(rider);
                 if (exisitingElapsedTime == null) {
@@ -629,7 +629,7 @@ public class CyclingPortalImpl implements CyclingPortal {
         for (int stageId : raceStages) {
             ArrayList<Result> stageResults = Result.findResultsByStageId(resultInstances, stageId);
             for (Result result : stageResults) {
-                LocalTime elapsedTime = result.getElapsedTime();
+                LocalTime elapsedTime = getRiderAdjustedElapsedTimeInStage(stageId, result.getRider().getId());
                 Rider rider = result.getRider();
                 LocalTime exisitingElapsedTime = riderTimeMap.get(rider);
                 if (exisitingElapsedTime == null) {
