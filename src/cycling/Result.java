@@ -56,6 +56,15 @@ public class Result {
         return LocalTime.of(hours, minutes, seconds, nanoseconds);
     }
 
+    public static LocalTime timeAdd(LocalTime time1, LocalTime time2) {
+        time1.plusHours(time2.getHour());
+        time1.plusMinutes(time2.getMinute());
+        time1.plusSeconds(time2.getSecond());
+        time1.plusNanos(time2.getNano());
+
+        return time1;
+    }
+
     public static int[] toRiderIds(ArrayList<Result> resultInstances) {
         int size = resultInstances.size();
 
