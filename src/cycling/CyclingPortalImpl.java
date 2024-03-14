@@ -571,11 +571,11 @@ public class CyclingPortalImpl implements CyclingPortal {
             for (Result result : stageResults) {
                 LocalTime elapsedTime = getRiderAdjustedElapsedTimeInStage(stageId, result.getRider().getId());
                 Rider rider = result.getRider();
-                LocalTime exisitingElapsedTime = riderTimeMap.get(rider);
-                if (exisitingElapsedTime == null) {
+                LocalTime existingElapsedTime = riderTimeMap.get(rider);
+                if (existingElapsedTime == null) {
                     riderTimeMap.put(rider, elapsedTime);
                 } else {
-                    riderTimeMap.put(rider, Result.timeAdd(elapsedTime, exisitingElapsedTime));
+                    riderTimeMap.put(rider, Result.timeAdd(elapsedTime, existingElapsedTime));
                 }
             }
         }
@@ -687,11 +687,11 @@ public class CyclingPortalImpl implements CyclingPortal {
             for (Result result : stageResults) {
                 LocalTime elapsedTime = getRiderAdjustedElapsedTimeInStage(stageId, result.getRider().getId());
                 Rider rider = result.getRider();
-                LocalTime exisitingElapsedTime = riderTimeMap.get(rider);
-                if (exisitingElapsedTime == null) {
+                LocalTime existingElapsedTime = riderTimeMap.get(rider);
+                if (existingElapsedTime == null) {
                     riderTimeMap.put(rider, elapsedTime);
                 } else {
-                    riderTimeMap.put(rider, Result.timeAdd(elapsedTime, exisitingElapsedTime));
+                    riderTimeMap.put(rider, Result.timeAdd(elapsedTime, existingElapsedTime));
                 }
             }
         }
