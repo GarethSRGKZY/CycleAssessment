@@ -396,7 +396,7 @@ public class CyclingPortalImpl implements CyclingPortal {
 
         LocalTime[] elapsedTimesRankedAdjusted = Result.adjustElapsedTimes(elapsedTimesRanked);
 
-        Result result = Result.findResultById(resultInstances, stageId, riderId);
+        Result result = Result.findResultById(resultsInStage, stageId, riderId);
         int rankOfRider = resultsInStage.indexOf(result);
 
 		return elapsedTimesRankedAdjusted[rankOfRider];
