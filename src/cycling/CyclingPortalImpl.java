@@ -430,9 +430,12 @@ public class CyclingPortalImpl implements CyclingPortal {
 
 	@Override
 	public int[] getRidersRankInStage(int stageId) throws IDNotRecognisedException {
-        ArrayList<Result> stageResults = Result.findResultsByStageId(resultInstances, stageId);
-        Collections.sort(stageResults, new ResultComparator());
-        return Result.toRiderIds(stageResults);
+        ArrayList<Result> resultsInStage = Result.findResultsByStageId(resultInstances, stageId);
+
+        // Sort results by elapsedTime
+        Collections.sort(resultsInStage, new ResultComparator());
+        
+        return Result.toRiderIds(resultsInStage);
 	}
 
 	@Override
