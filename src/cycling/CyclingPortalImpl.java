@@ -646,70 +646,84 @@ public class CyclingPortalImpl implements CyclingPortal {
 
 	@Override
 	public int[] getRidersPointsInRace(int raceId) throws IDNotRecognisedException {
-		int[] raceStages = getRaceStages(raceId);
+		int[] stageIdsInRace = getRaceStages(raceId);
         
-        HashMap<Integer, Integer> riderPointsMap = new HashMap<>();
-        for (int stageId : raceStages) {
-            ArrayList<Result> stageResults = Result.findResultsByStageId(resultInstances, stageId);
-            for (Result result : stageResults) {
-                int[] riderRank = getRidersRankInStage(stageId);
+        HashMap<Integer, Integer> riderIdToPointSum = new HashMap<>();
+
+        for (int stageId : stageIdsInRace) {
+            ArrayList<Result> resultsInStage = Result.findResultsByStageId(resultInstances, stageId);
+
+            for (Result result : resultsInStage) {
+                // Get Rider's points
                 int points = 0;
+                Rider rider = result.getRider();
+                int[] riderRank = getRidersRankInStage(stageId);
                 for (int i = 0; i < riderRank.length ; i++) {
-                    if (riderRank[i] == result.getRider().getId()) {
+                    if (riderRank[i] == rider.getId()) {
                         points = getRidersPointsInStage(stageId)[i];
                     }
                 }
-                Rider rider = result.getRider();
-                if (riderPointsMap.containsKey(rider.getId())) {
-                    riderPointsMap.put(rider.getId(), points);
+
+                // Increment PointSum
+                if (riderIdToPointSum.containsKey(rider.getId())) {
+                    riderIdToPointSum.put(rider.getId(), points);
                 } else {
-                    int existingPoints = riderPointsMap.get(rider.getId());
-                    riderPointsMap.put(rider.getId(), points + existingPoints);
+                    int existingPoints = riderIdToPointSum.get(rider.getId());
+                    riderIdToPointSum.put(rider.getId(), points + existingPoints);
                 }
             }
         }
-        int[] rankings = getRidersRankInStage(raceId);
-        int[] points =  new int[rankings.length];
-        for (int i = 0; i < rankings.length; i++) {
-            int riderId = rankings[i];
-            points[i] = riderPointsMap.get(riderId);
+
+        // Convert riderIdsRankedByTimeSum to pointSumsRankedByTimeSum using riderIdToPointSum map
+        int[] riderIdsRankedByTimeSum = getRidersRankInStage(raceId);
+        int[] pointSumsRankedByTimeSum =  new int[riderIdsRankedByTimeSum.length];
+        for (int i = 0; i < riderIdsRankedByTimeSum.length; i++) {
+            int riderId = riderIdsRankedByTimeSum[i];
+            pointSumsRankedByTimeSum[i] = riderIdToPointSum.get(riderId);
         }
         
-        return points;
+        return pointSumsRankedByTimeSum;
 	}
 
 	@Override
 	public int[] getRidersMountainPointsInRace(int raceId) throws IDNotRecognisedException {
-		int[] raceStages = getRaceStages(raceId);
+		int[] stageIdsInRace = getRaceStages(raceId);
         
-        HashMap<Integer, Integer> riderPointsMap = new HashMap<>();
-        for (int stageId : raceStages) {
-            ArrayList<Result> stageResults = Result.findResultsByStageId(resultInstances, stageId);
-            for (Result result : stageResults) {
-                int[] riderRank = getRidersRankInStage(stageId);
+        HashMap<Integer, Integer> riderIdToPointSum = new HashMap<>();
+
+        for (int stageId : stageIdsInRace) {
+            ArrayList<Result> resultsInStage = Result.findResultsByStageId(resultInstances, stageId);
+
+            for (Result result : resultsInStage) {
+                // Get Rider's points
                 int points = 0;
+                Rider rider = result.getRider();
+                int[] riderRank = getRidersRankInStage(stageId);
                 for (int i = 0; i < riderRank.length ; i++) {
-                    if (riderRank[i] == result.getRider().getId()) {
-                        points = getRidersMountainPointsInStage(stageId)[i];
+                    if (riderRank[i] == rider.getId()) {
+                        points = getRidersMountainPointsInRace(stageId)[i];
                     }
                 }
-                Rider rider = result.getRider();
-                if (riderPointsMap.containsKey(rider.getId())) {
-                    riderPointsMap.put(rider.getId(), points);
+
+                // Increment PointSum
+                if (riderIdToPointSum.containsKey(rider.getId())) {
+                    riderIdToPointSum.put(rider.getId(), points);
                 } else {
-                    int existingPoints = riderPointsMap.get(rider.getId());
-                    riderPointsMap.put(rider.getId(), points + existingPoints);
+                    int existingPoints = riderIdToPointSum.get(rider.getId());
+                    riderIdToPointSum.put(rider.getId(), points + existingPoints);
                 }
             }
         }
-        int[] rankings = getRidersRankInStage(raceId);
-        int[] points =  new int[rankings.length];
-        for (int i = 0; i < rankings.length; i++) {
-            int riderId = rankings[i];
-            points[i] = riderPointsMap.get(riderId);
+
+        // Convert riderIdsRankedByTimeSum to pointSumsRankedByTimeSum using riderIdToPointSum map
+        int[] riderIdsRankedByTimeSum = getRidersRankInStage(raceId);
+        int[] pointSumsRankedByTimeSum =  new int[riderIdsRankedByTimeSum.length];
+        for (int i = 0; i < riderIdsRankedByTimeSum.length; i++) {
+            int riderId = riderIdsRankedByTimeSum[i];
+            pointSumsRankedByTimeSum[i] = riderIdToPointSum.get(riderId);
         }
         
-        return points;
+        return pointSumsRankedByTimeSum;
 	}
 
 	@Override
@@ -761,7 +775,7 @@ public class CyclingPortalImpl implements CyclingPortal {
                 timeSumsRank++;
             }
         }
-        
+
         return riderIdsRankedByTimeSum;
 	}
 
