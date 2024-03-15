@@ -106,6 +106,18 @@ public class Result {
         return result;
     }
 
+    public static LocalTime[] toElapsedTimes(ArrayList<Result> resultInstances) {
+        int size = resultInstances.size();
+
+        LocalTime[] elapsedTimes = new LocalTime[size];
+
+        for (int i = 0; i < size; i++) {
+            elapsedTimes[i] = resultInstances.get(i).getElapsedTime();
+        }
+
+        return elapsedTimes;
+    }
+
     public static String toString(ArrayList<Result> resultInstances) {
         String[] resultStrings = new String[resultInstances.size()];
 

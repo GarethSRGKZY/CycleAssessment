@@ -391,12 +391,8 @@ public class CyclingPortalImpl implements CyclingPortal {
         // Sort results by elapsedTime
         Collections.sort(resultsInStage, new ResultComparator());
 
-        LocalTime[] elapsedTimesRanked = new LocalTime[resultsInStage.size()];
-
         // Copy the elapsedTime of each result
-        for (int i = 0; i < resultsInStage.size(); i++) {
-            elapsedTimesRanked[i] = resultsInStage.get(i).getElapsedTime();
-        }
+        LocalTime[] elapsedTimesRanked = Result.toElapsedTimes(resultsInStage);
 
         LocalTime[] elapsedTimesRankedAdjusted = Result.adjustElapsedTimes(elapsedTimesRanked);
 
@@ -436,12 +432,8 @@ public class CyclingPortalImpl implements CyclingPortal {
         // Sort results by elapsedTime
         Collections.sort(resultsInStage, new ResultComparator());
 
-        LocalTime[] elapsedTimesRanked = new LocalTime[resultsInStage.size()];
-
         // Copy the elapsedTime of each result
-        for (int i = 0; i < resultsInStage.size(); i++) {
-            elapsedTimesRanked[i] = resultsInStage.get(i).getElapsedTime();
-        }
+        LocalTime[] elapsedTimesRanked = Result.toElapsedTimes(resultsInStage);
 
         LocalTime[] elapsedTimesRankedAdjusted = Result.adjustElapsedTimes(elapsedTimesRanked);
 

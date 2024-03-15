@@ -10,6 +10,7 @@
 
 - `public adjustElapsedTimes(LocalTime[] elapsedTimes): LocalTime[]`
 
+- `public toElapsedTimes(ArrayList<Result> resultInstances): LocalTime[]`
 - `public toString(ArrayList<Result> resultInstances): String`
 # Instance
 ## Instance Attributes
