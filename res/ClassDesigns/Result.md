@@ -8,6 +8,8 @@
 - `public saveResults(ArrayList<Result> resultInstances): void`
 	- Serialise Results onto disk
 
+- `public adjustElapsedTimes(LocalTime[] elapsedTimes): LocalTime[]`
+
 - `public toString(ArrayList<Result> resultInstances): String`
 # Instance
 ## Instance Attributes

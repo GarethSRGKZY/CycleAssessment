@@ -65,6 +65,23 @@ public class Result {
         return time1;
     }
 
+    public static LocalTime[] adjustElapsedTimes(LocalTime[] elapsedTimes) {
+        LocalTime[] adjustedElapsedTimes = elapsedTimes.clone();
+
+        // Adjust elapsedTime every time the delta in resultsInStage is less than 1 second
+        for (int i = 1; i < elapsedTimes.length; i++) { // i = 1 to compare previous result against current result
+            LocalTime previousTime = elapsedTimes[i - 1];
+            LocalTime currentTime = elapsedTimes[i];
+
+            long delta = previousTime.until(currentTime, ChronoUnit.SECONDS);
+            if (delta < 1) {
+                adjustedElapsedTimes[i] = adjustedElapsedTimes[i - 1];
+            }
+        }
+
+        return adjustedElapsedTimes;
+    }
+
     public static int[] toRiderIds(ArrayList<Result> resultInstances) {
         int size = resultInstances.size();
 

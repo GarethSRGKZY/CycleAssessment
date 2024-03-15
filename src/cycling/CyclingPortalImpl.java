@@ -3,7 +3,6 @@ package cycling;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -399,21 +398,12 @@ public class CyclingPortalImpl implements CyclingPortal {
             elapsedTimesRanked[i] = resultsInStage.get(i).getElapsedTime();
         }
 
-        // Adjust elapsedTime every time the delta in resultsInStage is less than 1 second
-        for (int i = 1; i < resultsInStage.size(); i++) { // i = 1 to compare previous result against current result
-            LocalTime previousTime = resultsInStage.get(i - 1).getElapsedTime();
-            LocalTime currentTime = resultsInStage.get(i).getElapsedTime();
-
-            long delta = previousTime.until(currentTime, ChronoUnit.SECONDS);
-            if (delta < 1) {
-                elapsedTimesRanked[i] = elapsedTimesRanked[i - 1];
-            }
-        }
+        LocalTime[] elapsedTimesRankedAdjusted = Result.adjustElapsedTimes(elapsedTimesRanked);
 
         Result result = Result.findResultById(resultInstances, stageId, riderId);
         int rankOfRider = resultsInStage.indexOf(result);
 
-		return elapsedTimesRanked[rankOfRider];
+		return elapsedTimesRankedAdjusted[rankOfRider];
 	}
 
 	@Override
@@ -453,18 +443,9 @@ public class CyclingPortalImpl implements CyclingPortal {
             elapsedTimesRanked[i] = resultsInStage.get(i).getElapsedTime();
         }
 
-        // Adjust elapsedTime every time the delta in resultsInStage is less than 1 second
-        for (int i = 1; i < resultsInStage.size(); i++) { // i = 1 to compare previous result against current result
-            LocalTime previousTime = resultsInStage.get(i - 1).getElapsedTime();
-            LocalTime currentTime = resultsInStage.get(i).getElapsedTime();
+        LocalTime[] elapsedTimesRankedAdjusted = Result.adjustElapsedTimes(elapsedTimesRanked);
 
-            long delta = previousTime.until(currentTime, ChronoUnit.SECONDS);
-            if (delta < 1) {
-                elapsedTimesRanked[i] = elapsedTimesRanked[i - 1];
-            }
-        }
-
-        return elapsedTimesRanked;
+        return elapsedTimesRankedAdjusted;
 	}
 
 	@Override
