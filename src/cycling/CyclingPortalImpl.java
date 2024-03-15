@@ -369,13 +369,19 @@ public class CyclingPortalImpl implements CyclingPortal {
 	@Override
 	public LocalTime[] getRiderResultsInStage(int stageId, int riderId) throws IDNotRecognisedException {
 		Result result = Result.findResultById(resultInstances, stageId, riderId);
+
 		int n = result.getStage().getCheckpoints().size();
-		LocalTime[] resultTimes = new LocalTime[n + 1];
+		LocalTime[] timesInResult = new LocalTime[n + 1]; // +1 for storing the elapsed time in the last index
+
+        // Copy the times in the result to an array, index 0 to n - 1
 		for (int i = 0; i < n; i++) {
-			resultTimes[i] = result.getCheckpointTimes()[i + 1];
+			timesInResult[i] = result.getCheckpointTimes()[i + 1]; // i + 1, since index 0 stores the startTime
 		}
-		resultTimes[n] = result.getElapsedTime();
-		return resultTimes;
+
+        // Set the last index (n) to elapsed time
+		timesInResult[n] = result.getElapsedTime();
+
+		return timesInResult;
 	}
 
 	@Override
