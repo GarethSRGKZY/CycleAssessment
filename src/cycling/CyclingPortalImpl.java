@@ -605,10 +605,10 @@ public class CyclingPortalImpl implements CyclingPortal {
                 Rider rider = result.getRider();
 
                 // Increment TimeSum
-                LocalTime existingElapsedTime = riderToTimeSum.get(rider);
-                if (existingElapsedTime == null) {
+                if (riderToTimeSum.containsKey(rider)) {
                     riderToTimeSum.put(rider, elapsedTime);
                 } else {
+                    LocalTime existingElapsedTime = riderToTimeSum.get(rider);
                     riderToTimeSum.put(rider, Result.timeAdd(elapsedTime, existingElapsedTime));
                 }
             }
@@ -740,10 +740,10 @@ public class CyclingPortalImpl implements CyclingPortal {
                 Rider rider = result.getRider();
 
                 // Increment TimeSum
-                LocalTime existingElapsedTime = riderToTimeSum.get(rider);
-                if (existingElapsedTime == null) {
+                if (riderToTimeSum.containsKey(rider)) {
                     riderToTimeSum.put(rider, elapsedTime);
                 } else {
+                    LocalTime existingElapsedTime = riderToTimeSum.get(rider);
                     riderToTimeSum.put(rider, Result.timeAdd(elapsedTime, existingElapsedTime));
                 }
             }
