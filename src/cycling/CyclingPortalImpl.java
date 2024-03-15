@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 /**
@@ -614,32 +615,10 @@ public class CyclingPortalImpl implements CyclingPortal {
             }
         }
 
-        // Swap map key and value 
-        HashMap<LocalTime, ArrayList<Rider>> TimeSumToRider = new HashMap<>();
-        for (HashMap.Entry<Rider, LocalTime> entry : riderToTimeSum.entrySet()) {
-            Rider rider = entry.getKey();
-            LocalTime time = entry.getValue();
-            if (TimeSumToRider.containsKey(time)) {
-                TimeSumToRider.get(time).add(rider);
-            } else {
-                ArrayList<Rider> arr = new ArrayList<>();
-                arr.add(rider);
-                TimeSumToRider.put(time, arr);
-            }
-        }
-
-        ArrayList<LocalTime> timeSums = new ArrayList<>(TimeSumToRider.keySet());
+        ArrayList<LocalTime> timeSums = new ArrayList<>(riderToTimeSum.values());
         Collections.sort(timeSums);
 
-        LocalTime[] timeSumsRanked = new LocalTime[riderToTimeSum.keySet().size()];
-        int timeSumsRank = 0;
-        for (LocalTime time : timeSums) {
-            ArrayList<Rider> ridersAtTime = TimeSumToRider.get(time);
-            for (int i = 0; i < ridersAtTime.size(); i++) {
-                timeSumsRanked[timeSumsRank] = time;
-                timeSumsRank++;
-            }
-        }
+        LocalTime[] timeSumsRanked = timeSums.toArray(new LocalTime[timeSums.size()]);
 
         return timeSumsRanked;
 	}
@@ -749,31 +728,22 @@ public class CyclingPortalImpl implements CyclingPortal {
             }
         }
 
-        // Swap map key and value 
-        HashMap<LocalTime, ArrayList<Rider>> TimeSumToRider = new HashMap<>();
-        for (HashMap.Entry<Rider, LocalTime> entry : riderToTimeSum.entrySet()) {
+        // Sort riderToTimeSum by timeSum (Sort map entries by value)
+        ArrayList<HashMap.Entry<Rider, LocalTime>> riderToTimeSumEntries = new ArrayList<>(riderToTimeSum.entrySet());
+        Collections.sort(riderToTimeSumEntries,
+            new Comparator<HashMap.Entry<Rider, LocalTime>>() {
+                public int compare(HashMap.Entry<Rider, LocalTime> entry1, HashMap.Entry<Rider, LocalTime> entry2) {
+                    return entry1.getValue().compareTo(entry2.getValue());
+                }
+            }
+        );
+
+        int[] riderIdsRankedByTimeSum = new int[riderToTimeSumEntries.size()];
+        int timeSumRank = 0;
+        for (HashMap.Entry<Rider, LocalTime> entry : riderToTimeSumEntries) {
             Rider rider = entry.getKey();
-            LocalTime time = entry.getValue();
-            if (TimeSumToRider.containsKey(time)) {
-                TimeSumToRider.get(time).add(rider);
-            } else {
-                ArrayList<Rider> arr = new ArrayList<>();
-                arr.add(rider);
-                TimeSumToRider.put(time, arr);
-            }
-        }
-
-        ArrayList<LocalTime> timeSums = new ArrayList<>(TimeSumToRider.keySet());
-        Collections.sort(timeSums);
-
-        int[] riderIdsRankedByTimeSum = new int[riderToTimeSum.keySet().size()];
-        int timeSumsRank = 0;
-        for (LocalTime time : timeSums) {
-            ArrayList<Rider> ridersAtTime = TimeSumToRider.get(time);
-            for (Rider rider : ridersAtTime) {
-                riderIdsRankedByTimeSum[timeSumsRank] = rider.getId();
-                timeSumsRank++;
-            }
+            riderIdsRankedByTimeSum[timeSumRank] = rider.getId();
+            timeSumRank++;
         }
 
         return riderIdsRankedByTimeSum;
