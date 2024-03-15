@@ -462,10 +462,12 @@ public class CyclingPortalImpl implements CyclingPortal {
             // Rank results by elapsedTimeToCheckpoint
             Collections.sort(resultsInStage, new ResultComparator(checkpoint));
 
+            int rankOfRider = 0;
             for (Result result : resultsInStage) {
-                int points = StagePoints.getSprintPoints(resultsInStage.indexOf(result));
+                int points = StagePoints.getSprintPoints(rankOfRider);
                 // Increment result by awarded points
                 resultToPoints.put(result, resultToPoints.get(result) + points);
+                rankOfRider++;
             }
         }
 
@@ -473,10 +475,12 @@ public class CyclingPortalImpl implements CyclingPortal {
         // Rank results by elapsedTime
         Collections.sort(resultsInStage, new ResultComparator());
 
+        int rankOfRider = 0;
         for (Result result : resultsInStage) {
-            int points = StagePoints.getStagePoints(stage.getType(), resultsInStage.indexOf(result));
+            int points = StagePoints.getStagePoints(stage.getType(), rankOfRider);
             // Increment result by awarded points
             resultToPoints.put(result, resultToPoints.get(result) + points);
+            rankOfRider++;
         }
 
         int[] pointsRanked = new int[resultsInStage.size()];
@@ -509,10 +513,12 @@ public class CyclingPortalImpl implements CyclingPortal {
             // Rank results by elapsedTimeToCheckpoint
             Collections.sort(resultsInStage, new ResultComparator(checkpoint));
 
+            int rankOfRider = 0;
             for (Result result : resultsInStage) {
-                int points = StagePoints.getSprintPoints(resultsInStage.indexOf(result));
+                int points = StagePoints.getSprintPoints(rankOfRider);
                 // Increment result by awarded points
                 resultToPoints.put(result, resultToPoints.get(result) + points);
+                rankOfRider++;
             }
         }
 
@@ -520,10 +526,12 @@ public class CyclingPortalImpl implements CyclingPortal {
         // Rank results by elapsedTime
         Collections.sort(resultsInStage, new ResultComparator());
 
+        int rankOfRider = 0;
         for (Result result : resultsInStage) {
-            int points = StagePoints.getStagePoints(stage.getType(), resultsInStage.indexOf(result));
+            int points = StagePoints.getStagePoints(stage.getType(), rankOfRider);
             // Increment result by awarded points
             resultToPoints.put(result, resultToPoints.get(result) + points);
+            rankOfRider++;
         }
 
         int[] pointsRanked = new int[resultsInStage.size()];
