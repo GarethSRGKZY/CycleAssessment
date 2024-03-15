@@ -714,49 +714,55 @@ public class CyclingPortalImpl implements CyclingPortal {
 
 	@Override
 	public int[] getRidersGeneralClassificationRank(int raceId) throws IDNotRecognisedException {
-        int[] raceStages = getRaceStages(raceId);
+		int[] stageIdsInRace = getRaceStages(raceId);
         
-        HashMap<Rider, LocalTime> riderTimeMap = new HashMap<>();
-        for (int stageId : raceStages) {
-            ArrayList<Result> stageResults = Result.findResultsByStageId(resultInstances, stageId);
-            for (Result result : stageResults) {
+        HashMap<Rider, LocalTime> riderToTimeSum = new HashMap<>();
+
+        for (int stageId : stageIdsInRace) {
+            ArrayList<Result> resultsInStage = Result.findResultsByStageId(resultInstances, stageId);
+
+            for (Result result : resultsInStage) {
                 LocalTime elapsedTime = getRiderAdjustedElapsedTimeInStage(stageId, result.getRider().getId());
                 Rider rider = result.getRider();
-                LocalTime existingElapsedTime = riderTimeMap.get(rider);
+
+                // Increment TimeSum
+                LocalTime existingElapsedTime = riderToTimeSum.get(rider);
                 if (existingElapsedTime == null) {
-                    riderTimeMap.put(rider, elapsedTime);
+                    riderToTimeSum.put(rider, elapsedTime);
                 } else {
-                    riderTimeMap.put(rider, Result.timeAdd(elapsedTime, existingElapsedTime));
+                    riderToTimeSum.put(rider, Result.timeAdd(elapsedTime, existingElapsedTime));
                 }
             }
         }
 
         // Swap map key and value 
-        HashMap<LocalTime, ArrayList<Rider>> timeRiderMap = new HashMap<>();
-        for (HashMap.Entry<Rider, LocalTime> entry : riderTimeMap.entrySet()) {
+        HashMap<LocalTime, ArrayList<Rider>> TimeSumToRider = new HashMap<>();
+        for (HashMap.Entry<Rider, LocalTime> entry : riderToTimeSum.entrySet()) {
             Rider rider = entry.getKey();
             LocalTime time = entry.getValue();
-            if (timeRiderMap.containsKey(time)) {
-                timeRiderMap.get(time).add(rider);
+            if (TimeSumToRider.containsKey(time)) {
+                TimeSumToRider.get(time).add(rider);
             } else {
                 ArrayList<Rider> arr = new ArrayList<>();
                 arr.add(rider);
-                timeRiderMap.put(time, arr);
+                TimeSumToRider.put(time, arr);
             }
         }
-        ArrayList<LocalTime> timeArray = new ArrayList<>(timeRiderMap.keySet());
-        Collections.sort(timeArray);
 
-        int[] rankings = new int[riderTimeMap.keySet().size()];
-        int ranking = 0;
-        for (LocalTime time : timeArray) {
-            ArrayList<Rider> ridersAtTime = timeRiderMap.get(time);
+        ArrayList<LocalTime> timeSums = new ArrayList<>(TimeSumToRider.keySet());
+        Collections.sort(timeSums);
+
+        int[] riderIdsRankedByTimeSum = new int[riderToTimeSum.keySet().size()];
+        int timeSumsRank = 0;
+        for (LocalTime time : timeSums) {
+            ArrayList<Rider> ridersAtTime = TimeSumToRider.get(time);
             for (Rider rider : ridersAtTime) {
-                rankings[ranking] = rider.getId();
-                ranking++;
+                riderIdsRankedByTimeSum[timeSumsRank] = rider.getId();
+                timeSumsRank++;
             }
         }
-        return rankings;
+        
+        return riderIdsRankedByTimeSum;
 	}
 
 	@Override
