@@ -153,8 +153,9 @@ public class Result {
         return timeDelta(startTime, endTime);
     }
 
-    public LocalTime getElapsedTimeToCheckpoint(int checkpointIndex) {
+    public LocalTime getElapsedTimeToCheckpoint(Checkpoint checkpoint) {
         // TODO validate checkpointIndex
+        int checkpointIndex = this.stage.getCheckpoints().indexOf(checkpoint);
 
         LocalTime startTime = this.checkpointTimes[0];
         LocalTime checkpointTime = this.checkpointTimes[checkpointIndex + 1];

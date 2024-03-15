@@ -464,13 +464,13 @@ public class CyclingPortalImpl implements CyclingPortal {
         }
 
         // Calculate & award sprint points for each Checkpoint
-        for (int checkpointIndex = 0; checkpointIndex < stage.getCheckpoints().size(); checkpointIndex++) {
+        for (Checkpoint checkpoint : stage.getCheckpoints()) {
             // Check if the checkpoint is of SPRINT type
-            if (stage.getCheckpoints().get(checkpointIndex).getType() != CheckpointType.SPRINT) {
+            if (checkpoint.getType() != CheckpointType.SPRINT) {
                 continue;
             }
 
-            Collections.sort(stageResults, new ResultComparator(checkpointIndex));
+            Collections.sort(stageResults, new ResultComparator(checkpoint));
 
             for (Result result : stageResults) {
                 int point = StagePoints.getSprintPoints(stageResults.indexOf(result));
@@ -505,13 +505,13 @@ public class CyclingPortalImpl implements CyclingPortal {
         }
 
         // Calculate & award sprint points for each Checkpoint
-        for (int checkpointIndex = 0; checkpointIndex < stage.getCheckpoints().size(); checkpointIndex++) {
+        for (Checkpoint checkpoint : stage.getCheckpoints()) {
             // Check if the checkpoint is of SPRINT type
-            if (stage.getCheckpoints().get(checkpointIndex).getType() == CheckpointType.SPRINT) {
+            if (checkpoint.getType() == CheckpointType.SPRINT) {
                 continue;
             }
 
-            Collections.sort(stageResults, new ResultComparator(checkpointIndex));
+            Collections.sort(stageResults, new ResultComparator(checkpoint));
 
             for (Result result : stageResults) {
                 int point = StagePoints.getSprintPoints(stageResults.indexOf(result));
