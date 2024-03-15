@@ -602,8 +602,8 @@ public class CyclingPortalImpl implements CyclingPortal {
             ArrayList<Result> resultsInStage = Result.findResultsByStageId(resultInstances, stageId);
 
             for (Result result : resultsInStage) {
-                LocalTime elapsedTime = getRiderAdjustedElapsedTimeInStage(stageId, result.getRider().getId());
                 Rider rider = result.getRider();
+                LocalTime elapsedTime = getRiderAdjustedElapsedTimeInStage(stageId, rider.getId());
 
                 // Increment TimeSum
                 if (riderToTimeSum.containsKey(rider)) {
