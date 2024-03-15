@@ -373,7 +373,7 @@ public class CyclingPortalImpl implements CyclingPortal {
 		int n = result.getStage().getCheckpoints().size();
 		LocalTime[] timesInResult = new LocalTime[n + 1]; // +1 for storing the elapsed time in the last index
 
-        // Copy the times in the result to an array, index 0 to n - 1
+        // Extract the times in the result to an array, index 0 to n - 1
 		for (int i = 0; i < n; i++) {
 			timesInResult[i] = result.getCheckpointTimes()[i + 1]; // i + 1, since index 0 stores the startTime
 		}
@@ -388,10 +388,10 @@ public class CyclingPortalImpl implements CyclingPortal {
 	public LocalTime getRiderAdjustedElapsedTimeInStage(int stageId, int riderId) throws IDNotRecognisedException {
         ArrayList<Result> resultsInStage = Result.findResultsByStageId(resultInstances, stageId);
 
-        // Sort results by elapsedTime
+        // Rank results by elapsedTime
         Collections.sort(resultsInStage, new ResultComparator());
 
-        // Copy the elapsedTime of each result
+        // Extract the elapsedTime of each result
         LocalTime[] elapsedTimesRanked = Result.toElapsedTimes(resultsInStage);
 
         LocalTime[] elapsedTimesRankedAdjusted = Result.adjustElapsedTimes(elapsedTimesRanked);
@@ -419,7 +419,7 @@ public class CyclingPortalImpl implements CyclingPortal {
 	public int[] getRidersRankInStage(int stageId) throws IDNotRecognisedException {
         ArrayList<Result> resultsInStage = Result.findResultsByStageId(resultInstances, stageId);
 
-        // Sort results by elapsedTime
+        // Rank results by elapsedTime
         Collections.sort(resultsInStage, new ResultComparator());
 
         return Result.toRiderIds(resultsInStage);
@@ -429,10 +429,10 @@ public class CyclingPortalImpl implements CyclingPortal {
 	public LocalTime[] getRankedAdjustedElapsedTimesInStage(int stageId) throws IDNotRecognisedException {
         ArrayList<Result> resultsInStage = Result.findResultsByStageId(resultInstances, stageId);
 
-        // Sort results by elapsedTime
+        // Rank results by elapsedTime
         Collections.sort(resultsInStage, new ResultComparator());
 
-        // Copy the elapsedTime of each result
+        // Extract the elapsedTime of each result
         LocalTime[] elapsedTimesRanked = Result.toElapsedTimes(resultsInStage);
 
         LocalTime[] elapsedTimesRankedAdjusted = Result.adjustElapsedTimes(elapsedTimesRanked);
@@ -459,7 +459,7 @@ public class CyclingPortalImpl implements CyclingPortal {
                 continue;
             }
 
-            // Sort results by elapsedTimeToCheckpoint
+            // Rank results by elapsedTimeToCheckpoint
             Collections.sort(resultsInStage, new ResultComparator(checkpoint));
 
             for (Result result : resultsInStage) {
@@ -470,7 +470,7 @@ public class CyclingPortalImpl implements CyclingPortal {
         }
 
         // Calculate & award points for finish line
-        // Sort results by elapsedTime
+        // Rank results by elapsedTime
         Collections.sort(resultsInStage, new ResultComparator());
 
         for (Result result : resultsInStage) {
@@ -506,7 +506,7 @@ public class CyclingPortalImpl implements CyclingPortal {
                 continue;
             }
 
-            // Sort results by elapsedTimeToCheckpoint
+            // Rank results by elapsedTimeToCheckpoint
             Collections.sort(resultsInStage, new ResultComparator(checkpoint));
 
             for (Result result : resultsInStage) {
@@ -517,7 +517,7 @@ public class CyclingPortalImpl implements CyclingPortal {
         }
 
         // Calculate & award points for finish line
-        // Sort results by elapsedTime
+        // Rank results by elapsedTime
         Collections.sort(resultsInStage, new ResultComparator());
 
         for (Result result : resultsInStage) {
