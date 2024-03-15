@@ -468,79 +468,96 @@ public class CyclingPortalImpl implements CyclingPortal {
 
 	@Override
 	public int[] getRidersPointsInStage(int stageId) throws IDNotRecognisedException {
-        ArrayList<Result> stageResults = Result.findResultsByStageId(resultInstances, stageId);
+        ArrayList<Result> resultsInStage = Result.findResultsByStageId(resultInstances, stageId);
         Stage stage = findStage(stageId);
 
-        HashMap<Result, Integer> pointsMap = new HashMap<>();
-        for (Result result : stageResults) {
-            pointsMap.put(result, 0);
+        HashMap<Result, Integer> resultToPoints = new HashMap<>();
+
+        // Register each result with 0 points in map
+        for (Result result : resultsInStage) {
+            resultToPoints.put(result, 0);
         }
 
-        // Calculate & award sprint points for each Checkpoint
+        // Calculate & award points for each SPRINT Checkpoint
         for (Checkpoint checkpoint : stage.getCheckpoints()) {
-            // Check if the checkpoint is of SPRINT type
+            // Ignore checkpoint if it isn't SPRINT
             if (checkpoint.getType() != CheckpointType.SPRINT) {
                 continue;
             }
 
-            Collections.sort(stageResults, new ResultComparator(checkpoint));
+            // Sort results by elapsedTimeToCheckpoint
+            Collections.sort(resultsInStage, new ResultComparator(checkpoint));
 
-            for (Result result : stageResults) {
-                int point = StagePoints.getSprintPoints(stageResults.indexOf(result));
-                // Increment result by point
-                pointsMap.put(result, pointsMap.get(result) + point);
+            for (Result result : resultsInStage) {
+                int points = StagePoints.getSprintPoints(resultsInStage.indexOf(result));
+                // Increment result by awarded points
+                resultToPoints.put(result, resultToPoints.get(result) + points);
             }
         }
 
-        Collections.sort(stageResults, new ResultComparator());
-        for (Result result : stageResults) {
-            int point = StagePoints.getStagePoints(stage.getType(), stageResults.indexOf(result));
-            // Increment result by point
-            pointsMap.put(result, pointsMap.get(result) + point);
+        // Calculate & award points for finish line
+        // Sort results by elapsedTime
+        Collections.sort(resultsInStage, new ResultComparator());
+
+        for (Result result : resultsInStage) {
+            int points = StagePoints.getStagePoints(stage.getType(), resultsInStage.indexOf(result));
+            // Increment result by awarded points
+            resultToPoints.put(result, resultToPoints.get(result) + points);
         }
 
-        int[] pointsArray = new int[stageResults.size()];
-        for (int i = 0; i < stageResults.size(); i++) {
-            pointsArray[i] = pointsMap.get(stageResults.get(i));
+        int[] pointsRanked = new int[resultsInStage.size()];
+        for (int i = 0; i < resultsInStage.size(); i++) {
+            pointsRanked[i] = resultToPoints.get(resultsInStage.get(i));
         }
 
-		return pointsArray;
+		return pointsRanked;
 	}
 
 	@Override
 	public int[] getRidersMountainPointsInStage(int stageId) throws IDNotRecognisedException {
-		ArrayList<Result> stageResults = Result.findResultsByStageId(resultInstances, stageId);
+        ArrayList<Result> resultsInStage = Result.findResultsByStageId(resultInstances, stageId);
         Stage stage = findStage(stageId);
 
-        HashMap<Result, Integer> pointsMap = new HashMap<>();
-        for (Result result : stageResults) {
-            pointsMap.put(result, 0);
+        HashMap<Result, Integer> resultToPoints = new HashMap<>();
+
+        // Register each result with 0 points in map
+        for (Result result : resultsInStage) {
+            resultToPoints.put(result, 0);
         }
 
-        // Calculate & award sprint points for each Checkpoint
+        // Calculate & award points for each MOUNTAIN Checkpoint
         for (Checkpoint checkpoint : stage.getCheckpoints()) {
-            // Check if the checkpoint is of SPRINT type
+            // Ignore checkpoint if it isn't C1, C2, C3, C4, HC
             if (checkpoint.getType() == CheckpointType.SPRINT) {
                 continue;
             }
 
-            Collections.sort(stageResults, new ResultComparator(checkpoint));
+            // Sort results by elapsedTimeToCheckpoint
+            Collections.sort(resultsInStage, new ResultComparator(checkpoint));
 
-            for (Result result : stageResults) {
-                int point = StagePoints.getSprintPoints(stageResults.indexOf(result));
-                // Increment result by point
-                pointsMap.put(result, pointsMap.get(result) + point);
+            for (Result result : resultsInStage) {
+                int points = StagePoints.getSprintPoints(resultsInStage.indexOf(result));
+                // Increment result by awarded points
+                resultToPoints.put(result, resultToPoints.get(result) + points);
             }
         }
 
-        Collections.sort(stageResults, new ResultComparator());
-
-        int[] pointsArray = new int[stageResults.size()];
-        for (int i = 0; i < stageResults.size(); i++) {
-            pointsArray[i] = pointsMap.get(stageResults.get(i));
+        // Calculate & award points for finish line
+        // Sort results by elapsedTime
+        Collections.sort(resultsInStage, new ResultComparator());
+        
+        for (Result result : resultsInStage) {
+            int points = StagePoints.getStagePoints(stage.getType(), resultsInStage.indexOf(result));
+            // Increment result by awarded points
+            resultToPoints.put(result, resultToPoints.get(result) + points);
         }
 
-		return pointsArray;
+        int[] pointsRanked = new int[resultsInStage.size()];
+        for (int i = 0; i < resultsInStage.size(); i++) {
+            pointsRanked[i] = resultToPoints.get(resultsInStage.get(i));
+        }
+
+		return pointsRanked;
 	}
 
 	@Override
