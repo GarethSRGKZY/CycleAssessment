@@ -445,12 +445,7 @@ public class CyclingPortalImpl implements CyclingPortal {
         ArrayList<Result> resultsInStage = Result.findResultsByStageId(resultInstances, stageId);
         Stage stage = findStage(stageId);
 
-        HashMap<Result, Integer> resultToPoints = new HashMap<>();
-
-        // Register each result with 0 points in map
-        for (Result result : resultsInStage) {
-            resultToPoints.put(result, 0);
-        }
+        HashMap<Integer, Integer> riderIdToPoints = new HashMap<>();
 
         // Calculate & award points for each SPRINT Checkpoint
         for (Checkpoint checkpoint : stage.getCheckpoints()) {
@@ -463,30 +458,36 @@ public class CyclingPortalImpl implements CyclingPortal {
             Collections.sort(resultsInStage, new ResultComparator(checkpoint));
 
             int rankOfRider = 0;
-            for (Result result : resultsInStage) {
+            for (int riderId : Result.toRiderIds(resultsInStage)) {
                 int points = StagePoints.getSprintPoints(rankOfRider);
-                // Increment result by awarded points
-                resultToPoints.put(result, resultToPoints.get(result) + points);
+                // Award points to rider
+                if (riderIdToPoints.containsKey(riderId)) {
+                    riderIdToPoints.put(riderId, riderIdToPoints.get(riderId) + points);
+                } else {
+                    riderIdToPoints.put(riderId, points);
+                }
                 rankOfRider++;
             }
+            assert rankOfRider == resultsInStage.size();
         }
+
+        assert riderIdToPoints.size() == resultsInStage.size();
 
         // Calculate & award points for finish line
         // Rank results by elapsedTime
-        Collections.sort(resultsInStage, new ResultComparator());
+        int[] riderIdsRankedByElapsedTime = getRidersRankInStage(stageId);
+        int[] pointsRanked = new int[riderIdsRankedByElapsedTime.length];
+
+        assert riderIdsRankedByElapsedTime.length == riderIdToPoints.size();
 
         int rankOfRider = 0;
-        for (Result result : resultsInStage) {
+        for (int riderId : riderIdsRankedByElapsedTime) {
             int points = StagePoints.getStagePoints(stage.getType(), rankOfRider);
-            // Increment result by awarded points
-            resultToPoints.put(result, resultToPoints.get(result) + points);
+            // Award points to rider
+            pointsRanked[rankOfRider] = riderIdToPoints.get(riderId) + points;
             rankOfRider++;
         }
-
-        int[] pointsRanked = new int[resultsInStage.size()];
-        for (int i = 0; i < resultsInStage.size(); i++) {
-            pointsRanked[i] = resultToPoints.get(resultsInStage.get(i));
-        }
+        assert rankOfRider == riderIdsRankedByElapsedTime.length;
 
 		return pointsRanked;
 	}
@@ -496,12 +497,7 @@ public class CyclingPortalImpl implements CyclingPortal {
         ArrayList<Result> resultsInStage = Result.findResultsByStageId(resultInstances, stageId);
         Stage stage = findStage(stageId);
 
-        HashMap<Result, Integer> resultToPoints = new HashMap<>();
-
-        // Register each result with 0 points in map
-        for (Result result : resultsInStage) {
-            resultToPoints.put(result, 0);
-        }
+        HashMap<Integer, Integer> riderIdToPoints = new HashMap<>();
 
         // Calculate & award points for each MOUNTAIN Checkpoint
         for (Checkpoint checkpoint : stage.getCheckpoints()) {
@@ -514,30 +510,36 @@ public class CyclingPortalImpl implements CyclingPortal {
             Collections.sort(resultsInStage, new ResultComparator(checkpoint));
 
             int rankOfRider = 0;
-            for (Result result : resultsInStage) {
+            for (int riderId : Result.toRiderIds(resultsInStage)) {
                 int points = StagePoints.getSprintPoints(rankOfRider);
-                // Increment result by awarded points
-                resultToPoints.put(result, resultToPoints.get(result) + points);
+                // Award points to rider
+                if (riderIdToPoints.containsKey(riderId)) {
+                    riderIdToPoints.put(riderId, riderIdToPoints.get(riderId) + points);
+                } else {
+                    riderIdToPoints.put(riderId, points);
+                }
                 rankOfRider++;
             }
+            assert rankOfRider == resultsInStage.size();
         }
+
+        assert riderIdToPoints.size() == resultsInStage.size();
 
         // Calculate & award points for finish line
         // Rank results by elapsedTime
-        Collections.sort(resultsInStage, new ResultComparator());
+        int[] riderIdsRankedByElapsedTime = getRidersRankInStage(stageId);
+        int[] pointsRanked = new int[riderIdsRankedByElapsedTime.length];
+
+        assert riderIdsRankedByElapsedTime.length == riderIdToPoints.size();
 
         int rankOfRider = 0;
-        for (Result result : resultsInStage) {
+        for (int riderId : riderIdsRankedByElapsedTime) {
             int points = StagePoints.getStagePoints(stage.getType(), rankOfRider);
-            // Increment result by awarded points
-            resultToPoints.put(result, resultToPoints.get(result) + points);
+            // Award points to rider
+            pointsRanked[rankOfRider] = riderIdToPoints.get(riderId) + points;
             rankOfRider++;
         }
-
-        int[] pointsRanked = new int[resultsInStage.size()];
-        for (int i = 0; i < resultsInStage.size(); i++) {
-            pointsRanked[i] = resultToPoints.get(resultsInStage.get(i));
-        }
+        assert rankOfRider == riderIdsRankedByElapsedTime.length;
 
 		return pointsRanked;
 	}
@@ -577,26 +579,31 @@ public class CyclingPortalImpl implements CyclingPortal {
 	public LocalTime[] getGeneralClassificationTimesInRace(int raceId) throws IDNotRecognisedException {
 		int[] stageIdsInRace = getRaceStages(raceId);
         
-        HashMap<Rider, LocalTime> riderToTimeSum = new HashMap<>();
+        HashMap<Integer, LocalTime> riderIdToTimeSum = new HashMap<>();
 
         for (int stageId : stageIdsInRace) {
-            ArrayList<Result> resultsInStage = Result.findResultsByStageId(resultInstances, stageId);
+            int[] riderIdsRankedByElapsedTime = getRidersRankInStage(stageId);
+            LocalTime[] elapsedTimesRankedAdjusted = getRankedAdjustedElapsedTimesInStage(stageId);
 
-            for (Result result : resultsInStage) {
-                Rider rider = result.getRider();
-                LocalTime elapsedTime = getRiderAdjustedElapsedTimeInStage(stageId, rider.getId());
+            assert riderIdsRankedByElapsedTime.length == elapsedTimesRankedAdjusted.length;
+
+            int rankOfRider = 0;
+            for (int riderId : riderIdsRankedByElapsedTime) {
+                LocalTime elapsedTime = elapsedTimesRankedAdjusted[rankOfRider];
 
                 // Increment TimeSum
-                if (riderToTimeSum.containsKey(rider)) {
-                    riderToTimeSum.put(rider, elapsedTime);
+                if (riderIdToTimeSum.containsKey(riderId)) {
+                    riderIdToTimeSum.put(riderId, elapsedTime);
                 } else {
-                    LocalTime existingElapsedTime = riderToTimeSum.get(rider);
-                    riderToTimeSum.put(rider, Result.timeAdd(elapsedTime, existingElapsedTime));
+                    LocalTime existingElapsedTime = riderIdToTimeSum.get(riderId);
+                    riderIdToTimeSum.put(riderId, Result.timeAdd(elapsedTime, existingElapsedTime));
                 }
+                rankOfRider++;
             }
+            assert rankOfRider == riderIdsRankedByElapsedTime.length;
         }
 
-        ArrayList<LocalTime> timeSums = new ArrayList<>(riderToTimeSum.values());
+        ArrayList<LocalTime> timeSums = new ArrayList<>(riderIdToTimeSum.values());
         Collections.sort(timeSums);
 
         LocalTime[] timeSumsRanked = timeSums.toArray(new LocalTime[timeSums.size()]);
@@ -611,36 +618,39 @@ public class CyclingPortalImpl implements CyclingPortal {
         HashMap<Integer, Integer> riderIdToPointSum = new HashMap<>();
 
         for (int stageId : stageIdsInRace) {
-            ArrayList<Result> resultsInStage = Result.findResultsByStageId(resultInstances, stageId);
+            int[] riderIdsRankedByElapsedTime = getRidersRankInStage(stageId);
+            int[] pointsRankedByElapsedTime = getRidersPointsInStage(stageId);
 
-            for (Result result : resultsInStage) {
-                // Get Rider's points
-                int points = 0;
-                Rider rider = result.getRider();
-                int[] riderRank = getRidersRankInStage(stageId);
-                for (int i = 0; i < riderRank.length ; i++) {
-                    if (riderRank[i] == rider.getId()) {
-                        points = getRidersPointsInStage(stageId)[i];
-                    }
-                }
+            assert riderIdsRankedByElapsedTime.length == pointsRankedByElapsedTime.length;
 
-                // Increment PointSum
-                if (riderIdToPointSum.containsKey(rider.getId())) {
-                    riderIdToPointSum.put(rider.getId(), points);
+            int rankOfRider = 0;
+            for (int riderId : riderIdsRankedByElapsedTime) {
+                int points = pointsRankedByElapsedTime[rankOfRider];
+
+                // Award points to rider
+                if (riderIdToPointSum.containsKey(riderId)) {
+                    riderIdToPointSum.put(riderId, points);
                 } else {
-                    int existingPoints = riderIdToPointSum.get(rider.getId());
-                    riderIdToPointSum.put(rider.getId(), points + existingPoints);
+                    int existingPoints = riderIdToPointSum.get(riderId);
+                    riderIdToPointSum.put(riderId, points + existingPoints);
                 }
+                rankOfRider++;
             }
+            assert rankOfRider == riderIdsRankedByElapsedTime.length;
         }
 
         // Convert riderIdsRankedByTimeSum to pointSumsRankedByTimeSum using riderIdToPointSum map
         int[] riderIdsRankedByTimeSum = getRidersRankInStage(raceId);
-        int[] pointSumsRankedByTimeSum =  new int[riderIdsRankedByTimeSum.length];
-        for (int i = 0; i < riderIdsRankedByTimeSum.length; i++) {
-            int riderId = riderIdsRankedByTimeSum[i];
-            pointSumsRankedByTimeSum[i] = riderIdToPointSum.get(riderId);
+        int[] pointSumsRankedByTimeSum = new int[riderIdsRankedByTimeSum.length];
+
+        assert riderIdsRankedByTimeSum.length == riderIdToPointSum.size();
+
+        int rankOfRider = 0;
+        for (int riderId : riderIdsRankedByTimeSum) {
+            pointSumsRankedByTimeSum[rankOfRider] = riderIdToPointSum.get(riderId);
+            rankOfRider++;
         }
+        assert rankOfRider == riderIdsRankedByTimeSum.length;
         
         return pointSumsRankedByTimeSum;
 	}
@@ -652,36 +662,39 @@ public class CyclingPortalImpl implements CyclingPortal {
         HashMap<Integer, Integer> riderIdToPointSum = new HashMap<>();
 
         for (int stageId : stageIdsInRace) {
-            ArrayList<Result> resultsInStage = Result.findResultsByStageId(resultInstances, stageId);
+            int[] riderIdsRankedByElapsedTime = getRidersRankInStage(stageId);
+            int[] mountainPointsRankedByElapsedTime = getRidersMountainPointsInStage(stageId);
 
-            for (Result result : resultsInStage) {
-                // Get Rider's points
-                int points = 0;
-                Rider rider = result.getRider();
-                int[] riderRank = getRidersRankInStage(stageId);
-                for (int i = 0; i < riderRank.length ; i++) {
-                    if (riderRank[i] == rider.getId()) {
-                        points = getRidersMountainPointsInRace(stageId)[i];
-                    }
-                }
+            assert riderIdsRankedByElapsedTime.length == mountainPointsRankedByElapsedTime.length;
 
-                // Increment PointSum
-                if (riderIdToPointSum.containsKey(rider.getId())) {
-                    riderIdToPointSum.put(rider.getId(), points);
+            int rankOfRider = 0;
+            for (int riderId : riderIdsRankedByElapsedTime) {
+                int mountainPoints = mountainPointsRankedByElapsedTime[rankOfRider];
+
+                // Award points to rider
+                if (riderIdToPointSum.containsKey(riderId)) {
+                    riderIdToPointSum.put(riderId, mountainPoints);
                 } else {
-                    int existingPoints = riderIdToPointSum.get(rider.getId());
-                    riderIdToPointSum.put(rider.getId(), points + existingPoints);
+                    int existingMountainPoints = riderIdToPointSum.get(riderId);
+                    riderIdToPointSum.put(riderId, mountainPoints + existingMountainPoints);
                 }
+                rankOfRider++;
             }
+            assert rankOfRider == riderIdsRankedByElapsedTime.length;
         }
 
         // Convert riderIdsRankedByTimeSum to pointSumsRankedByTimeSum using riderIdToPointSum map
         int[] riderIdsRankedByTimeSum = getRidersRankInStage(raceId);
         int[] pointSumsRankedByTimeSum =  new int[riderIdsRankedByTimeSum.length];
-        for (int i = 0; i < riderIdsRankedByTimeSum.length; i++) {
-            int riderId = riderIdsRankedByTimeSum[i];
-            pointSumsRankedByTimeSum[i] = riderIdToPointSum.get(riderId);
+
+        assert riderIdsRankedByTimeSum.length == riderIdToPointSum.size();
+
+        int rankOfRider = 0;
+        for (int riderId : riderIdsRankedByTimeSum) {
+            pointSumsRankedByTimeSum[rankOfRider] = riderIdToPointSum.get(riderId);
+            rankOfRider++;
         }
+        assert rankOfRider == riderIdsRankedByTimeSum.length;
         
         return pointSumsRankedByTimeSum;
 	}
@@ -690,42 +703,48 @@ public class CyclingPortalImpl implements CyclingPortal {
 	public int[] getRidersGeneralClassificationRank(int raceId) throws IDNotRecognisedException {
 		int[] stageIdsInRace = getRaceStages(raceId);
         
-        HashMap<Rider, LocalTime> riderToTimeSum = new HashMap<>();
+        HashMap<Integer, LocalTime> riderIdToTimeSum = new HashMap<>();
 
         for (int stageId : stageIdsInRace) {
-            ArrayList<Result> resultsInStage = Result.findResultsByStageId(resultInstances, stageId);
+            int[] riderIdsRankedByElapsedTime = getRidersRankInStage(stageId);
+            LocalTime[] elapsedTimesRankedAdjusted = getRankedAdjustedElapsedTimesInStage(stageId);
 
-            for (Result result : resultsInStage) {
-                LocalTime elapsedTime = getRiderAdjustedElapsedTimeInStage(stageId, result.getRider().getId());
-                Rider rider = result.getRider();
+            assert riderIdsRankedByElapsedTime.length == elapsedTimesRankedAdjusted.length;
+
+            int rankOfRider = 0;
+            for (int riderId : riderIdsRankedByElapsedTime) {
+                LocalTime elapsedTime = elapsedTimesRankedAdjusted[rankOfRider];
 
                 // Increment TimeSum
-                if (riderToTimeSum.containsKey(rider)) {
-                    riderToTimeSum.put(rider, elapsedTime);
+                if (riderIdToTimeSum.containsKey(riderId)) {
+                    riderIdToTimeSum.put(riderId, elapsedTime);
                 } else {
-                    LocalTime existingElapsedTime = riderToTimeSum.get(rider);
-                    riderToTimeSum.put(rider, Result.timeAdd(elapsedTime, existingElapsedTime));
+                    LocalTime existingElapsedTime = riderIdToTimeSum.get(riderId);
+                    riderIdToTimeSum.put(riderId, Result.timeAdd(elapsedTime, existingElapsedTime));
                 }
+                rankOfRider++;
             }
+            assert rankOfRider == riderIdsRankedByElapsedTime.length;
         }
 
         // Sort riderToTimeSum by timeSum (Sort map entries by value)
-        ArrayList<HashMap.Entry<Rider, LocalTime>> riderToTimeSumEntries = new ArrayList<>(riderToTimeSum.entrySet());
-        Collections.sort(riderToTimeSumEntries,
-            new Comparator<HashMap.Entry<Rider, LocalTime>>() {
-                public int compare(HashMap.Entry<Rider, LocalTime> entry1, HashMap.Entry<Rider, LocalTime> entry2) {
+        ArrayList<HashMap.Entry<Integer, LocalTime>> riderIdToTimeSumEntries = new ArrayList<>(riderIdToTimeSum.entrySet());
+        Collections.sort(riderIdToTimeSumEntries,
+            new Comparator<HashMap.Entry<Integer, LocalTime>>() {
+                public int compare(HashMap.Entry<Integer, LocalTime> entry1, HashMap.Entry<Integer, LocalTime> entry2) {
                     return entry1.getValue().compareTo(entry2.getValue());
                 }
             }
         );
 
-        int[] riderIdsRankedByTimeSum = new int[riderToTimeSumEntries.size()];
-        int timeSumRank = 0;
-        for (HashMap.Entry<Rider, LocalTime> entry : riderToTimeSumEntries) {
-            Rider rider = entry.getKey();
-            riderIdsRankedByTimeSum[timeSumRank] = rider.getId();
-            timeSumRank++;
+        int[] riderIdsRankedByTimeSum = new int[riderIdToTimeSumEntries.size()];
+        int rankOfRider = 0;
+        for (HashMap.Entry<Integer, LocalTime> entry : riderIdToTimeSumEntries) {
+            int riderId = entry.getKey();
+            riderIdsRankedByTimeSum[rankOfRider] = riderId;
+            rankOfRider++;
         }
+        assert rankOfRider == riderIdsRankedByTimeSum.length;
 
         return riderIdsRankedByTimeSum;
 	}
