@@ -259,7 +259,11 @@ public class CyclingPortalImpl implements CyclingPortal {
 	@Override
 	public int[] getStageCheckpoints(int stageId) throws IDNotRecognisedException {
         Stage stage = findStage(stageId);
-        return Checkpoint.toIds(stage.getCheckpoints());
+
+        ArrayList<Checkpoint> checkpointInstances = stage.getCheckpoints();
+        Collections.sort(checkpointInstances, new CheckpointComparator());
+
+        return Checkpoint.toIds(checkpointInstances);
 	}
 
 	@Override
