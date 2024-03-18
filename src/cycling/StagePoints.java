@@ -15,7 +15,7 @@ public class StagePoints {
     public static final int[] C1_POINTS = new int[]{10, 8, 6, 4, 2, 1};
     public static final int[] HC_POINTS = new int[]{20, 15, 12, 10, 8, 6, 4, 2};
 
-    public static int getStagePoints(StageType type, int index) {
+    public static int getStagePoints(StageType type, int rankOfRider) {
         int[] pointsToAwardRanked;
 
         switch (type) {
@@ -39,20 +39,20 @@ public class StagePoints {
                 return 0;
         }
 
-        if (index >= pointsToAwardRanked.length) {
+        if (rankOfRider >= pointsToAwardRanked.length) {
             return 0;
         }
-        return pointsToAwardRanked[index];
+        return pointsToAwardRanked[rankOfRider];
     }
 
-    public static int getSprintPoints(int index) {
-        if (index >= SPRINT_POINTS.length) {
+    public static int getSprintPoints(int rankOfRider) {
+        if (rankOfRider >= SPRINT_POINTS.length) {
             return 0;
         }
-        return SPRINT_POINTS[index];
+        return SPRINT_POINTS[rankOfRider];
     }
 
-    public static int getMountainPoints(CheckpointType type, int index) {
+    public static int getMountainPoints(CheckpointType type, int rankOfRider) {
         assert type != CheckpointType.SPRINT;
 
         int[] pointsToAwardRanked;
@@ -82,9 +82,9 @@ public class StagePoints {
                 return 0;
         }
 
-        if (index >= pointsToAwardRanked.length) {
+        if (rankOfRider >= pointsToAwardRanked.length) {
             return 0;
         }
-        return pointsToAwardRanked[index];
+        return pointsToAwardRanked[rankOfRider];
     }
 }
