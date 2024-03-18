@@ -755,8 +755,40 @@ public class CyclingPortalImpl implements CyclingPortal {
 
 	@Override
 	public int[] getRidersPointClassificationRank(int raceId) throws IDNotRecognisedException {
-		// TODO Auto-generated method stub
-		return null;
+        int[] riderIdsRankedByTimeSum = getRidersGeneralClassificationRank(raceId);
+        int[] pointSumsRankedByTimeSum = getRidersPointsInRace(raceId);
+
+        HashMap<Integer, Integer> riderIdToPointSum = new HashMap<>();
+        
+        int rankOfRider = 0;
+        for (int riderId : riderIdsRankedByTimeSum) {
+            int points = pointSumsRankedByTimeSum[rankOfRider];
+            riderIdToPointSum.put(riderId, points);
+            rankOfRider++;
+        }
+        assert rankOfRider == riderIdsRankedByTimeSum.length;
+
+        ArrayList<HashMap.Entry<Integer, Integer>> riderIdToPointSumEntries = new ArrayList<>();
+
+        Collections.sort(riderIdToPointSumEntries,
+            new Comparator<HashMap.Entry<Integer, Integer>>() {
+                public int compare(HashMap.Entry<Integer, Integer> entry1, HashMap.Entry<Integer, Integer> entry2) {
+                    return entry2.getValue().compareTo(entry1.getValue()); // Descending order
+                }
+            }
+        );
+
+        int[] riderIdsRankedByPointSum = new int[riderIdToPointSumEntries.size()];
+
+        rankOfRider = 0;
+        for (HashMap.Entry<Integer, Integer> entry : riderIdToPointSumEntries) {
+            int riderId = entry.getKey();
+            riderIdsRankedByPointSum[rankOfRider] = riderId;
+            rankOfRider++;
+        }
+        assert rankOfRider == riderIdToPointSumEntries.size();
+
+		return riderIdsRankedByPointSum;
 	}
 
 	@Override
