@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Team {
     // Static Attributes
-    private int nextId = 0;
+    private static int nextId = 0;
 
     // Static Methods
     public static Team findTeamById(ArrayList<Team> teamInstances, int teamId) throws IDNotRecognisedException {
