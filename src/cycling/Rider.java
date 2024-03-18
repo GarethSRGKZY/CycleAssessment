@@ -20,7 +20,16 @@ public class Rider {
     public static void eraseRiders() {
         nextId = 0;
     }
-    // TODO loadRiders()
+
+    public static void loadRiders(ArrayList<Rider> riderInstances) {
+        int[] riderIds = toIds(riderInstances);
+
+        for (int riderId : riderIds) {
+            if (riderId >= nextId) {
+                nextId = riderId + 1;
+            }
+        }
+    }
     // TODO saveRiders()
 
     public static int[] toIds(ArrayList<Rider> riderInstances) {

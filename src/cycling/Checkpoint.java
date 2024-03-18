@@ -20,7 +20,16 @@ public class Checkpoint {
     public static void eraseCheckpoints() {
         nextId = 0;
     }
-    // TODO loadCheckpoints()
+
+    public static void loadCheckpoints(ArrayList<Checkpoint> checkpointInstances) {
+        int[] checkpointIds = toIds(checkpointInstances);
+
+        for (int checkpointId : checkpointIds) {
+            if (checkpointId >= nextId) {
+                nextId = checkpointId + 1;
+            }
+        }
+    }
     // TODO saveCheckpoints()
 
     public static int[] toIds(ArrayList<Checkpoint> checkpointInstances) {

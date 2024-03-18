@@ -1,7 +1,9 @@
 package cycling;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -573,8 +575,39 @@ public class CyclingPortalImpl implements CyclingPortal {
 
 	@Override
 	public void loadCyclingPortal(String filename) throws IOException, ClassNotFoundException {
-		// TODO Auto-generated method stub
+        CyclingPortalImpl portal;
+		try (
+            FileInputStream fileInput = new FileInputStream(filename);
+            ObjectInputStream objectInput = new ObjectInputStream(fileInput);
+        ) {
+            Object objectRead = objectInput.readObject();
 
+            if (objectRead instanceof CyclingPortalImpl) {
+                portal = (CyclingPortalImpl) objectRead;
+                this.raceInstances = portal.raceInstances;
+                this.teamInstances = portal.teamInstances;
+                this.resultInstances = portal.resultInstances;
+                
+                Race.loadRaces(this.raceInstances);
+                for (Race race : this.raceInstances) {
+                    ArrayList<Stage> stageInstances = race.getStages();
+
+                    Stage.loadStages(stageInstances);
+                    for (Stage stage : stageInstances) {
+                        ArrayList<Checkpoint> checkpointInstances = stage.getCheckpoints();
+
+                        Checkpoint.loadCheckpoints(checkpointInstances);
+                    }
+                }
+
+                Team.loadTeams(this.teamInstances);
+                for (Team team : this.teamInstances) {
+                    ArrayList<Rider> riderInstances = team.getRiders();
+
+                    Rider.loadRiders(riderInstances);
+                }
+            }
+        }
 	}
 
 	@Override

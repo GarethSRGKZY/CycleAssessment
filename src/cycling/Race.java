@@ -31,7 +31,16 @@ public class Race {
         raceInstances.clear();
         nextId = 0;
     }
-    // TODO loadRaces()
+
+    public static void loadRaces(ArrayList<Race> raceInstances) {
+        int[] raceIds = toIds(raceInstances);
+
+        for (int raceId : raceIds) {
+            if (raceId >= nextId) {
+                nextId = raceId + 1;
+            }
+        }
+    }
     // TODO saveRaces()
 
     public static int[] toIds(ArrayList<Race> raceInstances) {

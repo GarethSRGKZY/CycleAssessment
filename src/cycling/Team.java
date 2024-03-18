@@ -31,7 +31,16 @@ public class Team {
         teamInstances.clear();
         nextId = 0;
     }
-    // TODO loadTeams()
+
+    public static void loadTeams(ArrayList<Team> teamInstances) {
+        int[] teamIds = toIds(teamInstances);
+
+        for (int teamId : teamIds) {
+            if (teamId >= nextId) {
+                nextId = teamId + 1;
+            }
+        }
+    }
     // TODO saveTeams()
 
     public static int[] toIds(ArrayList<Team> teamInstances) {

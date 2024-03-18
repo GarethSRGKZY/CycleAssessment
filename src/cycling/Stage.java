@@ -31,7 +31,16 @@ public class Stage {
     public static void eraseStages() {
         nextId = 0;
     }
-    // TODO loadStages()
+
+    public static void loadStages(ArrayList<Stage> stageInstances) {
+        int[] stageIds = toIds(stageInstances);
+
+        for (int stageId : stageIds) {
+            if (stageId >= nextId) {
+                nextId = stageId + 1;
+            }
+        }
+    }
     // TODO saveStages()
 
     public static int[] toIds(ArrayList<Stage> stageInstances) {
