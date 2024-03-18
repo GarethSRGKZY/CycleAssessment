@@ -515,7 +515,7 @@ public class CyclingPortalImpl implements CyclingPortal {
 
             int rankOfRider = 0;
             for (int riderId : Result.toRiderIds(resultsInStage)) {
-                int points = StagePoints.getSprintPoints(rankOfRider);
+                int points = StagePoints.getMountainPoints(checkpoint.getType(), rankOfRider);
                 // Award points to rider
                 if (riderIdToPoints.containsKey(riderId)) {
                     riderIdToPoints.put(riderId, riderIdToPoints.get(riderId) + points);
