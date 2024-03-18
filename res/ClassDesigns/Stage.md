@@ -7,6 +7,7 @@
 - `public findStageByName(ArrayList<Stage> stageInstances, String stageName): Stage`
 - `public findStageContainsCheckpoint(ArrayList<Stage>, int checkpointId)`
 
+- `public eraseStages(): void`
 - `public loadStages(ArrayList<Stage> stageInstances): void`
 	- Deserialise Stages onto memory
 - `public saveStages(ArrayList<Stage> stageInstances): void`

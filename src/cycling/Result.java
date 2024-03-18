@@ -40,6 +40,9 @@ public class Result {
         return results;
     }
 
+    public static void eraseResults(ArrayList<Result> resultInstances) {
+        resultInstances.clear();
+    }
     // TODO loadResults()
     // TODO saveResults()
 

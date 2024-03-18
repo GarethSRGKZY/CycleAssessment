@@ -28,6 +28,9 @@ public class Stage {
         throw new NameNotRecognisedException(String.format("Stage name %s not found", stageName));
     }
 
+    public static void eraseStages() {
+        nextId = 0;
+    }
     // TODO loadStages()
     // TODO saveStages()
 

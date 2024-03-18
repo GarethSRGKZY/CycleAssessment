@@ -27,6 +27,10 @@ public class Race {
         throw new NameNotRecognisedException(String.format("Race name %s not found", raceName));
     }
 
+    public static void eraseRaces(ArrayList<Race> raceInstances) {
+        raceInstances.clear();
+        nextId = 0;
+    }
     // TODO loadRaces()
     // TODO saveRaces()
 

@@ -17,6 +17,9 @@ public class Checkpoint {
         throw new IDNotRecognisedException(String.format("Checkpoint id %d not found", checkpointId));
     }
 
+    public static void eraseCheckpoints() {
+        nextId = 0;
+    }
     // TODO loadCheckpoints()
     // TODO saveCheckpoints()
 

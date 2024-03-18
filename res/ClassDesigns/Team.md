@@ -5,6 +5,7 @@
 ## Static Methods
 - `public findTeamById(ArrayList<Team> teamInstances, int teamId): Team`
 
+- `public eraseTeams(ArrayList<Team> teamInstances): void`
 - `public loadTeams(ArrayList<Team> teamInstances): void`
 	- Deserialise Teams onto memory
 - `public saveTeams(ArrayList<Team> teamInstances): void`

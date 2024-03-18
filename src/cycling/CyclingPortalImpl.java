@@ -550,8 +550,13 @@ public class CyclingPortalImpl implements CyclingPortal {
 
 	@Override
 	public void eraseCyclingPortal() {
-		// TODO Auto-generated method stub
+        Race.eraseRaces(this.raceInstances);
+        Team.eraseTeams(this.teamInstances);
+        Result.eraseResults(this.resultInstances);
 
+        Stage.eraseStages();
+        Checkpoint.eraseCheckpoints();
+        Rider.eraseRiders();
 	}
 
 	@Override

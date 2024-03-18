@@ -17,6 +17,9 @@ public class Rider {
         throw new IDNotRecognisedException(String.format("Rider id %d not found", riderId));
     }
 
+    public static void eraseRiders() {
+        nextId = 0;
+    }
     // TODO loadRiders()
     // TODO saveRiders()
 

@@ -27,6 +27,10 @@ public class Team {
         throw new NameNotRecognisedException(String.format("Team name %s not found", teamName));
     }
 
+    public static void eraseTeams(ArrayList<Team> teamInstances) {
+        teamInstances.clear();
+        nextId = 0;
+    }
     // TODO loadTeams()
     // TODO saveTeams()
 

@@ -5,6 +5,7 @@
 ## Static Methods
 - `public findRiderById(ArrayList<Rider> riderInstances, int riderId): Rider`
 
+- `public eraseRiders(): void`
 - `public loadRiders(ArrayList<Rider> riderInstances): void`
 	- Deserialise Riders onto memory
 - `public saveRiders(ArrayList<Rider> riderInstances): void`

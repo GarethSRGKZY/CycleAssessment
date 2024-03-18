@@ -5,6 +5,7 @@
 ## Static Methods
 - `public findCheckpointById(ArrayList<Checkpoint> checkpointInstances, int checkpointId): Checkpoint`
 
+- `public eraseCheckpoints(): void`
 - `public loadCheckpoints(ArrayList<Checkpoint> checkpointInstances): void`
 	- Deserialise Checkpoints onto memory
 - `public saveCheckpoints(ArrayList<Checkpoint> checkpointInstances): void`
