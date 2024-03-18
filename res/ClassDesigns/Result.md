@@ -5,6 +5,8 @@
 
 - `public eraseResults(ArrayList<Result> resultInstances): void`
 
+- `public timeDelta(LocalTime time1, LocalTime time2): LocalTime`
+- `public timeAdd(LocalTime time1, LocalTime time2): LocalTime`
 - `public adjustElapsedTimes(LocalTime[] elapsedTimes): LocalTime[]`
 
 - `public toElapsedTimes(ArrayList<Result> resultInstances): LocalTime[]`
