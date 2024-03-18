@@ -593,10 +593,10 @@ public class CyclingPortalImpl implements CyclingPortal {
 
                 // Increment TimeSum
                 if (riderIdToTimeSum.containsKey(riderId)) {
-                    riderIdToTimeSum.put(riderId, elapsedTime);
-                } else {
                     LocalTime existingElapsedTime = riderIdToTimeSum.get(riderId);
                     riderIdToTimeSum.put(riderId, Result.timeAdd(elapsedTime, existingElapsedTime));
+                } else {
+                    riderIdToTimeSum.put(riderId, elapsedTime);
                 }
                 rankOfRider++;
             }
@@ -629,10 +629,10 @@ public class CyclingPortalImpl implements CyclingPortal {
 
                 // Award points to rider
                 if (riderIdToPointSum.containsKey(riderId)) {
-                    riderIdToPointSum.put(riderId, points);
-                } else {
                     int existingPoints = riderIdToPointSum.get(riderId);
                     riderIdToPointSum.put(riderId, points + existingPoints);
+                } else {
+                    riderIdToPointSum.put(riderId, points);
                 }
                 rankOfRider++;
             }
@@ -673,10 +673,10 @@ public class CyclingPortalImpl implements CyclingPortal {
 
                 // Award points to rider
                 if (riderIdToPointSum.containsKey(riderId)) {
-                    riderIdToPointSum.put(riderId, mountainPoints);
-                } else {
                     int existingMountainPoints = riderIdToPointSum.get(riderId);
                     riderIdToPointSum.put(riderId, mountainPoints + existingMountainPoints);
+                } else {
+                    riderIdToPointSum.put(riderId, mountainPoints);
                 }
                 rankOfRider++;
             }
@@ -717,10 +717,10 @@ public class CyclingPortalImpl implements CyclingPortal {
 
                 // Increment TimeSum
                 if (riderIdToTimeSum.containsKey(riderId)) {
-                    riderIdToTimeSum.put(riderId, elapsedTime);
-                } else {
                     LocalTime existingElapsedTime = riderIdToTimeSum.get(riderId);
                     riderIdToTimeSum.put(riderId, Result.timeAdd(elapsedTime, existingElapsedTime));
+                } else {
+                    riderIdToTimeSum.put(riderId, elapsedTime);
                 }
                 rankOfRider++;
             }
