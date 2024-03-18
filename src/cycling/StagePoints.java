@@ -1,11 +1,13 @@
 package cycling;
 
-public class StagePoints { // Complements (corresponds to) StageType.java
+public class StagePoints {
+    // Complements (corresponds to) StageType.java
 	public static final int[] FLAT_STAGE_POINTS = new int[]{50, 30, 20, 18, 16, 14, 13, 10, 8, 7, 6, 5, 4, 3, 2};
 	public static final int[] MEDIUM_MOUNTAIN_STAGE_POINTS = new int[]{30, 25, 22, 19, 17, 15, 13, 11, 9, 7, 6, 5, 4, 3, 2};
 	public static final int[] HIGH_MOUNTAIN_STAGE_POINTS = new int[]{20, 17, 15, 13, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
 	public static final int[] TT_STAGE_POINTS = new int[]{20, 17, 15, 13, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
 
+    // Complements (corresponds to) CheckpointType.java
 	public static final int[] SPRINT_POINTS = new int[]{20, 17, 15, 13, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
     public static final int[] C4_POINTS = new int[]{1};
     public static final int[] C3_POINTS = new int[]{2, 1};
