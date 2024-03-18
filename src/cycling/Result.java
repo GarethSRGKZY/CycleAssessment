@@ -1,10 +1,11 @@
 package cycling;
 
+import java.io.Serializable;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
-public class Result {
+public class Result implements Serializable {
     // Static Attributes
 
     // Static Methods

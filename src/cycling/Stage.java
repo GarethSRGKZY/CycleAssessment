@@ -1,9 +1,10 @@
 package cycling;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class Stage {
+public class Stage implements Serializable {
     // Static Attributes
     private static int nextId = 0;
 

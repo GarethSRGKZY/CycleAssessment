@@ -1,8 +1,9 @@
 package cycling;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Checkpoint {
+public class Checkpoint implements Serializable {
     // Static Attributes
     private static int nextId = 0;
 
