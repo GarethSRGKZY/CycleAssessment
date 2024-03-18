@@ -8,8 +8,6 @@
 - `public eraseTeams(ArrayList<Team> teamInstances): void`
 - `public loadTeams(ArrayList<Team> teamInstances): void`
 	- Deserialise Teams onto memory
-- `public saveTeams(ArrayList<Team> teamInstances): void`
-	- Serialise Teams onto disk
 
 - `public toIds(ArrayList<Team> teamInstances): int[]`
 - `public toString(ArrayList<Team> teamInstances): String`

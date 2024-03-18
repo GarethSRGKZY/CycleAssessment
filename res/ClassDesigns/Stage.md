@@ -10,8 +10,6 @@
 - `public eraseStages(): void`
 - `public loadStages(ArrayList<Stage> stageInstances): void`
 	- Deserialise Stages onto memory
-- `public saveStages(ArrayList<Stage> stageInstances): void`
-	- Serialise Stages onto disk
 
 - `public toIds(ArrayList<Stage> stageInstances): int[]`
 - `public toString(ArrayList<Stage> stageInstances): String`

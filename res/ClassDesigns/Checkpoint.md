@@ -8,8 +8,6 @@
 - `public eraseCheckpoints(): void`
 - `public loadCheckpoints(ArrayList<Checkpoint> checkpointInstances): void`
 	- Deserialise Checkpoints onto memory
-- `public saveCheckpoints(ArrayList<Checkpoint> checkpointInstances): void`
-	- Serialise Checkpoints onto disk
 
 - `public toIds(ArrayList<Checkpoint> checkpointInstances): int[]`
 - `public toString(ArrayList<Checkpoint> checkpointInstances): String`

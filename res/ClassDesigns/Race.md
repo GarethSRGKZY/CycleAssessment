@@ -10,8 +10,6 @@
 - `public eraseRaces(ArrayList<Race> raceInstances): void`
 - `public loadRaces(ArrayList<Race> raceInstances): void`
 	- Deserialise Races onto memory
-- `public saveRaces(ArrayList<Race> raceInstances: void`
-	- Serialise Races onto disk
 
 - `public toIds(ArrayList<Race> raceInstances): int[]`
 - `public toString(ArrayList<Race> raceInstances): String`
