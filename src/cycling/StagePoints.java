@@ -14,30 +14,37 @@ public class StagePoints { // Complements (corresponds to) StageType.java
     public static final int[] HC_POINTS = new int[]{20, 15, 12, 10, 8, 6, 4, 2};
 
     public static int getStagePoints(StageType type, int index) {
-        if (index >= 15) {
-            return 0;
-        }
+        int[] pointsToAwardRanked;
 
         switch (type) {
             case FLAT:
-                return FLAT_STAGE_POINTS[index];
+                pointsToAwardRanked = FLAT_STAGE_POINTS;
+                break;
 
             case MEDIUM_MOUNTAIN:
-                return MEDIUM_MOUNTAIN_STAGE_POINTS[index];
+                pointsToAwardRanked = MEDIUM_MOUNTAIN_STAGE_POINTS;
+                break;
 
             case HIGH_MOUNTAIN:
-                return HIGH_MOUNTAIN_STAGE_POINTS[index];
+                pointsToAwardRanked = HIGH_MOUNTAIN_STAGE_POINTS;
+                break;
 
             case TT:
-                return TT_STAGE_POINTS[index];
+                pointsToAwardRanked = TT_STAGE_POINTS;
+                break;
 
             default:
                 return 0;
         }
+
+        if (index >= pointsToAwardRanked.length) {
+            return 0;
+        }
+        return pointsToAwardRanked[index];
     }
 
     public static int getSprintPoints(int index) {
-        if (index >= 15) {
+        if (index >= SPRINT_POINTS.length) {
             return 0;
         }
         return SPRINT_POINTS[index];
