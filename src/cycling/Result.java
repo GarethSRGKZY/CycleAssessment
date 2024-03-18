@@ -46,16 +46,12 @@ public class Result implements Serializable {
     }
 
     public static LocalTime timeDelta(LocalTime time1, LocalTime time2) {
-        int _hours = (int) time1.until(time2, ChronoUnit.HOURS);
-        int _minutes = (int) time1.until(time2, ChronoUnit.MINUTES);
-        int _seconds = (int) time1.until(time2, ChronoUnit.SECONDS);
-        int _nanoseconds = (int) time1.until(time2, ChronoUnit.NANOS);
+        time1.minusHours(time2.getHour());
+        time1.minusMinutes(time2.getMinute());
+        time1.minusSeconds(time2.getSecond());
+        time1.minusNanos(time2.getNano());
 
-        int hours = _hours;
-        int minutes = _minutes - 60 * _hours;
-        int seconds = _seconds - 60 * _minutes;
-        int nanoseconds = _nanoseconds - (int) 1e9 * _seconds; 
-        return LocalTime.of(hours, minutes, seconds, nanoseconds);
+        return time1;
     }
 
     public static LocalTime timeAdd(LocalTime time1, LocalTime time2) {
