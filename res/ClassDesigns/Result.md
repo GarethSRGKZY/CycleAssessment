@@ -3,10 +3,7 @@
 ## Static Methods
 - `public findResultById(ArrayList<Result> resultInstances, int stageId, int riderId): Result`
 
-- `public loadResults(ArrayList<Result> resultInstances): void`
-	- Deserialise Results onto memory
-- `public saveResults(ArrayList<Result> resultInstances): void`
-	- Serialise Results onto disk
+- `public eraseResults(ArrayList<Result> resultInstances): void`
 
 - `public adjustElapsedTimes(LocalTime[] elapsedTimes): LocalTime[]`
 

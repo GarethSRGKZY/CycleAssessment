@@ -1,10 +1,11 @@
 package cycling;
 
+import java.io.Serializable;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
-public class Result {
+public class Result implements Serializable {
     // Static Attributes
 
     // Static Methods
@@ -40,8 +41,9 @@ public class Result {
         return results;
     }
 
-    // TODO loadResults()
-    // TODO saveResults()
+    public static void eraseResults(ArrayList<Result> resultInstances) {
+        resultInstances.clear();
+    }
 
     public static LocalTime timeDelta(LocalTime time1, LocalTime time2) {
         int _hours = (int) time1.until(time2, ChronoUnit.HOURS);

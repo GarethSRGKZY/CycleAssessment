@@ -1,9 +1,10 @@
 package cycling;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class Stage {
+public class Stage implements Serializable {
     // Static Attributes
     private static int nextId = 0;
 
@@ -28,8 +29,19 @@ public class Stage {
         throw new NameNotRecognisedException(String.format("Stage name %s not found", stageName));
     }
 
-    // TODO loadStages()
-    // TODO saveStages()
+    public static void eraseStages() {
+        nextId = 0;
+    }
+
+    public static void loadStages(ArrayList<Stage> stageInstances) {
+        int[] stageIds = toIds(stageInstances);
+
+        for (int stageId : stageIds) {
+            if (stageId >= nextId) {
+                nextId = stageId + 1;
+            }
+        }
+    }
 
     public static int[] toIds(ArrayList<Stage> stageInstances) {
         int size = stageInstances.size();

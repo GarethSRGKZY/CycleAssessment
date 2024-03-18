@@ -1,8 +1,9 @@
 package cycling;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Checkpoint {
+public class Checkpoint implements Serializable {
     // Static Attributes
     private static int nextId = 0;
 
@@ -17,8 +18,19 @@ public class Checkpoint {
         throw new IDNotRecognisedException(String.format("Checkpoint id %d not found", checkpointId));
     }
 
-    // TODO loadCheckpoints()
-    // TODO saveCheckpoints()
+    public static void eraseCheckpoints() {
+        nextId = 0;
+    }
+
+    public static void loadCheckpoints(ArrayList<Checkpoint> checkpointInstances) {
+        int[] checkpointIds = toIds(checkpointInstances);
+
+        for (int checkpointId : checkpointIds) {
+            if (checkpointId >= nextId) {
+                nextId = checkpointId + 1;
+            }
+        }
+    }
 
     public static int[] toIds(ArrayList<Checkpoint> checkpointInstances) {
         int size = checkpointInstances.size();

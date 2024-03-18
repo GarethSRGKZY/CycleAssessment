@@ -1,8 +1,9 @@
 package cycling;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Race {
+public class Race implements Serializable {
     // Static Attributes
     private static int nextId = 0;
 
@@ -27,8 +28,20 @@ public class Race {
         throw new NameNotRecognisedException(String.format("Race name %s not found", raceName));
     }
 
-    // TODO loadRaces()
-    // TODO saveRaces()
+    public static void eraseRaces(ArrayList<Race> raceInstances) {
+        raceInstances.clear();
+        nextId = 0;
+    }
+
+    public static void loadRaces(ArrayList<Race> raceInstances) {
+        int[] raceIds = toIds(raceInstances);
+
+        for (int raceId : raceIds) {
+            if (raceId >= nextId) {
+                nextId = raceId + 1;
+            }
+        }
+    }
 
     public static int[] toIds(ArrayList<Race> raceInstances) {
         int size = raceInstances.size();

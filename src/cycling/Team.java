@@ -1,10 +1,11 @@
 package cycling;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Team {
+public class Team implements Serializable {
     // Static Attributes
-    private int nextId = 0;
+    private static int nextId = 0;
 
     // Static Methods
     public static Team findTeamById(ArrayList<Team> teamInstances, int teamId) throws IDNotRecognisedException {
@@ -27,8 +28,20 @@ public class Team {
         throw new NameNotRecognisedException(String.format("Team name %s not found", teamName));
     }
 
-    // TODO loadTeams()
-    // TODO saveTeams()
+    public static void eraseTeams(ArrayList<Team> teamInstances) {
+        teamInstances.clear();
+        nextId = 0;
+    }
+
+    public static void loadTeams(ArrayList<Team> teamInstances) {
+        int[] teamIds = toIds(teamInstances);
+
+        for (int teamId : teamIds) {
+            if (teamId >= nextId) {
+                nextId = teamId + 1;
+            }
+        }
+    }
 
     public static int[] toIds(ArrayList<Team> teamInstances) {
         int size = teamInstances.size();
