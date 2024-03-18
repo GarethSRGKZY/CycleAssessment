@@ -640,7 +640,7 @@ public class CyclingPortalImpl implements CyclingPortal {
         }
 
         // Convert riderIdsRankedByTimeSum to pointSumsRankedByTimeSum using riderIdToPointSum map
-        int[] riderIdsRankedByTimeSum = getRidersRankInStage(raceId);
+        int[] riderIdsRankedByTimeSum = getRidersGeneralClassificationRank(raceId);
         int[] pointSumsRankedByTimeSum = new int[riderIdsRankedByTimeSum.length];
 
         assert riderIdsRankedByTimeSum.length == riderIdToPointSum.size();
@@ -684,7 +684,7 @@ public class CyclingPortalImpl implements CyclingPortal {
         }
 
         // Convert riderIdsRankedByTimeSum to pointSumsRankedByTimeSum using riderIdToPointSum map
-        int[] riderIdsRankedByTimeSum = getRidersRankInStage(raceId);
+        int[] riderIdsRankedByTimeSum = getRidersGeneralClassificationRank(raceId);
         int[] pointSumsRankedByTimeSum =  new int[riderIdsRankedByTimeSum.length];
 
         assert riderIdsRankedByTimeSum.length == riderIdToPointSum.size();
