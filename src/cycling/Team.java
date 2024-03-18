@@ -42,7 +42,6 @@ public class Team implements Serializable {
             }
         }
     }
-    // TODO saveTeams()
 
     public static int[] toIds(ArrayList<Team> teamInstances) {
         int size = teamInstances.size();

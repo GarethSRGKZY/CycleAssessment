@@ -44,8 +44,6 @@ public class Result implements Serializable {
     public static void eraseResults(ArrayList<Result> resultInstances) {
         resultInstances.clear();
     }
-    // TODO loadResults()
-    // TODO saveResults()
 
     public static LocalTime timeDelta(LocalTime time1, LocalTime time2) {
         int _hours = (int) time1.until(time2, ChronoUnit.HOURS);

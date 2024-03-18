@@ -31,7 +31,6 @@ public class Checkpoint implements Serializable {
             }
         }
     }
-    // TODO saveCheckpoints()
 
     public static int[] toIds(ArrayList<Checkpoint> checkpointInstances) {
         int size = checkpointInstances.size();

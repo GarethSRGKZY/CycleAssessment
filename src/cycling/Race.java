@@ -42,7 +42,6 @@ public class Race implements Serializable {
             }
         }
     }
-    // TODO saveRaces()
 
     public static int[] toIds(ArrayList<Race> raceInstances) {
         int size = raceInstances.size();

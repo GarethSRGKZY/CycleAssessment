@@ -31,7 +31,6 @@ public class Rider implements Serializable {
             }
         }
     }
-    // TODO saveRiders()
 
     public static int[] toIds(ArrayList<Rider> riderInstances) {
         int size = riderInstances.size();
