@@ -1,6 +1,8 @@
 package cycling;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -561,8 +563,12 @@ public class CyclingPortalImpl implements CyclingPortal {
 
 	@Override
 	public void saveCyclingPortal(String filename) throws IOException {
-		// TODO Auto-generated method stub
-
+        try (
+            FileOutputStream fileOutput = new FileOutputStream(filename);
+            ObjectOutputStream objectOutput = new ObjectOutputStream(fileOutput);
+        ) {
+            objectOutput.writeObject(this);
+        }
 	}
 
 	@Override
