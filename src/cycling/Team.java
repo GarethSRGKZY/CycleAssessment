@@ -18,6 +18,21 @@ public class Team implements Serializable {
         throw new IDNotRecognisedException(String.format("Team id %d not found", teamId));
     }
 
+    public static Team findTeamContainsRider(ArrayList<Team> teams, int riderId) throws IDNotRecognisedException {
+        for (Team team : teams) {
+            try {
+                Rider rider = Rider.findRiderById(team.getRiders(), riderId);
+                if (rider instanceof Rider) {
+                    return team;
+                }
+            } catch (IDNotRecognisedException e) {
+                continue;
+            }
+        }
+
+        throw new IDNotRecognisedException(String.format("Rider id %d not found", riderId));
+    }
+
     public static Team findTeamByName(ArrayList<Team> teams, String teamName) throws NameNotRecognisedException {
         for (Team team : teams) {
             if (team.getName().equals(teamName)) {

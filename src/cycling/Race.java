@@ -28,6 +28,21 @@ public class Race implements Serializable {
         throw new NameNotRecognisedException(String.format("Race name %s not found", raceName));
     }
 
+    public static Race findRaceContainsStageId(ArrayList<Race> races, int stageId) throws IDNotRecognisedException{
+        for (Race race : races) {
+            try {
+                Stage stage = Stage.findStageById(race.getStages(), stageId);
+                if (stage instanceof Stage) {
+                    return race;
+                }
+            } catch (IDNotRecognisedException e) {
+                continue;
+            }
+        }
+
+        throw new IDNotRecognisedException(String.format("Stage id %d not found", stageId));
+    }
+
     public static void eraseRaces(ArrayList<Race> races) {
         races.clear();
         nextId = 0;

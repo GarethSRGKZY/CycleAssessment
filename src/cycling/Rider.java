@@ -18,6 +18,18 @@ public class Rider implements Serializable {
         throw new IDNotRecognisedException(String.format("Rider id %d not found", riderId));
     }
 
+    public static Rider findRiderByIdFromTeams(ArrayList<Team> teams, int riderId) throws IDNotRecognisedException {
+        for (Team team : teams) {
+            try {
+                return Rider.findRiderById(team.getRiders(), riderId);
+            } catch (IDNotRecognisedException e) {
+                continue;
+            }
+        }
+
+        throw new IDNotRecognisedException(String.format("Rider id %d not found", riderId));
+    }
+
     public static void eraseRiders() {
         nextId = 0;
     }

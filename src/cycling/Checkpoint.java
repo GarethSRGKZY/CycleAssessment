@@ -18,6 +18,20 @@ public class Checkpoint implements Serializable {
         throw new IDNotRecognisedException(String.format("Checkpoint id %d not found", checkpointId));
     }
 
+    public static Checkpoint findCheckpointByIdFromRaces(ArrayList<Race> races, int checkpointId) throws IDNotRecognisedException {
+        for (Race race : races) {
+            for (Stage stage : race.getStages()) {
+                try {
+                    return findCheckpointById(stage.getCheckpoints(), checkpointId);
+                } catch (IDNotRecognisedException e) {
+                    continue;
+                }
+            }
+        }
+
+        throw new IDNotRecognisedException(String.format("Checkpoint id %d not found", checkpointId));
+    }
+
     public static void eraseCheckpoints() {
         nextId = 0;
     }

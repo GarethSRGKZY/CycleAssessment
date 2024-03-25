@@ -19,6 +19,35 @@ public class Stage implements Serializable {
         throw new IDNotRecognisedException(String.format("Stage id %d not found", stageId));
     }
 
+    public static Stage findStageByIdFromRaces(ArrayList<Race> races, int stageId) throws IDNotRecognisedException {
+        for (Race race : races) {
+            try {
+                return findStageById(race.getStages(), stageId);
+            } catch (IDNotRecognisedException e) {
+                continue;
+            }
+        }
+
+        throw new IDNotRecognisedException(String.format("Stage id %d not found", stageId));
+    }
+
+    public static Stage findStageContainsCheckpoint(ArrayList<Race> races, int checkpointId) throws IDNotRecognisedException {
+        for (Race race : races) {
+            for (Stage stage : race.getStages()) {
+                try {
+                    Checkpoint checkpoint = Checkpoint.findCheckpointById(stage.getCheckpoints(), checkpointId);
+                    if (checkpoint instanceof Checkpoint) {
+                        return stage;
+                    }
+                } catch (IDNotRecognisedException e) {
+                    continue;
+                }
+            }
+        }
+
+        throw new IDNotRecognisedException(String.format("Checkpoint id %d not found", checkpointId));
+    }
+
     public static Stage findStageByName(ArrayList<Stage> stages, String stageName) throws NameNotRecognisedException {
         for (Stage stage : stages) {
             if (stage.getName() == stageName) {
