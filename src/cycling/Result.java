@@ -9,8 +9,8 @@ public class Result implements Serializable {
     // Static Attributes
 
     // Static Methods
-    public static Result findResultById(ArrayList<Result> resultInstances, int stageId, int riderId) throws IDNotRecognisedException {
-        for (Result result : resultInstances) {
+    public static Result findResultById(ArrayList<Result> results, int stageId, int riderId) throws IDNotRecognisedException {
+        for (Result result : results) {
             if (result.getStage().getId() == stageId && result.getRider().getId() == riderId) {
                 return result;    
             }
@@ -18,31 +18,31 @@ public class Result implements Serializable {
 
         throw new IDNotRecognisedException(String.format("Stage id %d and Rider id %d not found", stageId, riderId));
     }
-    public static ArrayList<Result> findResultsByStageId(ArrayList<Result> resultInstances, int stageId) {
-        ArrayList<Result> results = new ArrayList<>();
+    public static ArrayList<Result> findResultsByStageId(ArrayList<Result> results, int stageId) {
+        ArrayList<Result> resultsInStage = new ArrayList<>();
 
-        for (Result result : resultInstances) {
+        for (Result result : results) {
             if (result.getStage().getId() == stageId) {
-                results.add(result);
+                resultsInStage.add(result);
             }
         }
 
-        return results;
+        return resultsInStage;
     }
-    public static ArrayList<Result> findResultsByRiderId(ArrayList<Result> resultInstances, int riderId) {
-        ArrayList<Result> results = new ArrayList<>();
+    public static ArrayList<Result> findResultsByRiderId(ArrayList<Result> results, int riderId) {
+        ArrayList<Result> resultsInRider = new ArrayList<>();
 
-        for (Result result : resultInstances) {
+        for (Result result : results) {
             if (result.getRider().getId() == riderId) {
-                results.add(result);
+                resultsInRider.add(result);
             }
         }
 
-        return results;
+        return resultsInRider;
     }
 
-    public static void eraseResults(ArrayList<Result> resultInstances) {
-        resultInstances.clear();
+    public static void eraseResults(ArrayList<Result> results) {
+        results.clear();
     }
 
     public static LocalTime timeDelta(LocalTime time1, LocalTime time2) {
@@ -80,47 +80,47 @@ public class Result implements Serializable {
         return adjustedElapsedTimes;
     }
 
-    public static int[] toRiderIds(ArrayList<Result> resultInstances) {
-        int size = resultInstances.size();
+    public static int[] toRiderIds(ArrayList<Result> results) {
+        int size = results.size();
 
         int[] result = new int[size];
 
         for (int i = 0; i < size; i++) {
-            result[i] = resultInstances.get(i).getRider().getId();
+            result[i] = results.get(i).getRider().getId();
         }
 
         return result;
     }
 
-    public static int[] toStageIds(ArrayList<Result> resultInstances) {
-        int size = resultInstances.size();
+    public static int[] toStageIds(ArrayList<Result> results) {
+        int size = results.size();
 
         int[] result = new int[size];
 
         for (int i = 0; i < size; i++) {
-            result[i] = resultInstances.get(i).getStage().getId();
+            result[i] = results.get(i).getStage().getId();
         }
 
         return result;
     }
 
-    public static LocalTime[] toElapsedTimes(ArrayList<Result> resultInstances) {
-        int size = resultInstances.size();
+    public static LocalTime[] toElapsedTimes(ArrayList<Result> results) {
+        int size = results.size();
 
         LocalTime[] elapsedTimes = new LocalTime[size];
 
         for (int i = 0; i < size; i++) {
-            elapsedTimes[i] = resultInstances.get(i).getElapsedTime();
+            elapsedTimes[i] = results.get(i).getElapsedTime();
         }
 
         return elapsedTimes;
     }
 
-    public static String toString(ArrayList<Result> resultInstances) {
-        String[] resultStrings = new String[resultInstances.size()];
+    public static String toString(ArrayList<Result> results) {
+        String[] resultStrings = new String[results.size()];
 
-        for (int i = 0; i < resultInstances.size(); ++i) {
-            resultStrings[i] = resultInstances.get(i).toString();
+        for (int i = 0; i < results.size(); ++i) {
+            resultStrings[i] = results.get(i).toString();
         }
 
         String result = "{";
@@ -139,11 +139,11 @@ public class Result implements Serializable {
     private LocalTime[] checkpointTimes;
 
     // Instance Methods
-    public Result(Stage stage, Rider rider, LocalTime... checkpoints) throws InvalidCheckpointTimesException, InvalidStageStateException {
-        if (checkpoints.length != stage.getCheckpoints().size() + 2) {
-            throw new InvalidCheckpointTimesException(String.format("Length of checkpoints %d must be length of checkpoints in stage + 2 %d", checkpoints.length, stage.getCheckpoints().size() + 2));
+    public Result(Stage stage, Rider rider, LocalTime... checkpointTimes) throws InvalidCheckpointTimesException, InvalidStageStateException {
+        if (checkpointTimes.length != stage.getCheckpoints().size() + 2) {
+            throw new InvalidCheckpointTimesException(String.format("Length of checkpoints %d must be length of checkpoints in stage + 2 %d", checkpointTimes.length, stage.getCheckpoints().size() + 2));
         }
-        assert checkpoints.length >= 2
+        assert checkpointTimes.length >= 2
             : "There should at least be a start time and end time in a result";
 
         if (stage.getState() != StageState.WAITING_FOR_RESULTS) {
@@ -151,45 +151,45 @@ public class Result implements Serializable {
         }
 
 
-        for (int i = 1; i < checkpoints.length; i++) {
-            if (checkpoints[i - 1].compareTo(checkpoints[i]) > 1) {
-                throw new InvalidCheckpointTimesException(String.format("Checkpoint times %s and %s are not in chronological order", checkpoints[i - 1], checkpoints[i]));
+        for (int i = 1; i < checkpointTimes.length; i++) {
+            if (checkpointTimes[i - 1].compareTo(checkpointTimes[i]) > 1) {
+                throw new InvalidCheckpointTimesException(String.format("Checkpoint times %s and %s are not in chronological order", checkpointTimes[i - 1], checkpointTimes[i]));
             }
         }
 
         this.stage = stage;
         this.rider = rider;
-        this.checkpointTimes = checkpoints;
+        this.checkpointTimes = checkpointTimes;
     }
 
     public Stage getStage() {
-        return this.stage;
+        return stage;
     }
 
     public Rider getRider() {
-        return this.rider;
+        return rider;
     }
 
     public LocalTime[] getCheckpointTimes() {
-        return this.checkpointTimes;
+        return checkpointTimes;
     }
 
     public LocalTime getElapsedTime() {
-        LocalTime startTime = this.checkpointTimes[0];
-        LocalTime endTime = this.checkpointTimes[this.checkpointTimes.length - 1];
+        LocalTime startTime = checkpointTimes[0];
+        LocalTime endTime = checkpointTimes[checkpointTimes.length - 1];
         return timeDelta(startTime, endTime);
     }
 
     public LocalTime getElapsedTimeToCheckpoint(Checkpoint checkpoint) {
         // TODO validate checkpointIndex
-        int checkpointIndex = this.stage.getCheckpoints().indexOf(checkpoint);
+        int checkpointIndex = stage.getCheckpoints().indexOf(checkpoint);
 
-        LocalTime startTime = this.checkpointTimes[0];
-        LocalTime checkpointTime = this.checkpointTimes[checkpointIndex + 1];
+        LocalTime startTime = checkpointTimes[0];
+        LocalTime checkpointTime = checkpointTimes[checkpointIndex + 1];
         return timeDelta(startTime, checkpointTime);
     }
 
     public String toString(){
-        return String.format("Result[stage=%s, rider=%s, checkpointTimes=%s]", this.stage, this.rider, this.checkpointTimes);
+        return String.format("Result[stage=%s, rider=%s, checkpointTimes=%s]", stage, rider, checkpointTimes);
     }
 }

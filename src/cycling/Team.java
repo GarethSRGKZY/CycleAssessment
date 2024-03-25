@@ -8,8 +8,8 @@ public class Team implements Serializable {
     private static int nextId = 0;
 
     // Static Methods
-    public static Team findTeamById(ArrayList<Team> teamInstances, int teamId) throws IDNotRecognisedException {
-        for (Team team : teamInstances) {
+    public static Team findTeamById(ArrayList<Team> teams, int teamId) throws IDNotRecognisedException {
+        for (Team team : teams) {
             if (team.getId() == teamId) {
                 return team;
             }
@@ -18,8 +18,8 @@ public class Team implements Serializable {
         throw new IDNotRecognisedException(String.format("Team id %d not found", teamId));
     }
 
-    public static Team findTeamByName(ArrayList<Team> teamInstances, String teamName) throws NameNotRecognisedException {
-        for (Team team : teamInstances) {
+    public static Team findTeamByName(ArrayList<Team> teams, String teamName) throws NameNotRecognisedException {
+        for (Team team : teams) {
             if (team.getName().equals(teamName)) {
                 return team;
             }
@@ -28,13 +28,13 @@ public class Team implements Serializable {
         throw new NameNotRecognisedException(String.format("Team name %s not found", teamName));
     }
 
-    public static void eraseTeams(ArrayList<Team> teamInstances) {
-        teamInstances.clear();
+    public static void eraseTeams(ArrayList<Team> teams) {
+        teams.clear();
         nextId = 0;
     }
 
-    public static void loadTeams(ArrayList<Team> teamInstances) {
-        int[] teamIds = toIds(teamInstances);
+    public static void loadTeams(ArrayList<Team> teams) {
+        int[] teamIds = toIds(teams);
 
         for (int teamId : teamIds) {
             if (teamId >= nextId) {
@@ -43,23 +43,23 @@ public class Team implements Serializable {
         }
     }
 
-    public static int[] toIds(ArrayList<Team> teamInstances) {
-        int size = teamInstances.size();
+    public static int[] toIds(ArrayList<Team> teams) {
+        int size = teams.size();
 
         int[] result = new int[size];
 
         for (int i = 0; i < size; i++) {
-            result[i] = teamInstances.get(i).getId();
+            result[i] = teams.get(i).getId();
         }
 
         return result;
     }
 
-    public static String toString(ArrayList<Team> teamInstances) {
-        String[] teamStrings = new String[teamInstances.size()];
+    public static String toString(ArrayList<Team> teams) {
+        String[] teamStrings = new String[teams.size()];
 
-        for (int i = 0; i < teamInstances.size(); ++i) {
-            teamStrings[i] = teamInstances.get(i).toString();
+        for (int i = 0; i < teams.size(); ++i) {
+            teamStrings[i] = teams.get(i).toString();
         }
 
         String result = "{";
@@ -98,43 +98,43 @@ public class Team implements Serializable {
             throw new InvalidNameException(String.format("Team name %s contains spaces", name));
         }
 
-        this.id = nextId++;
-        this.riders = new ArrayList<>();
+        id = nextId++;
+        riders = new ArrayList<>();
 
         this.name = name;
         this.description = description;
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public ArrayList<Rider> getRiders() {
-        return this.riders;
+        return riders;
     }
 
     public void addRider(Rider rider) {
-        assert !this.riders.contains(rider)
+        assert !riders.contains(rider)
             : "There should not be any existing references to a brand new Rider";
 
-        this.riders.add(rider);
+        riders.add(rider);
 
-        assert this.riders.contains(rider)
-            : "The new Rider should have been appended to this.riders";
+        assert riders.contains(rider)
+            : "The new Rider should have been appended to riders";
     }
 
     public void removeRider(Rider rider) {
-        this.riders.remove(rider);
+        riders.remove(rider);
     }
 
 
 
     public String toString() {
-        String riders = Rider.toString(this.riders);
-        return String.format("Team[id=%d, riders=%s, name=%s, description=%s,]", this.id, riders, this.name, this.description);
+        String ridersString = Rider.toString(riders);
+        return String.format("Team[id=%d, riders=%s, name=%s, description=%s,]", id, ridersString, name, description);
     }
 
     public int getId() {
-        return this.id;
+        return id;
     }
 }

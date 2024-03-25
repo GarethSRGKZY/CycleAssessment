@@ -8,8 +8,8 @@ public class Rider implements Serializable {
     private static int nextId = 0;
 
     // Static Methods
-    public static Rider findRiderById(ArrayList<Rider> riderInstances, int riderId) throws IDNotRecognisedException {
-        for (Rider rider : riderInstances) {
+    public static Rider findRiderById(ArrayList<Rider> riders, int riderId) throws IDNotRecognisedException {
+        for (Rider rider : riders) {
             if (rider.getId() == riderId) {
                 return rider;
             }
@@ -22,8 +22,8 @@ public class Rider implements Serializable {
         nextId = 0;
     }
 
-    public static void loadRiders(ArrayList<Rider> riderInstances) {
-        int[] riderIds = toIds(riderInstances);
+    public static void loadRiders(ArrayList<Rider> riders) {
+        int[] riderIds = toIds(riders);
 
         for (int riderId : riderIds) {
             if (riderId >= nextId) {
@@ -32,23 +32,23 @@ public class Rider implements Serializable {
         }
     }
 
-    public static int[] toIds(ArrayList<Rider> riderInstances) {
-        int size = riderInstances.size();
+    public static int[] toIds(ArrayList<Rider> riders) {
+        int size = riders.size();
 
         int[] result = new int[size];
 
         for (int i = 0; i < size; i++) {
-            result[i] = riderInstances.get(i).getId();
+            result[i] = riders.get(i).getId();
         }
 
         return result;
     }
 
-    public static String toString(ArrayList<Rider> riderInstances) {
-        String[] riderStrings = new String[riderInstances.size()];
+    public static String toString(ArrayList<Rider> riders) {
+        String[] riderStrings = new String[riders.size()];
 
-        for (int i = 0; i < riderInstances.size(); ++i) {
-            riderStrings[i] = riderInstances.get(i).toString();
+        for (int i = 0; i < riders.size(); ++i) {
+            riderStrings[i] = riders.get(i).toString();
         }
 
         String result = "{";
@@ -79,17 +79,17 @@ public class Rider implements Serializable {
             throw new IllegalArgumentException(String.format("Rider yearOfBirth %d is less than 1900", yearOfBirth));
         }
 
-        this.id = nextId++;
+        id = nextId++;
 
         this.name = name;
         this.yearOfBirth = yearOfBirth;
     }
 
     public String toString() {
-        return String.format("Rider[id=%d, name=%s, yearOfBirth=%d]", this.id, this.name, this.yearOfBirth); 
+        return String.format("Rider[id=%d, name=%s, yearOfBirth=%d]", id, name, yearOfBirth); 
     }
 
     public int getId() {
-        return this.id;
+        return id;
     }
 }
