@@ -9,8 +9,8 @@ public class Stage implements Serializable {
     private static int nextId = 0;
 
     // Static Methods
-    public static Stage findStageById(ArrayList<Stage> stageInstances, int stageId) throws IDNotRecognisedException {
-        for (Stage stage : stageInstances) {
+    public static Stage findStageById(ArrayList<Stage> stages, int stageId) throws IDNotRecognisedException {
+        for (Stage stage : stages) {
             if (stage.getId() == stageId) {
                 return stage;
             }
@@ -19,8 +19,37 @@ public class Stage implements Serializable {
         throw new IDNotRecognisedException(String.format("Stage id %d not found", stageId));
     }
 
-    public static Stage findStageByName(ArrayList<Stage> stageInstances, String stageName) throws NameNotRecognisedException {
-        for (Stage stage : stageInstances) {
+    public static Stage findStageByIdFromRaces(ArrayList<Race> races, int stageId) throws IDNotRecognisedException {
+        for (Race race : races) {
+            try {
+                return findStageById(race.getStages(), stageId);
+            } catch (IDNotRecognisedException e) {
+                continue;
+            }
+        }
+
+        throw new IDNotRecognisedException(String.format("Stage id %d not found", stageId));
+    }
+
+    public static Stage findStageContainsCheckpoint(ArrayList<Race> races, int checkpointId) throws IDNotRecognisedException {
+        for (Race race : races) {
+            for (Stage stage : race.getStages()) {
+                try {
+                    Checkpoint checkpoint = Checkpoint.findCheckpointById(stage.getCheckpoints(), checkpointId);
+                    if (checkpoint instanceof Checkpoint) {
+                        return stage;
+                    }
+                } catch (IDNotRecognisedException e) {
+                    continue;
+                }
+            }
+        }
+
+        throw new IDNotRecognisedException(String.format("Checkpoint id %d not found", checkpointId));
+    }
+
+    public static Stage findStageByName(ArrayList<Stage> stages, String stageName) throws NameNotRecognisedException {
+        for (Stage stage : stages) {
             if (stage.getName() == stageName) {
                 return stage;
             }
@@ -33,8 +62,8 @@ public class Stage implements Serializable {
         nextId = 0;
     }
 
-    public static void loadStages(ArrayList<Stage> stageInstances) {
-        int[] stageIds = toIds(stageInstances);
+    public static void loadStages(ArrayList<Stage> stages) {
+        int[] stageIds = toIds(stages);
 
         for (int stageId : stageIds) {
             if (stageId >= nextId) {
@@ -43,23 +72,23 @@ public class Stage implements Serializable {
         }
     }
 
-    public static int[] toIds(ArrayList<Stage> stageInstances) {
-        int size = stageInstances.size();
+    public static int[] toIds(ArrayList<Stage> stages) {
+        int size = stages.size();
 
         int[] result = new int[size]; 
 
         for (int i = 0; i < size; i++) {
-            result[i] = stageInstances.get(i).getId();
+            result[i] = stages.get(i).getId();
         }
 
         return result;
     }
 
-    public static String toString(ArrayList<Stage> stageInstances) {
-        String[] stageStrings = new String[stageInstances.size()];
+    public static String toString(ArrayList<Stage> stages) {
+        String[] stageStrings = new String[stages.size()];
 
-        for (int i = 0; i < stageInstances.size(); ++i) {
-            stageStrings[i] = stageInstances.get(i).toString();
+        for (int i = 0; i < stages.size(); ++i) {
+            stageStrings[i] = stages.get(i).toString();
         }
 
         String result = "{";
@@ -106,98 +135,98 @@ public class Stage implements Serializable {
             throw new InvalidLengthException(String.format("Stage length %f is less than 5", length));
         }
 
-        this.id = nextId++;
-        this.checkpoints = new ArrayList<>();
+        id = nextId++;
+        checkpoints = new ArrayList<>();
 
         this.name = name;
         this.description = description;
         this.length = length;
         this.startTime = startTime;
         this.type = type;
-        this.state = StageState.PREPARING_STAGE;
+        state = StageState.PREPARING_STAGE;
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public double getLength() {
-        return this.length;
+        return length;
     }
     
     public LocalDateTime getStartTime() {
-        return this.startTime;
+        return startTime;
     }
 
     public StageType getType() {
-        return this.type;
+        return type;
     }
 
     public StageState getState() {
-        return this.state;
+        return state;
     }
 
 
     
     public ArrayList<Checkpoint> getCheckpoints() {
-        return this.checkpoints;
+        return checkpoints;
     }
     
     public void addCheckpoint(Checkpoint checkpoint) throws InvalidStageStateException, InvalidStageTypeException, InvalidLocationException {
-        if (this.state == StageState.WAITING_FOR_RESULTS) {
-            throw new InvalidStageStateException(String.format("Stage state cannot be %s", this.state));
+        if (state == StageState.WAITING_FOR_RESULTS) {
+            throw new InvalidStageStateException(String.format("Stage state cannot be %s", state));
         }
         
-        if (this.type == StageType.TT) {
+        if (type == StageType.TT) {
             throw new InvalidStageTypeException("Time-trial stages cannot contain any checkpoints");
         }
 
-        if (checkpoint.getLocation() > this.length) {
-            throw new InvalidLocationException(String.format("Checkpoint location %f must be less than the Stage length %f", checkpoint.getLocation(), this.length));
+        if (checkpoint.getLocation() > length) {
+            throw new InvalidLocationException(String.format("Checkpoint location %f must be less than the Stage length %f", checkpoint.getLocation(), length));
         }
 
-        assert !this.checkpoints.contains(checkpoint)
+        assert !checkpoints.contains(checkpoint)
             : "There should not be any existing references to a brand new Checkpoint";
 
-        this.checkpoints.add(checkpoint);
+        checkpoints.add(checkpoint);
 
-        assert this.checkpoints.contains(checkpoint)
-            : "The new Checkpoint should have been appended to this.checkpoints";
+        assert checkpoints.contains(checkpoint)
+            : "The new Checkpoint should have been appended to checkpoints";
     }
     
     public void removeCheckpoint(Checkpoint checkpoint) throws InvalidStageStateException {
-        if (this.state == StageState.WAITING_FOR_RESULTS) {
-            throw new InvalidStageStateException(String.format("Stage state cannot be %s", this.state));
+        if (state == StageState.WAITING_FOR_RESULTS) {
+            throw new InvalidStageStateException(String.format("Stage state cannot be %s", state));
         }
         
-        assert this.checkpoints.contains(checkpoint)
-            : "The Checkpoint selected for removal should exist in this.checkpoints";
+        assert checkpoints.contains(checkpoint)
+            : "The Checkpoint selected for removal should exist in checkpoints";
 
-        this.checkpoints.remove(checkpoint);
+        checkpoints.remove(checkpoint);
 
-        assert !this.checkpoints.contains(checkpoint)
+        assert !checkpoints.contains(checkpoint)
             : "There should not be any references to a removed Checkpoint";
     }
 
 
 
     public void concludePreparation() throws InvalidStageStateException {
-        if (this.state == StageState.WAITING_FOR_RESULTS) {
-            throw new InvalidStageStateException(String.format("Stage state cannot be %s", this.state));
+        if (state == StageState.WAITING_FOR_RESULTS) {
+            throw new InvalidStageStateException(String.format("Stage state cannot be %s", state));
         }
     
-        this.state = StageState.WAITING_FOR_RESULTS;
+        state = StageState.WAITING_FOR_RESULTS;
     }
     
 
 
     public String toString() {
-        String checkpoints = Checkpoint.toString(this.checkpoints);
-        return String.format("Stage[id=%d, checkpoints=%s, name=%s, description=%s, length=%s, startTime=%s, type=%s, state=%s]", this.id, checkpoints, this.name, this.description, this.length, this.startTime, this.type, this.state);
+        String checkpointsString = Checkpoint.toString(checkpoints);
+        return String.format("Stage[id=%d, checkpoints=%s, name=%s, description=%s, length=%s, startTime=%s, type=%s, state=%s]", id, checkpointsString, name, description, length, startTime, type, state);
     }
 
     public int getId() {
-        return this.id;
+        return id;
     }
 
 }

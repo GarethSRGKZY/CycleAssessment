@@ -22,126 +22,31 @@ import java.util.HashMap;
  */
 public class CyclingPortalImpl implements CyclingPortal {
     // Instance Attributes
-    private ArrayList<Race> raceInstances;
-	private ArrayList<Team> teamInstances;
-	private ArrayList<Result> resultInstances;
+    private ArrayList<Race> racesInPortal;
+	private ArrayList<Team> teamsInPortal;
+	private ArrayList<Result> resultsInPortal;
 
     // Instance Methods
     public CyclingPortalImpl() { // Constructor
-        this.raceInstances = new ArrayList<>();
-		this.teamInstances = new ArrayList<>();
-		this.resultInstances = new ArrayList<>();
-    }
-
-    private Race findRace(int raceId) throws IDNotRecognisedException {
-        Race race = Race.findRaceById(this.raceInstances, raceId);
-        return race;
-    }
-
-    private Race findRaceContainsStage(int stageId) throws IDNotRecognisedException {
-        for (Race race : this.raceInstances) {
-            try {
-                Stage stage = Stage.findStageById(race.getStages(), stageId);
-                if (stage instanceof Stage) {
-                    return race;
-                }
-            } catch (IDNotRecognisedException e) {
-                continue;
-            }
-        }
-
-        throw new IDNotRecognisedException(String.format("Stage id %d not found", stageId));
-    }
-
-    private Stage findStage(int stageId) throws IDNotRecognisedException {
-        for (Race race : this.raceInstances) {
-            try {
-                return Stage.findStageById(race.getStages(), stageId);
-            } catch (IDNotRecognisedException e) {
-                continue;
-            }
-        }
-
-        throw new IDNotRecognisedException(String.format("Stage id %d not found", stageId));
-    }
-
-    private Stage findStageContainsCheckpoint(int checkpointId) throws IDNotRecognisedException {
-        for (Race race : this.raceInstances) {
-            for (Stage stage : race.getStages()) {
-                try {
-                    Checkpoint checkpoint = Checkpoint.findCheckpointById(stage.getCheckpoints(), checkpointId);
-                    if (checkpoint instanceof Checkpoint) {
-                        return stage;
-                    }
-                } catch (IDNotRecognisedException e) {
-                    continue;
-                }
-            }
-        }
-
-        throw new IDNotRecognisedException(String.format("Checkpoint id %d not found", checkpointId));
-    }
-
-    private Checkpoint findCheckpoint(int checkpointId) throws IDNotRecognisedException {
-        for (Race race : this.raceInstances) {
-            for (Stage stage : race.getStages()) {
-                try {
-                    return Checkpoint.findCheckpointById(stage.getCheckpoints(), checkpointId);
-                } catch (IDNotRecognisedException e) {
-                    continue;
-                }
-            }
-        }
-
-        throw new IDNotRecognisedException(String.format("Checkpoint id %d not found", checkpointId));
-    }
-
-	private Team findTeam(int teamId) throws IDNotRecognisedException {
-        Team team = Team.findTeamById(this.teamInstances, teamId);
-        return team;
-    }
-
-	private Team findTeamContainsRider(int riderId) throws IDNotRecognisedException {
-        for (Team team : this.teamInstances) {
-            try {
-                Rider rider = Rider.findRiderById(team.getRiders(), riderId);
-                if (rider instanceof Rider) {
-                    return team;
-                }
-            } catch (IDNotRecognisedException e) {
-                continue;
-            }
-        }
-
-        throw new IDNotRecognisedException(String.format("Rider id %d not found", riderId));
-    }
-
-	private Rider findRider(int riderId) throws IDNotRecognisedException {
-        for (Team team : this.teamInstances) {
-            try {
-                return Rider.findRiderById(team.getRiders(), riderId);
-            } catch (IDNotRecognisedException e) {
-                continue;
-            }
-        }
-
-        throw new IDNotRecognisedException(String.format("Rider id %d not found", riderId));
+        racesInPortal = new ArrayList<>();
+		teamsInPortal = new ArrayList<>();
+		resultsInPortal = new ArrayList<>();
     }
 
     // Instance Methods (Interface)
 	@Override
 	public int[] getRaceIds() {
-		return Race.toIds(this.raceInstances);
+		return Race.toIds(racesInPortal);
 	}
 
 	@Override
 	public int createRace(String name, String description) throws IllegalNameException, InvalidNameException {
         try {
-            Race existingRace = Race.findRaceByName(this.raceInstances, name);
+            Race existingRace = Race.findRaceByName(racesInPortal, name);
 
             if (existingRace instanceof Race) {
-                assert this.raceInstances.contains(existingRace)
-                    : "There should be a Race with the same name in this.raceInstances";
+                assert racesInPortal.contains(existingRace)
+                    : "There should be a Race with the same name in racesInPortal";
 
                 throw new IllegalNameException(String.format("Race name %s already exists", name));
             }
@@ -151,39 +56,39 @@ public class CyclingPortalImpl implements CyclingPortal {
         
         Race race = new Race(name, description);
 
-        assert !this.raceInstances.contains(race)
+        assert !racesInPortal.contains(race)
             : "There should not be any existing references to a brand new Race";
 
-        this.raceInstances.add(race);
+        racesInPortal.add(race);
 
-        assert this.raceInstances.contains(race)
-            : "The new Race should have been appended to this.raceInstances";
+        assert racesInPortal.contains(race)
+            : "The new Race should have been appended to racesInPortal";
 
 		return race.getId();
 	}
 
 	@Override
 	public String viewRaceDetails(int raceId) throws IDNotRecognisedException {
-		Race race = findRace(raceId);
+		Race race = Race.findRaceById(racesInPortal, raceId);
 		return race.toString();
 	}
 
 	@Override
 	public void removeRaceById(int raceId) throws IDNotRecognisedException {
-		Race race = findRace(raceId);
+		Race race = Race.findRaceById(racesInPortal, raceId);
 
-        assert this.raceInstances.contains(race)
-            : "The Race selected for removal should exist in this.raceInstances";
+        assert racesInPortal.contains(race)
+            : "The Race selected for removal should exist in racesInPortal";
 
-        this.raceInstances.remove(race);
+        racesInPortal.remove(race);
 
-        assert !this.raceInstances.contains(race)
+        assert !racesInPortal.contains(race)
             : "There should not be any references to a removed Race";
 	}
 
 	@Override
 	public int getNumberOfStages(int raceId) throws IDNotRecognisedException {
-		Race race = findRace(raceId);
+		Race race = Race.findRaceById(racesInPortal, raceId);
         return race.getStages().size();
 	}
 
@@ -191,7 +96,7 @@ public class CyclingPortalImpl implements CyclingPortal {
 	public int addStageToRace(int raceId, String stageName, String description, double length, LocalDateTime startTime,
 			StageType type)
 			throws IDNotRecognisedException, IllegalNameException, InvalidNameException, InvalidLengthException {
-		Race race = findRace(raceId);
+		Race race = Race.findRaceById(racesInPortal, raceId);
 
 		Stage stage = new Stage(stageName, description, length, startTime, type);
         race.addStage(stage);
@@ -201,24 +106,24 @@ public class CyclingPortalImpl implements CyclingPortal {
 
 	@Override
 	public int[] getRaceStages(int raceId) throws IDNotRecognisedException {
-        Race race = findRace(raceId);
+        Race race = Race.findRaceById(racesInPortal, raceId);
 
-		ArrayList<Stage> stageInstances = race.getStages();
-		Collections.sort(stageInstances, new StageComparator());
+		ArrayList<Stage> stagesInRace = race.getStages();
+		Collections.sort(stagesInRace, new StageComparator());
 
-		return Stage.toIds(stageInstances);
+		return Stage.toIds(stagesInRace);
 	}
 
 	@Override
 	public double getStageLength(int stageId) throws IDNotRecognisedException {
-		Stage stage = findStage(stageId);
+		Stage stage = Stage.findStageByIdFromRaces(racesInPortal, stageId);
         return stage.getLength();
 	}
 
 	@Override
 	public void removeStageById(int stageId) throws IDNotRecognisedException {
-        Race race = findRaceContainsStage(stageId);
-        Stage stage = findStage(stageId);
+        Race race = Race.findRaceContainsStageId(racesInPortal, stageId);
+        Stage stage = Stage.findStageByIdFromRaces(racesInPortal, stageId);
 
         race.removeStage(stage);
 	}
@@ -227,7 +132,7 @@ public class CyclingPortalImpl implements CyclingPortal {
 	public int addCategorizedClimbToStage(int stageId, Double location, CheckpointType type, Double averageGradient,
 			Double length) throws IDNotRecognisedException, InvalidLocationException, InvalidStageStateException,
 			InvalidStageTypeException {
-        Stage stage = findStage(stageId);
+        Stage stage = Stage.findStageByIdFromRaces(racesInPortal, stageId);
 
         Checkpoint checkpoint = new Checkpoint(location, type, averageGradient, length);
         stage.addCheckpoint(checkpoint);
@@ -238,7 +143,7 @@ public class CyclingPortalImpl implements CyclingPortal {
 	@Override
 	public int addIntermediateSprintToStage(int stageId, double location) throws IDNotRecognisedException,
 			InvalidLocationException, InvalidStageStateException, InvalidStageTypeException {
-        Stage stage = findStage(stageId);
+        Stage stage = Stage.findStageByIdFromRaces(racesInPortal, stageId);
 
         Checkpoint checkpoint = new Checkpoint(location);
         stage.addCheckpoint(checkpoint);
@@ -248,36 +153,36 @@ public class CyclingPortalImpl implements CyclingPortal {
 
 	@Override
 	public void removeCheckpoint(int checkpointId) throws IDNotRecognisedException, InvalidStageStateException {
-        Stage stage = findStageContainsCheckpoint(checkpointId);
-        Checkpoint checkpoint = findCheckpoint(checkpointId);
+        Stage stage = Stage.findStageContainsCheckpoint(racesInPortal, checkpointId);
+        Checkpoint checkpoint = Checkpoint.findCheckpointByIdFromRaces(racesInPortal, checkpointId);
 
         stage.removeCheckpoint(checkpoint);
 	}
 
 	@Override
 	public void concludeStagePreparation(int stageId) throws IDNotRecognisedException, InvalidStageStateException {
-        Stage stage = findStage(stageId);
+        Stage stage = Stage.findStageByIdFromRaces(racesInPortal, stageId);
         stage.concludePreparation();
 	}
 
 	@Override
 	public int[] getStageCheckpoints(int stageId) throws IDNotRecognisedException {
-        Stage stage = findStage(stageId);
+        Stage stage = Stage.findStageByIdFromRaces(racesInPortal, stageId);
 
-        ArrayList<Checkpoint> checkpointInstances = stage.getCheckpoints();
-        Collections.sort(checkpointInstances, new CheckpointComparator());
+        ArrayList<Checkpoint> checkpointsInStage = stage.getCheckpoints();
+        Collections.sort(checkpointsInStage, new CheckpointComparator());
 
-        return Checkpoint.toIds(checkpointInstances);
+        return Checkpoint.toIds(checkpointsInStage);
 	}
 
 	@Override
 	public int createTeam(String name, String description) throws IllegalNameException, InvalidNameException {
 		try {
-            Team existingTeam = Team.findTeamByName(this.teamInstances, name);
+            Team existingTeam = Team.findTeamByName(teamsInPortal, name);
 
             if (existingTeam instanceof Team) {
-                assert this.teamInstances.contains(existingTeam)
-                    : "There should be a Team with the same name in this.teamInstances";
+                assert teamsInPortal.contains(existingTeam)
+                    : "There should be a Team with the same name in teamsInPortal";
 
                 throw new IllegalNameException(String.format("Team name %s already exists", name));
             }
@@ -287,48 +192,48 @@ public class CyclingPortalImpl implements CyclingPortal {
         
         Team team = new Team(name, description);
 
-        assert !this.teamInstances.contains(team)
+        assert !teamsInPortal.contains(team)
             : "There should not be any existing references to a brand new Team";
 
-        this.teamInstances.add(team);
+        teamsInPortal.add(team);
 
-        assert this.teamInstances.contains(team)
-            : "The new Team should have been appended to this.teamInstances";
+        assert teamsInPortal.contains(team)
+            : "The new Team should have been appended to teamsInPortal";
 
 		return team.getId();
 	}
 
 	@Override
 	public void removeTeam(int teamId) throws IDNotRecognisedException {
-		Team team = findTeam(teamId);
+		Team team = Team.findTeamById(teamsInPortal, teamId);
 
-        assert this.teamInstances.contains(team)
-            : "The Team selected for removal should exist in this.teamInstances";
+        assert teamsInPortal.contains(team)
+            : "The Team selected for removal should exist in teamsInPortal";
 
-        this.teamInstances.remove(team);
+        teamsInPortal.remove(team);
 
-        assert !this.teamInstances.contains(team)
+        assert !teamsInPortal.contains(team)
             : "There should not be any references to a removed Team";
 	}
 
 	@Override
 	public int[] getTeams() {
-		return Team.toIds(this.teamInstances);
+		return Team.toIds(teamsInPortal);
 	}
 
 	@Override
 	public int[] getTeamRiders(int teamId) throws IDNotRecognisedException {
-		Team team = findTeam(teamId);
+		Team team = Team.findTeamById(teamsInPortal, teamId);
 
-		ArrayList<Rider> riderInstances = team.getRiders();
+		ArrayList<Rider> ridersInTeam = team.getRiders();
 
-		return Rider.toIds(riderInstances);
+		return Rider.toIds(ridersInTeam);
 	}
 
 	@Override
 	public int createRider(int teamID, String name, int yearOfBirth)
 			throws IDNotRecognisedException, IllegalArgumentException {
-		Team team = findTeam(teamID);
+		Team team = Team.findTeamById(teamsInPortal, teamID);
 
 		Rider rider = new Rider(name, yearOfBirth);
 		team.addRider(rider);
@@ -338,8 +243,8 @@ public class CyclingPortalImpl implements CyclingPortal {
 
 	@Override
 	public void removeRider(int riderId) throws IDNotRecognisedException {
-		Team team = findTeamContainsRider(riderId);
-        Rider rider = findRider(riderId);
+		Team team = Team.findTeamContainsRider(teamsInPortal, riderId);
+        Rider rider = Rider.findRiderByIdFromTeams(teamsInPortal, riderId);
 
         team.removeRider(rider);
 	}
@@ -349,11 +254,11 @@ public class CyclingPortalImpl implements CyclingPortal {
 			throws IDNotRecognisedException, DuplicatedResultException, InvalidCheckpointTimesException,
 			InvalidStageStateException {
 		try {
-			Result existingResult = Result.findResultById(this.resultInstances, stageId, riderId);
+			Result existingResult = Result.findResultById(resultsInPortal, stageId, riderId);
 
 			if (existingResult instanceof Result) {
-				assert this.resultInstances.contains(existingResult)
-					: "There should be a Result with the same stageId and riderId in this.resultInstances";
+				assert resultsInPortal.contains(existingResult)
+					: "There should be a Result with the same stageId and riderId in resultsInPortal";
 
 				throw new DuplicatedResultException(String.format("Result with stageId %d and riderId %d already exists", stageId, riderId));
 			}
@@ -361,22 +266,22 @@ public class CyclingPortalImpl implements CyclingPortal {
 			// Do nothing - name is unique
 		}				
 				
-		Stage stage = findStage(stageId);
-		Rider rider = findRider(riderId);
+		Stage stage = Stage.findStageByIdFromRaces(racesInPortal, stageId);
+		Rider rider = Rider.findRiderByIdFromTeams(teamsInPortal, riderId);
         Result result = new Result(stage, rider, checkpoints);
 
-        assert !this.resultInstances.contains(result)
+        assert !resultsInPortal.contains(result)
             : "There should not be any existing references to a brand new Result";
 
-        this.resultInstances.add(result);
+        resultsInPortal.add(result);
 
-        assert this.resultInstances.contains(result)
-            : "The new Result should have been appended to this.resultInstances";
+        assert resultsInPortal.contains(result)
+            : "The new Result should have been appended to resultsInPortal";
 	}
 
 	@Override
 	public LocalTime[] getRiderResultsInStage(int stageId, int riderId) throws IDNotRecognisedException {
-		Result result = Result.findResultById(resultInstances, stageId, riderId);
+		Result result = Result.findResultById(resultsInPortal, stageId, riderId);
 
 		int n = result.getStage().getCheckpoints().size();
 		LocalTime[] timesInResult = new LocalTime[n + 1]; // +1 for storing the elapsed time in the last index
@@ -394,7 +299,7 @@ public class CyclingPortalImpl implements CyclingPortal {
 
 	@Override
 	public LocalTime getRiderAdjustedElapsedTimeInStage(int stageId, int riderId) throws IDNotRecognisedException {
-        ArrayList<Result> resultsInStage = Result.findResultsByStageId(resultInstances, stageId);
+        ArrayList<Result> resultsInStage = Result.findResultsByStageId(resultsInPortal, stageId);
 
         // Rank results by elapsedTime
         Collections.sort(resultsInStage, new ResultComparator());
@@ -412,20 +317,20 @@ public class CyclingPortalImpl implements CyclingPortal {
 
 	@Override
 	public void deleteRiderResultsInStage(int stageId, int riderId) throws IDNotRecognisedException {
-		Result result = Result.findResultById(resultInstances, stageId, riderId);
+		Result result = Result.findResultById(resultsInPortal, stageId, riderId);
         
-        assert this.resultInstances.contains(result)
-            : "The Result selected for removal should exist in this.resultInstances";
+        assert resultsInPortal.contains(result)
+            : "The Result selected for removal should exist in resultsInPortal";
         
-        this.resultInstances.remove(result);
+        resultsInPortal.remove(result);
 
-        assert !this.resultInstances.contains(result)
+        assert !resultsInPortal.contains(result)
             : "There should not be any references to a removed Result";
 	}
 
 	@Override
 	public int[] getRidersRankInStage(int stageId) throws IDNotRecognisedException {
-        ArrayList<Result> resultsInStage = Result.findResultsByStageId(resultInstances, stageId);
+        ArrayList<Result> resultsInStage = Result.findResultsByStageId(resultsInPortal, stageId);
 
         // Rank results by elapsedTime
         Collections.sort(resultsInStage, new ResultComparator());
@@ -435,7 +340,7 @@ public class CyclingPortalImpl implements CyclingPortal {
 
 	@Override
 	public LocalTime[] getRankedAdjustedElapsedTimesInStage(int stageId) throws IDNotRecognisedException {
-        ArrayList<Result> resultsInStage = Result.findResultsByStageId(resultInstances, stageId);
+        ArrayList<Result> resultsInStage = Result.findResultsByStageId(resultsInPortal, stageId);
 
         // Rank results by elapsedTime
         Collections.sort(resultsInStage, new ResultComparator());
@@ -450,8 +355,8 @@ public class CyclingPortalImpl implements CyclingPortal {
 
 	@Override
 	public int[] getRidersPointsInStage(int stageId) throws IDNotRecognisedException {
-        ArrayList<Result> resultsInStage = Result.findResultsByStageId(resultInstances, stageId);
-        Stage stage = findStage(stageId);
+        ArrayList<Result> resultsInStage = Result.findResultsByStageId(resultsInPortal, stageId);
+        Stage stage = Stage.findStageByIdFromRaces(racesInPortal, stageId);
 
         HashMap<Integer, Integer> riderIdToPoints = new HashMap<>();
 
@@ -502,8 +407,8 @@ public class CyclingPortalImpl implements CyclingPortal {
 
 	@Override
 	public int[] getRidersMountainPointsInStage(int stageId) throws IDNotRecognisedException {
-        ArrayList<Result> resultsInStage = Result.findResultsByStageId(resultInstances, stageId);
-        Stage stage = findStage(stageId);
+        ArrayList<Result> resultsInStage = Result.findResultsByStageId(resultsInPortal, stageId);
+        Stage stage = Stage.findStageByIdFromRaces(racesInPortal, stageId);
 
         HashMap<Integer, Integer> riderIdToPoints = new HashMap<>();
 
@@ -554,9 +459,9 @@ public class CyclingPortalImpl implements CyclingPortal {
 
 	@Override
 	public void eraseCyclingPortal() {
-        Race.eraseRaces(this.raceInstances);
-        Team.eraseTeams(this.teamInstances);
-        Result.eraseResults(this.resultInstances);
+        Race.eraseRaces(racesInPortal);
+        Team.eraseTeams(teamsInPortal);
+        Result.eraseResults(resultsInPortal);
 
         Stage.eraseStages();
         Checkpoint.eraseCheckpoints();
@@ -584,27 +489,27 @@ public class CyclingPortalImpl implements CyclingPortal {
 
             if (objectRead instanceof CyclingPortalImpl) {
                 portal = (CyclingPortalImpl) objectRead;
-                this.raceInstances = portal.raceInstances;
-                this.teamInstances = portal.teamInstances;
-                this.resultInstances = portal.resultInstances;
+                racesInPortal = portal.racesInPortal;
+                teamsInPortal = portal.teamsInPortal;
+                resultsInPortal = portal.resultsInPortal;
                 
-                Race.loadRaces(this.raceInstances);
-                for (Race race : this.raceInstances) {
-                    ArrayList<Stage> stageInstances = race.getStages();
+                Race.loadRaces(racesInPortal);
+                for (Race race : racesInPortal) {
+                    ArrayList<Stage> stagesInRace = race.getStages();
 
-                    Stage.loadStages(stageInstances);
-                    for (Stage stage : stageInstances) {
-                        ArrayList<Checkpoint> checkpointInstances = stage.getCheckpoints();
+                    Stage.loadStages(stagesInRace);
+                    for (Stage stage : stagesInRace) {
+                        ArrayList<Checkpoint> checkpointsInStage = stage.getCheckpoints();
 
-                        Checkpoint.loadCheckpoints(checkpointInstances);
+                        Checkpoint.loadCheckpoints(checkpointsInStage);
                     }
                 }
 
-                Team.loadTeams(this.teamInstances);
-                for (Team team : this.teamInstances) {
-                    ArrayList<Rider> riderInstances = team.getRiders();
+                Team.loadTeams(teamsInPortal);
+                for (Team team : teamsInPortal) {
+                    ArrayList<Rider> ridersInTeam = team.getRiders();
 
-                    Rider.loadRiders(riderInstances);
+                    Rider.loadRiders(ridersInTeam);
                 }
             }
         }
@@ -612,14 +517,14 @@ public class CyclingPortalImpl implements CyclingPortal {
 
 	@Override
 	public void removeRaceByName(String name) throws NameNotRecognisedException {
-		Race race = Race.findRaceByName(this.raceInstances, name);
+		Race race = Race.findRaceByName(racesInPortal, name);
 
-        assert this.raceInstances.contains(race)
-            : "The Race selected for removal should exist in this.raceInstances";
+        assert racesInPortal.contains(race)
+            : "The Race selected for removal should exist in racesInPortal";
 
-        this.raceInstances.remove(race);
+        racesInPortal.remove(race);
 
-        assert !this.raceInstances.contains(race)
+        assert !racesInPortal.contains(race)
             : "There should not be any references to a removed Race";
 	}
 

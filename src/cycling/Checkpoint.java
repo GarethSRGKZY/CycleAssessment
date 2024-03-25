@@ -8,10 +8,24 @@ public class Checkpoint implements Serializable {
     private static int nextId = 0;
 
     // Static Methods
-    public static Checkpoint findCheckpointById(ArrayList<Checkpoint> checkpointInstances, int checkpointId) throws IDNotRecognisedException {
-        for (Checkpoint checkpoint : checkpointInstances) {
+    public static Checkpoint findCheckpointById(ArrayList<Checkpoint> checkpoints, int checkpointId) throws IDNotRecognisedException {
+        for (Checkpoint checkpoint : checkpoints) {
             if (checkpoint.getId() == checkpointId) {
                 return checkpoint;
+            }
+        }
+
+        throw new IDNotRecognisedException(String.format("Checkpoint id %d not found", checkpointId));
+    }
+
+    public static Checkpoint findCheckpointByIdFromRaces(ArrayList<Race> races, int checkpointId) throws IDNotRecognisedException {
+        for (Race race : races) {
+            for (Stage stage : race.getStages()) {
+                try {
+                    return findCheckpointById(stage.getCheckpoints(), checkpointId);
+                } catch (IDNotRecognisedException e) {
+                    continue;
+                }
             }
         }
 
@@ -22,8 +36,8 @@ public class Checkpoint implements Serializable {
         nextId = 0;
     }
 
-    public static void loadCheckpoints(ArrayList<Checkpoint> checkpointInstances) {
-        int[] checkpointIds = toIds(checkpointInstances);
+    public static void loadCheckpoints(ArrayList<Checkpoint> checkpoints) {
+        int[] checkpointIds = toIds(checkpoints);
 
         for (int checkpointId : checkpointIds) {
             if (checkpointId >= nextId) {
@@ -32,23 +46,23 @@ public class Checkpoint implements Serializable {
         }
     }
 
-    public static int[] toIds(ArrayList<Checkpoint> checkpointInstances) {
-        int size = checkpointInstances.size();
+    public static int[] toIds(ArrayList<Checkpoint> checkpoints) {
+        int size = checkpoints.size();
 
         int[] result = new int[size];
 
         for (int i = 0; i < size; i++) {
-            result[i] = checkpointInstances.get(i).getId();
+            result[i] = checkpoints.get(i).getId();
         }
 
         return result;
     }
 
-    public static String toString(ArrayList<Checkpoint> checkpointInstances) {
-        String[] checkpointStrings = new String[checkpointInstances.size()];
+    public static String toString(ArrayList<Checkpoint> checkpoints) {
+        String[] checkpointStrings = new String[checkpoints.size()];
 
-        for (int i = 0; i < checkpointInstances.size(); ++i) {
-            checkpointStrings[i] = checkpointInstances.get(i).toString();
+        for (int i = 0; i < checkpoints.size(); ++i) {
+            checkpointStrings[i] = checkpoints.get(i).toString();
         }
 
         String result = "{";
@@ -73,7 +87,7 @@ public class Checkpoint implements Serializable {
             throw new InvalidLocationException(String.format("Checkpoint location %f must be greater than 0", location));
         }
 
-        this.id = nextId++;
+        id = nextId++;
 
         this.location = location;
         this.type = type;
@@ -88,20 +102,20 @@ public class Checkpoint implements Serializable {
 
 
     public double getLocation() {
-        return this.location;
+        return location;
     }
 
     public CheckpointType getType() {
-        return this.type;
+        return type;
     }
 
 
 
     public String toString() {
-        return String.format("Checkpoint[location=%s, type=%s, averageGradient=%f, length=%f]", this.location, this.type, this.averageGradient, this.length);
+        return String.format("Checkpoint[location=%s, type=%s, averageGradient=%f, length=%f]", location, type, averageGradient, length);
     }
 
     public int getId() {
-        return this.id;
+        return id;
     }
 }
