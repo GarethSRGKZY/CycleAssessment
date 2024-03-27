@@ -711,6 +711,8 @@ public class CyclingPortalImpl implements CyclingPortal {
         int[] riderIdsRankedByTimeSum = getRidersGeneralClassificationRank(raceId);
         int[] pointSumsRankedByTimeSum = getRidersPointsInRace(raceId);
 
+        assert riderIdsRankedByTimeSum.length == pointSumsRankedByTimeSum.length;
+
         HashMap<Integer, Integer> riderIdToPointSum = new HashMap<>();
         
         int rankOfRider = 0;
@@ -748,6 +750,8 @@ public class CyclingPortalImpl implements CyclingPortal {
 	public int[] getRidersMountainPointClassificationRank(int raceId) throws IDNotRecognisedException {
         int[] riderIdsRankedByTimeSum = getRidersGeneralClassificationRank(raceId);
         int[] pointSumsRankedByTimeSum = getRidersMountainPointsInRace(raceId);
+
+        assert riderIdsRankedByTimeSum.length == pointSumsRankedByTimeSum.length;
 
         HashMap<Integer, Integer> riderIdToPointSum = new HashMap<>();
         
