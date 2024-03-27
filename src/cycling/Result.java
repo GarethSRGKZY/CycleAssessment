@@ -325,7 +325,8 @@ public class Result implements Serializable {
      * @return Elapsed time calculated from the checkpoint times.
      */
     public LocalTime getElapsedTimeToCheckpoint(Checkpoint checkpoint) {
-        // TODO validate checkpointIndex
+        assert stage.getCheckpoints().contains(checkpoint);
+
         int checkpointIndex = stage.getCheckpoints().indexOf(checkpoint);
 
         LocalTime startTime = checkpointTimes[0];
