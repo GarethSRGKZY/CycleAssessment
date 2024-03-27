@@ -250,7 +250,13 @@ public class Race implements Serializable {
      * 
      * @param stage Stage object to be removed from the current Race.
      */
-    public void removeStage(Stage stage) {
+    public void removeStage(ArrayList<Result> results, Stage stage) {
+        // Remove all Results referring to the given Stage
+        ArrayList<Result> resultsInStage = Result.findResultsByStageId(results, stage.getId()); // Filter results
+        for (Result result : resultsInStage) {
+            results.remove(result);
+        }
+
         assert stages.contains(stage)
             : "The Stage selected for removal should exist in stages";
 

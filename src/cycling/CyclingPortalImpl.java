@@ -81,6 +81,11 @@ public class CyclingPortalImpl implements CyclingPortal {
 	public void removeRaceById(int raceId) throws IDNotRecognisedException {
 		Race race = Race.findRaceById(racesInPortal, raceId);
 
+        // Remove all Results referring to any Stage in the given Race
+        for (Stage stage : race.getStages()) {
+            race.removeStage(resultsInPortal, stage);
+        }
+
         assert racesInPortal.contains(race)
             : "The Race selected for removal should exist in racesInPortal";
 
@@ -129,7 +134,7 @@ public class CyclingPortalImpl implements CyclingPortal {
         Race race = Race.findRaceContainsStageId(racesInPortal, stageId);
         Stage stage = Stage.findStageByIdFromRaces(racesInPortal, stageId);
 
-        race.removeStage(stage);
+        race.removeStage(resultsInPortal, stage);
 	}
 
 	@Override
@@ -211,6 +216,11 @@ public class CyclingPortalImpl implements CyclingPortal {
 	public void removeTeam(int teamId) throws IDNotRecognisedException {
 		Team team = Team.findTeamById(teamsInPortal, teamId);
 
+        // Remove all Results referring to any Rider in the given Team
+        for (Rider rider : team.getRiders()) {
+            team.removeRider(resultsInPortal, rider);
+        }
+
         assert teamsInPortal.contains(team)
             : "The Team selected for removal should exist in teamsInPortal";
 
@@ -250,7 +260,7 @@ public class CyclingPortalImpl implements CyclingPortal {
 		Team team = Team.findTeamContainsRider(teamsInPortal, riderId);
         Rider rider = Rider.findRiderByIdFromTeams(teamsInPortal, riderId);
 
-        team.removeRider(rider);
+        team.removeRider(resultsInPortal, rider);
 	}
 
 	@Override
@@ -522,6 +532,11 @@ public class CyclingPortalImpl implements CyclingPortal {
 	@Override
 	public void removeRaceByName(String name) throws NameNotRecognisedException {
 		Race race = Race.findRaceByName(racesInPortal, name);
+
+        // Remove all Results referring to any Stage in the given Race
+        for (Stage stage : race.getStages()) {
+            race.removeStage(resultsInPortal, stage);
+        }
 
         assert racesInPortal.contains(race)
             : "The Race selected for removal should exist in racesInPortal";

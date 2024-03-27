@@ -232,7 +232,13 @@ public class Team implements Serializable {
      * 
      * @param rider Rider object to be removed from the current Team.
      */
-    public void removeRider(Rider rider) {
+    public void removeRider(ArrayList<Result> results, Rider rider) {
+        // Remove all Results referring to the given Rider
+        ArrayList<Result> resultsInStage = Result.findResultsByRiderId(results, rider.getId()); // Filter results
+        for (Result result : resultsInStage) {
+            results.remove(result);
+        }
+
         riders.remove(rider);
     }
 
