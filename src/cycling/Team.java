@@ -215,7 +215,7 @@ public class Team implements Serializable {
     /**
      * Adds a Rider to the current Team.
      * 
-     * @param rider
+     * @param rider Rider object to be added to the current Team.
      */
     public void addRider(Rider rider) {
         assert !riders.contains(rider)
