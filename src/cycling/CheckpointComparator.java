@@ -2,6 +2,13 @@ package cycling;
 
 import java.util.Comparator;
 
+/**
+ * CheckpointComparator is a helper class to sort Checkpoints based on their location.
+ * 
+ * @author 730049785
+ * @version 1.0
+ * 
+ */
 public class CheckpointComparator implements Comparator<Checkpoint> {
     @Override
     public int compare(Checkpoint checkpoint1, Checkpoint checkpoint2) {
