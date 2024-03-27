@@ -239,7 +239,13 @@ public class Team implements Serializable {
             results.remove(result);
         }
 
+        assert riders.contains(rider)
+            : "The Rider selected for removal should exist in riders";
+
         riders.remove(rider);
+
+        assert !riders.contains(rider)
+            : "There should not be any references to a removed Rider";
     }
 
 
