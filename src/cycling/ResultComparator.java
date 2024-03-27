@@ -19,7 +19,7 @@ public class ResultComparator implements Comparator<Result> {
      * Constructs a CheckpointComparator instance.
      * Compares elapsed times to the given Checkpoint.
      * 
-     * @param checkpoint
+     * @param checkpoint The Checkpoint to refer to when calculating the elapsed time.
      */
     public ResultComparator(Checkpoint checkpoint) { // Constructor
         this.checkpoint = checkpoint;
@@ -28,8 +28,6 @@ public class ResultComparator implements Comparator<Result> {
     /**
      * Constructs a CheckpointComparator instance.
      * Compares elapsed times to the finish line.
-     * 
-     * @param checkpoint
      */
     public ResultComparator() { // Constructor (Overloaded)
         this(null);

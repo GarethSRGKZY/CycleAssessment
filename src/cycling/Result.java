@@ -26,7 +26,8 @@ public class Result implements Serializable {
      * @param riderId ID of the Rider referenced in the Result being queried.
      * @return        A single Result object referencing the Stage matching the stageId
      *                and a Rider matching the riderId.
-     * @throws IDNotRecognisedException
+     * @throws IDNotRecognisedException If the stageId and riderId pair
+     *                                  does not match to any Results in the given list.
      */
     public static Result findResultById(ArrayList<Result> results, int stageId, int riderId) throws IDNotRecognisedException {
         for (Result result : results) {
@@ -320,6 +321,7 @@ public class Result implements Serializable {
     /**
      * Getter for the elapsed time until the given Checkpoint of the current Result.
      * 
+     * @param checkpoint The Checkpoint to refer to when calculating the elapsed time.
      * @return Elapsed time calculated from the checkpoint times.
      */
     public LocalTime getElapsedTimeToCheckpoint(Checkpoint checkpoint) {
