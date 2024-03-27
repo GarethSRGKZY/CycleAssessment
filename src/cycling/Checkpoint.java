@@ -126,7 +126,7 @@ public class Checkpoint implements Serializable {
     }
 
     // Instance Attributes
-    private int id;
+    private final int id;
     private double location;
     private double averageGradient;
     private double length;

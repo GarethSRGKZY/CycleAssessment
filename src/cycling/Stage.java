@@ -176,10 +176,10 @@ public class Stage implements Serializable {
 
 
     // Instance Attributes
-    private int id = 0;
+    private final int id; // Must be unique - final to prevent unexpected clashes
     private ArrayList<Checkpoint> checkpoints;
 
-    private String name;
+    private final String name; // Must be unique - final to prevent unexpected clashes
     private String description;
     private double length;
     private LocalDateTime startTime;

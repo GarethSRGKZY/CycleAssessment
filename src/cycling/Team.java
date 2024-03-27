@@ -155,10 +155,10 @@ public class Team implements Serializable {
 
 
     // Instance Attributes
-    private int id;
+    private final int id; // Must be unique - final to prevent unexpected clashes
     private ArrayList<Rider> riders;
 
-    private String name;
+    private final String name; // Must be unique - final to prevent unexpected clashes
     private String description;
 
     // Instance Methods

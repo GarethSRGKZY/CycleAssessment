@@ -124,9 +124,9 @@ public class Rider implements Serializable {
     }
 
     // Instance Attributes
-    private int id;
+    private final int id; // Must be unique - final to prevent unexpected clashes
 
-    private String name;
+    private String name; // Does not have to be unique
     private int yearOfBirth;
 
     // Instance Methods
