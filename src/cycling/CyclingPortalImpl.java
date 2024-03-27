@@ -13,11 +13,11 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 /**
- * BadCyclingPortal is a minimally compiling, but non-functioning implementor
+ * CyclingPortal is a compiling, fully functioning implementor
  * of the CyclingPortal interface.
  * 
- * @author Diogo Pacheco
- * @version 2.0
+ * @author 730049785
+ * @version 1.0
  *
  */
 public class CyclingPortalImpl implements CyclingPortal {
@@ -27,6 +27,10 @@ public class CyclingPortalImpl implements CyclingPortal {
 	private ArrayList<Result> resultsInPortal;
 
     // Instance Methods
+
+    /**
+     * Constructs an instance of the CyclingPortalImpl with no races, teams and results initialised
+     */
     public CyclingPortalImpl() { // Constructor
         racesInPortal = new ArrayList<>();
 		teamsInPortal = new ArrayList<>();
