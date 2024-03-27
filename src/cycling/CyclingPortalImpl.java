@@ -103,7 +103,7 @@ public class CyclingPortalImpl implements CyclingPortal {
 		Race race = Race.findRaceById(racesInPortal, raceId);
 
 		Stage stage = new Stage(stageName, description, length, startTime, type);
-        race.addStage(stage);
+        race.addStage(racesInPortal, stage);
 
 		return stage.getId();
 	}

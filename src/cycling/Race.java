@@ -217,26 +217,29 @@ public class Race implements Serializable {
      * Validates against name clashes.
      * 
      * @param stage Stage object to be added to the current Race.
-     * @throws IllegalNameException If the new Stage's name already exists in the current Race.
+     * @throws IllegalNameException If the new Stage's name already exists in all Races.
      */
-    public void addStage(Stage stage) throws IllegalNameException {
-        try {
-            Stage existingStage = Stage.findStageByName(stages, stage.getName());
-
-            if (existingStage instanceof Stage) {
-                assert stages.contains(existingStage)
-                    : "There should be a Stage with the same name in stages";
-                
-                throw new IllegalNameException(String.format("Stage name %s already exists", stage.getName()));
+    public void addStage(ArrayList<Race> races, Stage stage) throws IllegalNameException {
+        for (Race race : races) {
+            ArrayList<Stage> stages = race.getStages();
+            try {
+                Stage existingStage = Stage.findStageByName(stages, stage.getName());
+    
+                if (existingStage instanceof Stage) {
+                    assert stages.contains(existingStage)
+                        : "There should be a Stage with the same name in stages";
+                    
+                    throw new IllegalNameException(String.format("Stage name %s already exists", stage.getName()));
+                }
+            } catch (NameNotRecognisedException e) {
+                // Do nothing - name is unique
             }
-        } catch (NameNotRecognisedException e) {
-            // Do nothing - name is unique
         }
 
         assert !stages.contains(stage)
             : "There should not be any existing references to a brand new Stage";
 
-        stages.add(stage);
+        this.stages.add(stage);
 
         assert stages.contains(stage)
             : "The new Stage should have been appended to stages";
