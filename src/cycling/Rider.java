@@ -7,6 +7,7 @@ import java.util.ArrayList;
  * Rider is a class representing each Rider belonging to a Team.
  * 
  * @author 730049785
+ * @author 730099588
  * @version 1.0
  * 
  */

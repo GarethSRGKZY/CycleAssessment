@@ -17,6 +17,7 @@ import java.util.HashMap;
  * of the CyclingPortal interface.
  * 
  * @author 730049785
+ * @author 730099588
  * @version 1.0
  *
  */

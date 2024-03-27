@@ -6,6 +6,7 @@ import java.util.Comparator;
  * CheckpointComparator is a helper class to sort Checkpoints based on their location.
  * 
  * @author 730049785
+ * @author 730099588
  * @version 1.0
  * 
  */

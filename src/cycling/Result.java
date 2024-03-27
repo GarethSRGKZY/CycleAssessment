@@ -9,6 +9,7 @@ import java.util.ArrayList;
  * Result is a class representing each Result corresponding to a unique Rider and Stage pair.
  * 
  * @author 730049785
+ * @author 730099588
  * @version 1.0
  * 
  */

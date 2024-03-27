@@ -8,6 +8,7 @@ import java.util.ArrayList;
  * Each Team can own multiple Rider objects.
  * 
  * @author 730049785
+ * @author 730099588
  * @version 1.0
  * 
  */

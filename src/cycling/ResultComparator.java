@@ -7,6 +7,7 @@ import java.util.Comparator;
  * either the finish line or a given Checkpoint.
  * 
  * @author 730049785
+ * @author 730099588
  * @version 1.0
  * 
  */

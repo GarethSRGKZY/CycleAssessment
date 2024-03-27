@@ -7,6 +7,7 @@ import java.util.ArrayList;
  * Checkpoint is a class representing each Checkpoint belonging to a Stage.
  * 
  * @author 730049785
+ * @author 730099588
  * @version 1.0
  * 
  */

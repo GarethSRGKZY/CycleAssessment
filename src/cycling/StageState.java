@@ -4,6 +4,7 @@ package cycling;
  * This enum is used to represent the stage states on road races.
  * 
  * @author 730049785
+ * @author 730099588
  * @version 1.0
  *
  */
